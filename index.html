@@ -259,8 +259,8 @@
             left: -20px; /* Extend to the left edge of the viewport, counteracting .page-content-area padding */
             width: calc(100% + 40px); /* Span full viewport width */
             height: 1px; /* Line thickness */
-            background-color: var(--border-color); /* Use border-color for subtlety, or a lighter gray */
-            opacity: 0.5; /* Make it subtle */
+            background-color: var(--border-color); /* Uses --black in light mode */
+            opacity: 1; /* Increased opacity */
         }
 
         .theme-toggle-btn {
@@ -476,6 +476,9 @@
                 min-width: 340px;
             }
         }
+        .blinking-dot-intro {
+            animation: blink 1.2s infinite; /* Assuming 'blink' animation is defined */
+        }
 
     </style>
 </head>
@@ -566,6 +569,27 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
     <script>
+        function wrapCharactersForIntro(element, isStudio = false) {
+            if (!element) return [];
+            const text = element.textContent;
+            element.innerHTML = ''; // Clear existing content
+            const characters = [];
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const span = document.createElement('span');
+                span.textContent = char;
+                span.style.display = 'inline-block';
+                span.style.opacity = '0'; // Initial state for animation
+                span.style.transform = 'translateY(10px)'; // Initial state for animation
+                if (isStudio && char === '.') {
+                    span.classList.add('blinking-dot-intro'); // Special class for the dot in "702.studio"
+                }
+                element.appendChild(span);
+                characters.push(span);
+            }
+            return characters;
+        }
+
         const themeToggleBtn = document.getElementById('themeToggle');
         const body = document.body;
         const themeIcon = themeToggleBtn.querySelector('i');
@@ -669,26 +693,44 @@
             const char7 = document.getElementById('char-7');
             const char0 = document.getElementById('char-0');
             const char2 = document.getElementById('char-2');
-            const text702 = document.getElementById('text-702');
-            const text702Studio = document.getElementById('text-702-studio');
+            const text702Element = document.getElementById('text-702');
+            const text702StudioElement = document.getElementById('text-702-studio');
             const introComingSoon = document.getElementById('intro-coming-soon');
+
+            const text702Chars = wrapCharactersForIntro(text702Element);
+            const text702StudioChars = wrapCharactersForIntro(text702StudioElement, true);
 
             wrapWords('.coming-soon.word-animation-target');
             wrapWords('.message.word-animation-target');
 
+            // Durations for quick-cut feel (adjust as needed)
+            const D_CHAR_APPEAR = 150; // Duration for individual 7, 0, 2 to appear
+            const D_CHAR_STAY = 100;   // How long 7, 0, 2 stay visible
+            const D_CHAR_FADE = 100;   // Duration for 7, 0, 2 to fade
+
+            const D_GROUP_STAGGER = 30; // Stagger for characters in "702", "702.studio"
+            const D_GROUP_CHAR_ANIM = 250; // Duration for each char in a group to animate in
+            const D_GROUP_STAY = 200;    // How long the group "702" or "702.studio" stays
+            const D_GROUP_FADE_STAGGER = 20;
+            const D_GROUP_FADE_ANIM = 150;
+
+            const D_CS_ANIM = 400; // Duration for "COMING SOON"
+            const D_CS_STAY = 800; // How long "COMING SOON" stays
+
             const introTimeline = anime.timeline({
-                easing: 'easeInOutQuad',
-                complete: () => {
+                easing: 'easeOutQuad', // Default easing
+                complete: () => { // THIS IS THE PRESERVED COMPLETION LOGIC FROM USER'S CODE
                     anime({
                         targets: introOverlayEl,
                         opacity: [1, 0],
-                        duration: 300, // Even faster overlay fade
+                        duration: 300,
                         easing: 'easeInOutQuad',
                         complete: () => {
                             introOverlayEl.style.display = 'none';
                             const pageElementsTimeline = anime.timeline({ easing: 'easeOutCubic' });
                             pageElementsTimeline
                                 .add({ targets: '#page-wrapper', opacity: [0, 1], duration: 50 })
+                                // ... (rest of their page reveal animation - PRESERVE THIS)
                                 .add({
                                     targets: ['.page-content-area > header .logo', '.page-content-area > header .theme-toggle-btn'],
                                     opacity: [0, 1], translateY: ['15px', '0px'], duration: 250, delay: anime.stagger(35)
@@ -722,46 +764,71 @@
                 }
             });
 
-            const fast = 60;
-            const medium = 110;
-            const hold = 250;
-
+            // Build the new timeline
             introTimeline
-            .add({ targets: char7, opacity: [0, 1], scale: [0.7, 1], translateY: ['10px', '0px'], duration: fast, begin: () => char7.style.display = 'inline-block'})
-            .add({ targets: char0, opacity: [0, 1], scale: [0.7, 1], translateY: ['10px', '0px'], duration: fast, begin: () => char0.style.display = 'inline-block'}, `-=${fast - 8}`)
-            .add({ targets: char2, opacity: [0, 1], scale: [0.7, 1], translateY: ['10px', '0px'], duration: fast, begin: () => char2.style.display = 'inline-block'}, `-=${fast - 8}`)
-            .add({
-                targets: [char7, char0, char2], opacity: 0, scale: 0.7, duration: medium, easing: 'easeInQuad',
-                complete: () => [char7, char0, char2].forEach(el => el.style.display = 'none')
-            })
-            .add({
-                targets: text702,
-                opacity: [0, 1], scale: [0.7, 1], duration: medium, easing: 'easeOutQuad',
-                begin: () => text702.style.display = 'inline-block',
-            }, `-=${medium - 15}`)
-            .add({
-                targets: text702,
-                opacity: 0, scale: 0.7, duration: medium, easing: 'easeInQuad',
-                complete: () => text702.style.display = 'none'
-            }, `+=${hold / 2 + 20}`)
-            .add({
-                targets: text702Studio,
-                opacity: [0, 1], scale: [0.7, 1], duration: medium + 20, easing: 'easeOutQuad',
-                begin: () => {
-                    text702Studio.style.display = 'inline-block';
-                    const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
-                    applyTheme(currentTheme === 'dark' ? 'light' : 'dark', true);
-                }
-            }, `-=${medium - 20}`)
-            .add({ duration: hold })
-            .add({
-                targets: text702Studio, opacity: 0, scale: 0.7, duration: medium, easing: 'easeInQuad',
-                complete: () => text702Studio.style.display = 'none'
-            })
-            .add({
-                targets: introComingSoon, opacity: [0, 1], translateY: ['15px', '0px'], duration: 280, easing: 'easeOutCubic'
-            }, `-=${medium / 2 - 5}`)
-            .add({ duration: hold + 80 });
+                // 7
+                .add({ targets: char7, opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1], duration: D_CHAR_APPEAR, begin: () => char7.style.display = 'inline-block' })
+                .add({ targets: char7, opacity: 0, duration: D_CHAR_FADE, delay: D_CHAR_STAY, complete: () => char7.style.display = 'none' })
+                // 0
+                .add({ targets: char0, opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1], duration: D_CHAR_APPEAR, begin: () => char0.style.display = 'inline-block' })
+                .add({ targets: char0, opacity: 0, duration: D_CHAR_FADE, delay: D_CHAR_STAY, complete: () => char0.style.display = 'none' })
+                // 2
+                .add({ targets: char2, opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1], duration: D_CHAR_APPEAR, begin: () => char2.style.display = 'inline-block' })
+                .add({ targets: char2, opacity: 0, duration: D_CHAR_FADE, delay: D_CHAR_STAY, complete: () => char2.style.display = 'none' })
+
+                // 702 (character by character)
+                .add({
+                    targets: text702Chars,
+                    opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1],
+                    duration: D_GROUP_CHAR_ANIM,
+                    delay: anime.stagger(D_GROUP_STAGGER),
+                    begin: () => text702Element.style.display = 'inline-block' // Make parent visible
+                })
+                .add({
+                    targets: text702Chars,
+                    opacity: 0,
+                    duration: D_GROUP_FADE_ANIM,
+                    delay: anime.stagger(D_GROUP_FADE_STAGGER, {from: 'last', start: D_GROUP_STAY}),
+                    complete: () => text702Element.style.display = 'none'
+                })
+
+                // 702.studio (character by character)
+                .add({
+                    targets: text702StudioChars,
+                    opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1],
+                    duration: D_GROUP_CHAR_ANIM,
+                    delay: anime.stagger(D_GROUP_STAGGER),
+                    begin: () => {
+                        text702StudioElement.style.display = 'inline-block'; // Make parent visible
+                        // Theme switch logic from user's original code
+                        const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                        applyTheme(currentTheme === 'dark' ? 'light' : 'dark', true);
+                    }
+                })
+                .add({
+                    targets: text702StudioChars,
+                    opacity: 0,
+                    duration: D_GROUP_FADE_ANIM,
+                    delay: anime.stagger(D_GROUP_FADE_STAGGER, {from: 'last', start: D_GROUP_STAY + 200}), // Stay a bit longer
+                    complete: () => text702StudioElement.style.display = 'none'
+                })
+
+                // COMING SOON (already an H1, animate as a block or quick word stagger)
+                // Using existing wrapWords for this one if desired, or simplify
+                // For simplicity and speed, let's animate it as one block:
+                .add({
+                    targets: introComingSoon,
+                    opacity: [0,1],
+                    translateY: ['15px', '0px'],
+                    duration: D_CS_ANIM,
+                    begin: () => {
+                         // Ensure theme is back to user's preferred for "Coming Soon" text
+                        const userTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                        applyTheme(userTheme, true);
+                        introComingSoon.style.display = 'block'; // Or inline-block
+                    }
+                })
+                .add({ duration: D_CS_STAY }); // Hold before completing timeline
 
             document.getElementById('currentYear').textContent = new Date().getFullYear();
         });
@@ -787,7 +854,7 @@
                 tl.add({
                     targets: formElements,
                     opacity: [1, 0],
-                    translateY: [0, TRANSLATE_Y_ELEMENTS],
+                    translateY: ['0px', '-' + TRANSLATE_Y_ELEMENTS],
                     duration: DURATION_ELEMENTS,
                     delay: anime.stagger(STAGGER_ELEMENTS_CLOSE, {direction: 'reverse'})
                 })
@@ -798,7 +865,7 @@
                     easing: EASING_CONTENT,
                     complete: () => {
                         content.classList.remove('show');
-                        formElements.forEach(el => { el.style.opacity = 0; el.style.transform = `translateY(${TRANSLATE_Y_ELEMENTS})`; });
+                        formElements.forEach(el => { el.style.opacity = 0; el.style.transform = `translateY(-${TRANSLATE_Y_ELEMENTS})`; });
                     }
                 }, `-=${DURATION_ELEMENTS - 40}`);
 
@@ -813,7 +880,7 @@
                 const contentScrollHeight = content.scrollHeight;
                 formElements.forEach(el => {
                     el.style.opacity = 0;
-                    el.style.transform = `translateY(${TRANSLATE_Y_ELEMENTS})`;
+                    el.style.transform = `translateY(-${TRANSLATE_Y_ELEMENTS})`;
                 });
 
                 const tl = anime.timeline({ easing: EASING_ELEMENTS_OPEN });
@@ -826,7 +893,7 @@
                 .add({
                     targets: formElements,
                     opacity: [0, 1],
-                    translateY: [TRANSLATE_Y_ELEMENTS, 0],
+                    translateY: ['-' + TRANSLATE_Y_ELEMENTS, '0px'],
                     duration: DURATION_ELEMENTS,
                     delay: anime.stagger(STAGGER_ELEMENTS_OPEN)
                 }, `-=${DURATION_CONTENT - 80}`);
