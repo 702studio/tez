@@ -409,12 +409,12 @@
         }
 
         footer {
-            text-align: left; /* Changed from center */
-            padding: 20px 20px 10px 20px;
-            font-size: 11px;
-            line-height: 1.6;
+            text-align: left;
+            padding: 20px 20px 20px 20px; /* Updated padding */
+            font-size: 10px;               /* Updated font-size */
+            line-height: 1.5;              /* Updated line-height */
             color: var(--gray);
-            text-transform: uppercase; /* Added for uppercase text */
+            text-transform: uppercase;
             flex-shrink: 0;
         }
         /* Removed redundant body.dark-mode footer rule */
@@ -782,7 +782,10 @@
                     opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1],
                     duration: D_GROUP_CHAR_ANIM,
                     delay: anime.stagger(D_GROUP_STAGGER),
-                    begin: () => text702Element.style.display = 'inline-block' // Make parent visible
+                    begin: () => {
+                        text702Element.style.display = 'inline-block';
+                        text702Element.style.opacity = '1'; // Ensure parent group is visible
+                    }
                 })
                 .add({
                     targets: text702Chars,
@@ -799,7 +802,8 @@
                     duration: D_GROUP_CHAR_ANIM,
                     delay: anime.stagger(D_GROUP_STAGGER),
                     begin: () => {
-                        text702StudioElement.style.display = 'inline-block'; // Make parent visible
+                        text702StudioElement.style.display = 'inline-block';
+                        text702StudioElement.style.opacity = '1'; // Ensure parent group is visible
                         // Theme switch logic from user's original code
                         const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
                         applyTheme(currentTheme === 'dark' ? 'light' : 'dark', true);
