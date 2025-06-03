@@ -1,0 +1,30 @@
+Plan for v6 Updates (Targeted Fixes):
+
+1. **Backup `index.html`**: Create `index_before_plan_v6.html`.
+   - COMPLETED
+
+2. **Ensure No Logo Border (All Views)**:
+    - Re-inspected and forcefully removed any `border-bottom` from the `.logo` element itself using `border-bottom: none !important;`.
+    - Verified `text-decoration: none !important;` and `color: inherit !important;`.
+   - COMPLETED
+
+3. **Fix CAPTCHA Modal Typos**:
+    - Attempted to review and fix typos (especially stray '*' characters) in CAPTCHA modal text (HTML and JS).
+   - ATTEMPTED (Success unconfirmed due to subtask reporting errors; typos may still exist)
+
+4. **Update CAPTCHA Modal Close Button**:
+    - Changed the CAPTCHA modal close button from text ("Cancel") to use a RemixIcon "close" icon (`<i class="ri-close-line"></i>`).
+    - Adjusted button styling for the icon.
+   - COMPLETED
+
+5. **Plan Documentation**: Create `plan_v6.txt`.
+   - CURRENT STEP
+
+6. **Submit Changes**.
+   - PENDING
+
+**Outstanding Major Issues from Previous Plans (affected by tool errors):**
+- Intro Animation Alignment (Plan v5, Step 5)
+- Footer Font Change to Arimo (Plan v5, Step 8)
+- Footer Font Size Toggle (Test Feature) (Plan v5, Step 9 - not started)
+- CAPTCHA Success Animation (Plan v5, Step 10 - not started)
