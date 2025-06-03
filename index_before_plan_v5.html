@@ -114,8 +114,6 @@
             font-size: clamp(2.5rem, 12vw, 8rem);
             color: var(--intro-text-light);
             margin-bottom: 20px;
-    width: 100%; /* Ensure full width for effective text-align */
-    text-align: center; /* Center text content */
         }
         body.dark-mode #intro-sequence-container {
             color: var(--intro-text-dark);
@@ -139,7 +137,6 @@
             transform: translateY(15px);
             white-space: nowrap;
             text-align: center; /* Ensure text itself is centered */
-    width: 100%; /* Ensure full width for effective text-align */
         }
         body.dark-mode #intro-coming-soon {
             color: var(--intro-text-dark);
@@ -147,7 +144,7 @@
         #intro-coming-soon .blinking-dot {
              animation: blink 1.2s infinite;
              display: inline-block;
-             margin-left: -0.12em; /* NEW consistent value */
+             margin-left: -0.24em; /* Further Adjusted margin */
         }
 
         body.dark-mode .logo,
@@ -248,11 +245,11 @@
             font-size: 18px;
             font-weight: 700;
             letter-spacing: 1px;
-    padding-bottom: 2px; /* Keep padding for now */
-    border-bottom: none; /* Explicitly remove border */
+            padding-bottom: 2px;
+            border-bottom: 1px solid var(--border-color);
             display: inline-block;
             text-decoration: none !important; /* Ensure no underline */
-    color: inherit !important; /* Ensure correct color inheritance */
+            color: inherit; /* Ensure color is inherited */
         }
         body.dark-mode .logo {
             border-bottom-color: var(--border-color);
@@ -284,11 +281,6 @@
     align-items: center;
     justify-content: center;
         }
-.theme-toggle-btn i {
-    font-size: 20px !important;
-    line-height: 1 !important;
-    display: block;
-}
         .theme-toggle-btn:hover {
             color: var(--gray);
         }
@@ -315,7 +307,7 @@
         .coming-soon .blinking-dot {
              display: inline-block;
              animation: blink 1.2s infinite;
-             margin-left: -0.12em; /* NEW consistent value */
+             margin-left: -0.24em; /* Further Adjusted margin */
         }
         .message {
             font-size: clamp(0.9rem, 2.5vw, 1.1rem);
@@ -424,10 +416,10 @@
         }
 
         footer {
-            /* text-align: left; */ /* Removed */
-            padding: 20px 20px 20px 20px;
-            font-size: 9px; /* REDUCED for mobile */
-            line-height: 1.4; /* Adjusted for smaller font */
+            text-align: left;
+            padding: 20px 20px 20px 20px; /* Updated padding */
+            font-size: 10px;               /* Updated font-size */
+            line-height: 1.5;              /* Updated line-height */
             color: var(--gray);
             text-transform: uppercase;
             flex-shrink: 0;
@@ -435,7 +427,6 @@
         /* Removed redundant body.dark-mode footer rule */
         footer p {
             margin-bottom: 5px;
-            text-align: justify; /* Added */
         }
 
         /* Gamified CAPTCHA Styles */
@@ -507,10 +498,8 @@
 
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        .icon { /* This is for .toggle-btn .icon */
-            font-size: 20px !important; /* Standardized icon size */
-            line-height: 1 !important; /* Ensures tight vertical fit */
-            display: block; /* Helps some icon fonts render consistently */
+        .icon {
+            font-size: 20px; /* Standardized icon size */
             transition: transform 0.3s ease;
         }
 
@@ -561,8 +550,6 @@
 
             footer {
                 padding: 20px 60px; /* Align with .page-content-area horizontal padding */
-                font-size: 10px; /* Restore for desktop */
-                line-height: 1.5; /* Restore for desktop */
             }
         }
         @media (min-width: 1024px) {
