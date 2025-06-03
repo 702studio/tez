@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>702.studio - Coming Soon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="intro-animation-container">
+        <!-- Typographic animation will be generated here by JavaScript -->
+    </div>
+
+    <main id="main-content" style="display: none;"> <!-- Initially hidden, shown after intro animation -->
+        <div class="grid-container">
+            <header class="col-span-10">
+                <h1>702.studio</h1>
+                <h2>Coming Soon</h2>
+            </header>
+
+            <section id="description-section" class="col-span-5">
+                <div class="description-toggle" tabindex="0">
+                    <p>More Information</p>
+                    <span>▼</span>
+                </div>
+                <div class="description-content">
+                    <p>This is a placeholder for the detailed description about 702.studio. It will be expandable and collapsible.</p>
+                </div>
+            </section>
+
+            <section id="interactive-section" class="col-span-5">
+                <div id="newsletter-section">
+                    <h3>Newsletter</h3>
+                    <form id="newsletter-form">
+                    <input type="email" id="newsletter-email" name="email" placeholder="Enter your email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+                <p id="newsletter-message"></p>
+            </div>
+
+            <div id="contact-section">
+                <h3>Contact Us</h3>
+                <form id="contact-form">
+                    <input type="text" id="contact-name" name="name" placeholder="Your Name" required>
+                    <input type="email" id="contact-email" name="email" placeholder="Your Email" required>
+                    <textarea id="contact-message" name="message" placeholder="Your Message" required></textarea>
+                    <!-- Placeholder for spam protection, e.g., a checkbox -->
+                    <div class="spam-protection">
+                        <input type="checkbox" id="is-human" name="is-human" required>
+                        <label for="is-human">I am not a robot</label>
+                    </div>
+                    <button type="submit">Send Message</button>
+                </form>
+                <p id="contact-message-status"></p>
+            </div>
+        </section>
+    </div> <!-- End of .grid-container -->
+
+    <footer id="page-footer"> <!-- Footer is outside the main content grid -->
+        <p>THIS IS A RELATIVELY LONG FOOTER TEXT. IT IS INTENTIONALLY WRITTEN IN ALL CAPS AND WITH A SMALLER FONT SIZE TO MEET THE DESIGN REQUIREMENTS. IT WILL CONTAIN IMPORTANT INFORMATION OR DISCLAIMERS AS NEEDED BY 702.STUDIO. THE CONTENT HERE IS A PLACEHOLDER AND SHOULD BE UPDATED WITH THE FINAL TEXT. COPYRIGHT © 2024 702.STUDIO. ALL RIGHTS RESERVED.</p>
+    </footer>
+</main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
