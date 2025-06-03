@@ -144,7 +144,7 @@
         #intro-coming-soon .blinking-dot {
              animation: blink 1.2s infinite;
              display: inline-block;
-             margin-left: -0.24em; /* Further Adjusted margin */
+             margin-left: -0.16em; /* Adjusted margin */
         }
 
         body.dark-mode .logo,
@@ -302,7 +302,7 @@
         .coming-soon .blinking-dot {
              display: inline-block;
              animation: blink 1.2s infinite;
-             margin-left: -0.24em; /* Further Adjusted margin */
+             margin-left: -0.16em; /* Adjusted margin */
         }
         .message {
             font-size: clamp(0.9rem, 2.5vw, 1.1rem);
@@ -424,28 +424,6 @@
             margin-bottom: 5px;
         }
 
-        /* CAPTCHA Modal Dark Mode Styles */
-        body.dark-mode #captchaModal > div {
-            background-color: var(--dark-bg); /* Dark background for modal body */
-            border: 1px solid var(--border-color);
-        }
-        body.dark-mode #captchaModal h3,
-        body.dark-mode #captchaModal p,
-        body.dark-mode #captchaModal #captchaAnswer {
-            color: var(--dark-text); /* Dark mode text color */
-        }
-        body.dark-mode #captchaModal #captchaAnswer {
-            border-color: var(--border-color);
-            background-color: var(--dark-bg); /* Ensure input bg matches modal */
-        }
-        body.dark-mode #captchaModal #submitCaptcha {
-            background-color: var(--light-gray);
-            color: var(--dark-bg);
-        }
-        body.dark-mode #captchaModal #closeCaptcha {
-            color: var(--link-gray);
-        }
-
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         .icon { transition: transform 0.3s ease; }
@@ -494,10 +472,6 @@
             .message { font-size: clamp(1rem, 2vw, 1.1rem);  }
             #intro-sequence-container { font-size: clamp(4rem, 15vw, 10rem); }
             #intro-coming-soon { font-size: clamp(2rem, 7vw, 4.5rem); }
-
-            footer {
-                padding: 20px 60px; /* Align with .page-content-area horizontal padding */
-            }
         }
         @media (min-width: 1024px) {
             .page-content-area {
@@ -550,11 +524,6 @@
                 </div>
             </main>
 
-            <!--
-        IMPORTANT: Form functionality (Newsletter and Contact) requires backend setup.
-        Emails are intended to be sent from support@702.studio and should be forwarded
-        to tolgaozisik@gmail.com. See backend_requirements.txt for details.
-    -->
             <div class="sidebar">
                 <div class="toggle-section">
                     <button type="button" class="toggle-btn" onclick="toggleSection('newsletter', this)" aria-expanded="false" aria-controls="newsletter-content">
@@ -603,23 +572,8 @@
     <div id="notification" style="display:none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: var(--black); color: var(--white); padding: 15px 25px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; font-size: 16px;">
     </div>
 
-<div id="captchaModal" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center;">
-    <div style="background-color: var(--white); padding: 30px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-align: center; max-width: 400px; width: 90%;">
-        <h3 style="margin-top: 0; margin-bottom: 15px; font-weight: 500;">Please verify you are human</h3>
-        <p id="captchaQuestion" style="margin-bottom: 15px; font-size: 16px;">What color is the sky on a clear day?</p>
-        <input type="text" id="captchaAnswer" placeholder="Your answer" style="width: calc(100% - 20px); padding: 10px; margin-bottom: 20px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 15px;">
-        <p id="captchaError" style="color: red; margin-bottom: 15px; display: none; font-size: 14px;">Incorrect answer. Please try again.</p>
-        <button type="button" id="submitCaptcha" style="background-color: var(--black); color: var(--white); padding: 12px 25px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: 500;">Submit</button>
-        <button type="button" id="closeCaptcha" style="background-color: transparent; color: var(--gray); padding: 10px 20px; border: none; cursor: pointer; font-size: 14px; margin-left: 10px;">Cancel</button>
-    </div>
-</div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
     <script>
-        let originalFormEvent = null;
-        let originalSuccessMessage = '';
-        const CAPTCHA_ANSWER = "blue"; // Simple answer
-
         function wrapCharactersForIntro(element, isStudio = false) {
             if (!element) return [];
             const text = element.textContent;
@@ -778,52 +732,38 @@
                         easing: 'easeInOutQuad',
                         complete: () => {
                             introOverlayEl.style.display = 'none';
-                            const pageElementsTimeline = anime.timeline({
-                                easing: 'easeOutCubic',
-                            });
+                            const pageElementsTimeline = anime.timeline({ easing: 'easeOutCubic' });
                             pageElementsTimeline
+                                .add({ targets: '#page-wrapper', opacity: [0, 1], duration: 50 })
+                                // ... (rest of their page reveal animation - PRESERVE THIS)
                                 .add({
-                                    targets: '#page-wrapper',
-                                    opacity: [0, 1],
-                                    duration: 50
-                                })
-                                .add({
-                                    targets: '.page-content-area > header', // Animate the header block
-                                    opacity: [0, 1],
-                                    translateY: ['15px', '0px'],
-                                    duration: 250
-                                }, 0) // Start header animation with page-wrapper opacity
-                                .add({
-                                    targets: ['.page-content-area > header .logo', '.page-content-area > header .theme-toggle-btn'], // Animate logo and button
-                                    opacity: [0, 1],
-                                    translateY: ['10px', '0px'],
-                                    duration: 200,
-                                    delay: anime.stagger(40)
-                                }, '-=150') // Start relative to previous animation's start
+                                    targets: ['.page-content-area > header .logo', '.page-content-area > header .theme-toggle-btn'],
+                                    opacity: [0, 1], translateY: ['15px', '0px'], duration: 250, delay: anime.stagger(35)
+                                }, 0)
                                 .add({
                                     targets: '.page-content-area > main > .main-content-wrapper',
                                     opacity: [0, 1], translateY: ['15px', '0px'], duration: 250,
-                                }, '-=100')
+                                }, '-=180')
                                 .add({
                                     targets: '.main-content-wrapper .coming-soon.word-animation-target span',
                                     opacity: [0,1], translateY: ['15px', '0px'], duration: 200, delay: anime.stagger(25, {easing: 'easeOutSine'})
-                                }, '-=100')
+                                }, '-=70')
                                 .add({
                                     targets: '.main-content-wrapper .message.word-animation-target span',
                                     opacity: [0,1], translateY: ['10px', '0px'], duration: 150, delay: anime.stagger(8, {easing: 'easeOutSine'})
-                                }, '-=100')
+                                }, '-=70')
                                 .add({
                                     targets: '.page-content-area > main .direct-mail-info-section',
                                     opacity: [0,1], translateY: ['15px', '0px'], duration: 250
-                                }, '-=50')
+                                }, '-=60')
                                 .add({
                                     targets: '.page-content-area > .sidebar > .toggle-section',
                                     opacity: [0,1], translateY: ['15px', '0px'], duration: 250, delay: anime.stagger(50, {easing: 'easeOutCubic'})
-                                }, '-=50')
+                                }, '-=60')
                                 .add({
                                     targets: '#page-wrapper > footer',
                                     opacity: [0,1], translateY: ['15px', '0px'], duration: 250
-                                }, '-=100');
+                                }, '-=80');
                         }
                     });
                 }
@@ -900,33 +840,6 @@
                 .add({ duration: D_CS_STAY }); // Hold before completing timeline
 
             document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-            // CAPTCHA Modal Event Listeners
-            document.getElementById('submitCaptcha').addEventListener('click', () => {
-                const userAnswer = document.getElementById('captchaAnswer').value.trim().toLowerCase();
-                if (userAnswer === CAPTCHA_ANSWER) {
-                    document.getElementById('captchaModal').style.display = 'none';
-
-                    // Proceed with original form submission
-                    const form = originalFormEvent.target;
-                    showNotification(originalSuccessMessage); // Use existing showNotification
-                    form.reset();
-
-                    // Clear stored event/message
-                    originalFormEvent = null;
-                    originalSuccessMessage = '';
-                } else {
-                    document.getElementById('captchaError').style.display = 'block';
-                    document.getElementById('captchaAnswer').focus();
-                }
-            });
-
-            document.getElementById('closeCaptcha').addEventListener('click', () => {
-                document.getElementById('captchaModal').style.display = 'none';
-                // Clear stored event/message if submission is cancelled
-                originalFormEvent = null;
-                originalSuccessMessage = '';
-            });
         });
 
         function toggleSection(idPrefix, buttonElement) {
@@ -1003,15 +916,22 @@
         }
 
         function handleFormSubmit(event, message) {
-            event.preventDefault(); // Prevent immediate submission
-            originalFormEvent = event; // Store the original event
-            originalSuccessMessage = message; // Store the original message
-
-            // Reset and show CAPTCHA modal
-            document.getElementById('captchaAnswer').value = '';
-            document.getElementById('captchaError').style.display = 'none';
-            document.getElementById('captchaModal').style.display = 'flex'; // Use flex for centering
-            document.getElementById('captchaAnswer').focus();
+            event.preventDefault();
+            const form = event.target;
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            if(document.body.classList.contains('dark-mode')){
+                notification.style.backgroundColor = 'var(--light-gray)';
+                notification.style.color = 'var(--dark-bg)';
+            } else {
+                notification.style.backgroundColor = 'var(--black)';
+                notification.style.color = 'var(--white)';
+            }
+            form.reset();
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
         }
 
         function copyEmailToClipboard() {

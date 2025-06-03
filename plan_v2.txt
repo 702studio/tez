@@ -1,0 +1,37 @@
+Plan for v2 Updates (Addressing User Feedback):
+
+1. **Backup `index.html`**: Create a new backup copy of `index.html` (e.g., `index_before_plan_v2.html`).
+   - COMPLETED
+
+2. **Investigate and Fix Header Visibility**:
+    - Ensure the header (containing the '702.studio' logo and the theme toggle button) is visible after the intro animation.
+    - Check CSS properties (`opacity`, `visibility`, `display`, `z-index`) for the header and its parent elements.
+    - Review JavaScript animation sequences that reveal page content after the intro.
+   - COMPLETED (Replaced pageElementsTimeline with a new one ensuring header animation)
+
+3. **Further Adjust Blinking Dot**:
+    - Modify the CSS for the blinking dot next to 'COMING SOON' to reduce the space even more (e.g., `margin-left: -0.24em`).
+   - COMPLETED (Set margin-left to -0.24em)
+
+4. **Fix Footer Alignment**:
+    - Adjust CSS for the footer to ensure it aligns correctly with the page's grid layout, making it flush with other content elements like the main content and sidebar (adjust padding for desktop view).
+   - COMPLETED (Adjusted footer padding in @media query)
+
+5. **Form Enhancements (Newsletter & Contact - CAPTCHA)**:
+    - Design and implement a simple modal-based CAPTCHA.
+    - The modal will ask a simple question (e.g., "What color is the sky on a clear day?").
+    - Modify the `handleFormSubmit` JavaScript function to display this modal before any form submission.
+    - The form should only proceed if the CAPTCHA is answered correctly. Display an error if incorrect.
+   - COMPLETED (Added HTML modal, CSS, and JS logic for CAPTCHA)
+
+6. **Document Email Forwarding Requirement**:
+    - Add a comment in `index.html` near the form elements or create a `backend_requirements.txt` noting that email forwarding from `support@702.studio` to `tolgaozisik@gmail.com` is needed for the forms to be fully functional.
+   - COMPLETED (Created backend_requirements.txt and added HTML comment)
+
+7. **Create a Plan Document**:
+    - Create a `plan_v2.txt` file and document the steps of this current plan in it.
+   - CURRENT STEP
+
+8. **Submit Changes**:
+    - Commit all the changes with a descriptive message.
+   - PENDING

@@ -1,0 +1,9 @@
+Email Forwarding for Forms:
+
+To ensure the newsletter subscription and contact form submissions are received,
+server-side email forwarding or processing is required.
+
+- Form submissions from `index.html` (Newsletter and Contact sections) are intended to be sent from `support@702.studio`.
+- These emails should be forwarded to or made accessible at `tolgaozisik@gmail.com`.
+
+This setup is external to the static `index.html` file and needs to be configured at the email hosting or server level for `702.studio`.
