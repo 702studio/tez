@@ -1,0 +1,25 @@
+Plan for v4 Updates (Styling Fixes and Icon Alignment):
+
+1. **Backup `index.html`**: Create `index_before_plan_v4.html`.
+   - COMPLETED
+
+2. **Fix Logo Color**:
+    - Ensure the '702.studio' logo link in the header is not blue and correctly inherits its color from its parent (`.logo` class).
+    - Applied CSS: `.logo a { color: inherit; text-decoration: none !important; }` (or to `a.logo` if that's the structure).
+   - COMPLETED
+
+3. **Adjust Sun/Moon Icon Padding/Margin**:
+    - Set `padding: 0;` and `margin: 0;` for the `theme-toggle-btn`.
+    - Added `display: inline-flex; align-items: center; justify-content: center;` for centering.
+   - COMPLETED
+
+4. **Standardize Icon Sizes (Re-attempt)**:
+    - Re-attempt to set a consistent `font-size` (e.g., `20px`) for both the theme toggle icon (`.theme-toggle-btn i`) and the sidebar expand/collapse icons (`.toggle-btn .icon`).
+   - COMPLETED (Set `.toggle-btn .icon` font-size to 20px)
+
+5. **Create Plan Document `plan_v4.txt`**:
+    - Document the steps of this current plan.
+   - CURRENT STEP
+
+6. **Submit Changes**.
+   - PENDING
