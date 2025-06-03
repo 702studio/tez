@@ -309,12 +309,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const animationSequence = [
-        { text: 'yedi', duration: 1000, delay: 100 },
-        { text: '0', duration: 800, delay: 100 },
-        { text: '2', duration: 800, delay: 100 },
-        { text: '702', duration: 1000, delay: 100 },
-        { text: '702.studio', duration: 1500, delay: 100, hasBlinkingDot: true },
-        { text: 'Coming Soon', duration: 2000, delay: 500 }
+        { text: '7', duration: 300, delay: 50 },
+        { text: '0', duration: 200, delay: 50 },
+        { text: '2', duration: 200, delay: 50 },
+        { text: '702', duration: 350, delay: 50 },
+        { text: '702.studio', duration: 500, delay: 100, hasBlinkingDot: true },
+        { text: 'Coming Soon', duration: 800, delay: 200 }
     ];
 
     let currentSequenceIndex = 0;
@@ -370,21 +370,21 @@ document.addEventListener('DOMContentLoaded', () => {
                         targets: textWrapper.childNodes,
                         opacity: 0,
                         duration: 300, // Quick fade out
-                        delay: anime.stagger(50, {from: 'center'}),
+                        delay: anime.stagger(20, {from: 'center'}),
                         easing: 'easeInExpo',
                         complete: () => {
                            currentSequenceIndex++;
                            runNextAnimation();
                         }
                     });
-                }, currentItem.delay + 500); // Keep text visible for a bit longer than its animation
+                }, currentItem.delay + 150); // Significantly reduced pause
             }
         })
         .add({
             targets: textWrapper.childNodes,
             opacity: [0, 1],
             translateY: [20, 0], // Example: slide up effect
-            delay: anime.stagger(70, {from: 'center'}), // Stagger appearance
+            delay: anime.stagger(30, {from: 'center'}), // Faster character stagger
         });
 
         // Blinking dot for '702.studio'
