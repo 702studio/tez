@@ -234,10 +234,11 @@
 
         header {
             grid-area: header;
-            padding-bottom: 20px;
+            padding-bottom: 20px; /* This padding will be ABOVE the full-width line */
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative; /* For the pseudo-element */
         }
         .logo {
             font-size: 18px;
@@ -251,6 +252,16 @@
             border-bottom-color: var(--border-color);
         }
 
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0; /* Positioned at the very bottom of the header's padding area */
+            left: -20px; /* Extend to the left edge of the viewport, counteracting .page-content-area padding */
+            width: calc(100% + 40px); /* Span full viewport width */
+            height: 1px; /* Line thickness */
+            background-color: var(--border-color); /* Use border-color for subtlety, or a lighter gray */
+            opacity: 0.5; /* Make it subtle */
+        }
 
         .theme-toggle-btn {
             background: none;
@@ -303,12 +314,24 @@
         .toggle-section { margin-bottom: 20px; }
 
         .toggle-btn {
-            background: none; border: none;
+            background: none;
+            border: none;
             border-bottom: 1px solid var(--border-color);
-            padding: 10px 0;
+
+            /* Core change for full-width border on mobile */
+            position: relative; /* Optional, if z-index or specific layering were needed, but good for context */
+            width: calc(100% + 40px); /* Expand by 20px padding on each side of .page-content-area */
+            margin-left: -20px;
+            margin-right: -20px;
+            padding: 10px 20px; /* padding-top/bottom from original, padding-left/right to compensate for negative margin */
+
             font-size: 15px;
-            font-weight: 500; text-align: left; cursor: pointer; width: 100%;
-            display: flex; justify-content: space-between; align-items: center;
+            font-weight: 500;
+            text-align: left; /* Flex handles actual text alignment with justify-content */
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             color: var(--black);
             transition: color 0.3s ease, border-color 0.3s ease;
         }
@@ -386,16 +409,15 @@
         }
 
         footer {
-            text-align: center;
+            text-align: left; /* Changed from center */
             padding: 20px 20px 10px 20px;
             font-size: 11px;
             line-height: 1.6;
             color: var(--gray);
+            text-transform: uppercase; /* Added for uppercase text */
             flex-shrink: 0;
         }
-        body.dark-mode footer {
-            color: var(--gray);
-        }
+        /* Removed redundant body.dark-mode footer rule */
         footer p {
             margin-bottom: 5px;
         }
@@ -415,6 +437,9 @@
                 gap: 0 40px;
             }
             header { padding-bottom: 30px; }
+            header::after {
+                display: none; /* Remove the full-width line on desktop */
+            }
             main {
                 padding-right: 0;
                 padding-top: 0;
@@ -428,6 +453,14 @@
                 padding-top: 0;
                 margin-left: 0;
                 align-self: start;
+            }
+            /* Inside @media (min-width: 768px) */
+            .toggle-btn {
+                width: 100%; /* Reset to 100% of its container (the sidebar) */
+                margin-left: 0;
+                margin-right: 0;
+                padding: 10px 0; /* Restore original padding for desktop if content alignment needs it */
+                /* The border-bottom will now correctly be 100% of the sidebar column width */
             }
 
             .coming-soon { font-size: clamp(2.8rem, 6vw, 4.0rem); }
