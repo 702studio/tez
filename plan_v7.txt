@@ -1,0 +1,27 @@
+Plan for v7 Updates (Targeted Fixes for Logo and CAPTCHA Text):
+
+1. **Backup `index.html`**: Create `index_before_plan_v7.html`.
+   - COMPLETED
+
+2. **Force Remove Logo `border-bottom` (All Views)**:
+    - Aggressively ensured the `.logo` CSS rule includes `border-bottom: none !important;` and also `padding-bottom: 0 !important;`.
+   - COMPLETED
+
+3. **Fix Erroneous Text in CAPTCHA Modal**:
+    - Searched for and removed the specific string "{/* Added position: relative for cancel button */}" from the codebase.
+    - Found and removed it from an inline `style` attribute on the `gameCaptchaContainer` div.
+   - COMPLETED
+
+4. **Plan Documentation**: Create `plan_v7.txt`.
+   - CURRENT STEP
+
+5. **Submit Changes**.
+   - PENDING
+
+**Outstanding Major Issues from Previous Plans (affected by tool errors or not yet addressed):**
+- Intro Animation Alignment (Plan v5, Step 5)
+- Footer Font Change to Arimo (Plan v5, Step 8)
+- Footer Font Size Toggle (Test Feature) (Plan v5, Step 9)
+- CAPTCHA Success Animation (Plan v5, Step 10)
+- Icon Size and Alignment (various plans - user may still perceive issues)
+- Mobile full viewport fitting / footer cut-off (Plan v5, Step 7 - may need more work)
