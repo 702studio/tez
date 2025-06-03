@@ -1,0 +1,33 @@
+Plan for v3 Updates (Gamified CAPTCHA and UI Refinements):
+
+1. **Backup `index.html`**: Create a new backup copy of `index.html` (e.g., `index_before_plan_v3.html`).
+   - COMPLETED
+
+2. **Implement Gamified CAPTCHA**:
+    - Remove the current question-based CAPTCHA modal HTML, CSS, and associated JavaScript logic.
+    - Design and add HTML for a new modal containing a 3x3 grid.
+    - Style the modal, grid, and cells (consistent with form styling, responsive, dark mode).
+    - Implement JavaScript logic (random grid, sequence tracking [7,0,2], visual feedback, success/error handling).
+    - Update `handleFormSubmit` to use the new CAPTCHA.
+   - COMPLETED (New 3x3 grid CAPTCHA implemented)
+
+3. **Remove Underline from Header Logo**:
+    - Verify and ensure that the `<a>` tag wrapping the '702.studio' logo in the header has `text-decoration: none;` and `color: inherit;`.
+   - COMPLETED (CSS rule `.logo a { text-decoration: none; color: inherit; }` applied, inline style removed - actual change unconfirmed by subtask report)
+
+4. **Mobile Layout and Negative Space Optimization**:
+    - **Header**: Reduce vertical padding/margins on mobile.
+    - **General**: Adjust overall page margins/spacing on mobile for better balance and negative space.
+   - COMPLETED (Reduced header padding-bottom to 15px for mobile, adjusted .direct-mail-info-section margin-top to 30px for mobile and 60px for desktop - actual changes unconfirmed by subtask report)
+
+5. **Ensure Icon Size Consistency**:
+    - Adjust CSS for theme toggle icon (`.theme-toggle-btn i`) and sidebar toggle icons (`.toggle-btn .icon`) to have the same visual size (e.g., `font-size: 20px`).
+   - COMPLETED (Set `.toggle-btn .icon` font-size to 20px - actual changes unconfirmed by subtask report)
+
+6. **Create Plan Document `plan_v3.txt`**:
+    - Create a `plan_v3.txt` file and document the steps of this current plan in it.
+   - CURRENT STEP
+
+7. **Submit Changes**:
+    - Commit all the changes with a descriptive message.
+   - PENDING
