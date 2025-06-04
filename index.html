@@ -252,6 +252,10 @@
             border-bottom-color: var(--border-color);
         }
 
+        @media (max-width: 767px) {
+            header { align-items: flex-start; }
+        }
+
         header::after {
             content: '';
             position: absolute;
@@ -480,6 +484,237 @@
             animation: blink 1.2s infinite; /* Assuming 'blink' animation is defined */
         }
 
+    /* Modal Styles */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+        display: flex; /* Changed from none to flex for JS control */
+        align-items: center;
+        justify-content: center;
+        z-index: 2000; /* Higher than other content */
+        opacity: 0; /* For fade-in animation */
+        visibility: hidden; /* For animation */
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    body.dark-mode .modal-overlay {
+        background-color: rgba(0, 0, 0, 0.7); /* Slightly darker for dark mode */
+    }
+
+    .modal-overlay.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-content {
+        background-color: var(--white);
+        color: var(--black);
+        padding: 25px;
+        min-width: 300px; /* Minimum width */
+        max-width: 90%;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        border-radius: 0; /* No rounded corners */
+        transform: scale(0.95); /* For pop animation */
+        transition: transform 0.3s ease;
+        position: relative; /* For absolute positioning of internal elements if needed */
+    }
+    body.dark-mode .modal-content {
+        background-color: var(--dark-bg);
+        color: var(--dark-text);
+        border: 1px solid var(--border-color); /* Optional: subtle border in dark mode */
+    }
+    .modal-overlay.show .modal-content {
+        transform: scale(1);
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        /* The border will be handled by modal-footer-indicator for full width */
+        position: relative;
+    }
+
+    .modal-instruction {
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-right: 15px; /* Space for close button */
+        line-height: 1.4;
+    }
+
+    .modal-close-btn {
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: var(--black);
+        cursor: pointer;
+        padding: 5px;
+        line-height: 1;
+    }
+    body.dark-mode .modal-close-btn {
+        color: var(--dark-text);
+    }
+    .modal-close-btn:hover {
+        color: var(--gray);
+    }
+
+    .modal-body {
+        margin-bottom: 20px;
+    }
+
+    .modal-buttons {
+        display: flex;
+        justify-content: space-around; /* Distribute buttons evenly */
+        gap: 15px;
+    }
+
+    .modal-num-btn {
+        background-color: var(--light-gray);
+        color: var(--black);
+        border: none;
+        font-size: 1.5rem;
+        font-weight: 700;
+        padding: 15px 20px;
+        flex-grow: 1; /* Make buttons take equal space */
+        text-align: center;
+        cursor: pointer;
+        border-radius: 0; /* No rounded corners */
+        transition: background-color 0.2s ease, color 0.2s ease;
+        position: relative; /* For hover effect */
+        overflow: hidden; /* For hover effect */
+    }
+    body.dark-mode .modal-num-btn {
+        background-color: #333; /* Darker gray for dark mode */
+        color: var(--dark-text);
+    }
+
+    .modal-num-btn::before { /* For hover effect */
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 0;
+        background-color: var(--gray);
+        transition: height 0.2s ease-in-out;
+        z-index: 0;
+    }
+    body.dark-mode .modal-num-btn::before {
+        background-color: #555;
+    }
+    .modal-num-btn:hover::before {
+        height: 100%;
+    }
+    .modal-num-btn:hover span { /* Ensure text stays above hover effect */
+        position: relative;
+        z-index: 1;
+    }
+
+    .modal-num-btn:active, .modal-num-btn.active { /* Active state */
+        background-color: var(--black);
+        color: var(--white);
+    }
+    body.dark-mode .modal-num-btn:active, body.dark-mode .modal-num-btn.active {
+        background-color: var(--light-gray);
+        color: var(--dark-bg);
+    }
+    .modal-num-btn:active::before, .modal-num-btn.active::before { /* Hide hover effect when active */
+        height: 0;
+    }
+
+
+    .modal-footer-indicator {
+        height: 1px;
+        background-color: var(--border-color);
+        width: calc(100% + 50px); /* Extend outside padding: 25px each side */
+        margin-left: -25px; /* Counteract padding */
+        margin-right: -25px; /* Counteract padding */
+        position: relative; /* For the arrow */
+    }
+    .modal-footer-indicator .mobile-only { /* Downward arrow for mobile */
+        position: absolute;
+        right: 20px; /* Position from the edge of the modal content, not the extended line */
+        top: 50%;
+        transform: translateY(-50%) translateX(25px); /* Adjust for indicator's negative margin */
+        font-size: 24px;
+        color: var(--border-color);
+    }
+
+
+    /* Mobile Specific Styles */
+    @media (max-width: 767px) {
+        .modal-overlay {
+            align-items: flex-end; /* Modal at bottom */
+        }
+        .modal-content {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 0; /* Attach to bottom */
+            padding: 20px;
+            /* Animation will be handled by JS by adding/removing a class */
+            transform: translateY(100%); /* Start off-screen */
+            transition: transform 0.3s ease-out; /* For slide up/down */
+        }
+        .modal-overlay.show .modal-content.slide-up { /* Class to be added by JS */
+            transform: translateY(0);
+        }
+
+        .web-only {
+            display: none !important;
+        }
+        .mobile-only {
+            display: inline-block !important; /* Or block, depending on element */
+        }
+
+        .modal-header {
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+        }
+        .modal-instruction {
+            font-size: 1rem;
+        }
+         .modal-footer-indicator {
+            width: calc(100% + 40px); /* 20px padding each side */
+            margin-left: -20px;
+            margin-right: -20px;
+        }
+        .modal-footer-indicator .mobile-only {
+             right: 15px; /* Adjust for mobile padding */
+             transform: translateY(-50%) translateX(20px); /* Adjust for indicator's negative margin */
+        }
+        .modal-num-btn {
+            padding: 12px 15px;
+            font-size: 1.3rem;
+        }
+    }
+
+    /* Web Specific Styles */
+    @media (min-width: 768px) {
+        .modal-content {
+            max-width: 450px; /* Or other desired max-width for web */
+            /* transform: scale(0.95) is default, .show .modal-content has scale(1) */
+        }
+        .mobile-only {
+            display: none !important;
+        }
+        .web-only {
+            display: inline-block !important; /* Or block, depending on element */
+        }
+        .modal-footer-indicator .mobile-only { /* Ensure arrow is hidden on web */
+            display: none !important;
+        }
+    }
+
+    /* Helper to ensure button text is on top of hover effect */
+    .modal-num-btn span {
+        position: relative;
+        z-index: 1;
+    }
     </style>
 </head>
 <body>
@@ -564,7 +799,31 @@
         </footer>
     </div>
 
+    <button type="button" id="tempOpenModalBtn" style="position: fixed; bottom: 80px; right: 20px; z-index: 1500; padding: 10px; background: #f00; color: white;">Open Modal</button>
+
     <div id="notification" style="display:none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: var(--black); color: var(--white); padding: 15px 25px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; font-size: 16px;">
+    </div>
+
+    <!-- Page Modal -->
+    <div id="page-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-instruction">Press 7 → 0 → 2 in order</p>
+                <button type="button" class="modal-close-btn web-only" aria-label="Close modal">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-buttons">
+                    <button type="button" class="modal-num-btn" data-value="7"><span>7</span></button>
+                    <button type="button" class="modal-num-btn" data-value="0"><span>0</span></button>
+                    <button type="button" class="modal-num-btn" data-value="2"><span>2</span></button>
+                </div>
+            </div>
+            <div class="modal-footer-indicator">
+                <i class="ri-arrow-down-s-line mobile-only"></i>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
@@ -836,6 +1095,130 @@
 
             document.getElementById('currentYear').textContent = new Date().getFullYear();
         });
+
+        // --- Modal Logic ---
+        const pageModal = document.getElementById('page-modal');
+        const modalContent = pageModal.querySelector('.modal-content');
+        const closeModalBtn = pageModal.querySelector('.modal-close-btn');
+        const numButtons = pageModal.querySelectorAll('.modal-num-btn');
+        const tempOpenModalBtn = document.getElementById('tempOpenModalBtn'); // Temporary trigger
+
+        let enteredSequence = [];
+        const correctSequence = ['7', '0', '2'];
+
+        function showModal() {
+            if (!pageModal) return;
+            enteredSequence = []; // Reset sequence
+            numButtons.forEach(btn => btn.classList.remove('active')); // Reset button visual state
+
+            pageModal.style.display = 'flex'; // Make overlay visible for flex alignment
+            // Timeout to allow display property to take effect before transition
+            setTimeout(() => {
+                pageModal.classList.add('show');
+                if (window.innerWidth < 768) {
+                    modalContent.classList.add('slide-up');
+                }
+            }, 20);
+        }
+
+        function hideModal(callback) {
+            if (!pageModal) return;
+
+            if (window.innerWidth < 768) {
+                modalContent.classList.remove('slide-up');
+            }
+            pageModal.classList.remove('show');
+
+            // Wait for opacity/transform transition to finish before setting display to none
+            const transitionDuration = 300; // Must match CSS transition duration
+            setTimeout(() => {
+                pageModal.style.display = 'none';
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            }, transitionDuration);
+        }
+
+        function handleNumberPress(event) {
+            const value = event.currentTarget.dataset.value;
+            event.currentTarget.classList.add('active'); // Show active state
+            enteredSequence.push(value);
+
+            // Optional: Remove 'active' after a short delay if not verifying immediately
+            // setTimeout(() => event.currentTarget.classList.remove('active'), 200);
+
+            if (enteredSequence.length === correctSequence.length) {
+                verifySequence();
+            } else if (enteredSequence.length > correctSequence.length) {
+                // Should not happen if verification is immediate, but as a fallback
+                resetInputSequence("Incorrect sequence. Try again.");
+            }
+        }
+
+        function verifySequence() {
+            const isCorrect = enteredSequence.every((val, index) => val === correctSequence[index]);
+            if (isCorrect) {
+                // Show some kind of success message/animation
+                pageModal.querySelector('.modal-instruction').textContent = "Verified!";
+                // Optionally disable buttons
+                numButtons.forEach(btn => btn.disabled = true);
+
+                setTimeout(() => {
+                    hideModal(() => {
+                        // Reset for next time
+                        pageModal.querySelector('.modal-instruction').textContent = "Press 7 → 0 → 2 in order";
+                        numButtons.forEach(btn => {
+                            btn.classList.remove('active');
+                            btn.disabled = false;
+                        });
+                    });
+                }, 1500); // Hide after 1.5 seconds
+            } else {
+                resetInputSequence("Incorrect. Please try again.");
+                // Refined shake animation for feedback
+                modalContent.animate([
+                    { transform: 'translateX(-10px)' },
+                    { transform: 'translateX(10px)' },
+                    { transform: 'translateX(-10px)' },
+                    { transform: 'translateX(0px)' }
+                ], {
+                    duration: 300,
+                    easing: 'ease-in-out'
+                });
+            }
+        }
+
+        function resetInputSequence(message) {
+            enteredSequence = [];
+            numButtons.forEach(btn => btn.classList.remove('active'));
+            if (message) {
+                const instructionEl = pageModal.querySelector('.modal-instruction');
+                const originalText = "Press 7 → 0 → 2 in order";
+                instructionEl.textContent = message;
+                setTimeout(() => instructionEl.textContent = originalText, 2000); // Revert after 2s
+            }
+        }
+
+        // Event Listeners
+        if (tempOpenModalBtn) { // Temporary trigger
+            tempOpenModalBtn.addEventListener('click', showModal);
+        }
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', () => hideModal());
+        }
+        numButtons.forEach(button => {
+            button.addEventListener('click', handleNumberPress);
+        });
+
+        // Close modal if overlay is clicked (optional)
+        if (pageModal) {
+            pageModal.addEventListener('click', (event) => {
+                if (event.target === pageModal) { // Clicked on overlay itself
+                    hideModal();
+                }
+            });
+        }
+        // --- End of Modal Logic ---
 
         function toggleSection(idPrefix, buttonElement) {
             const content = document.getElementById(idPrefix + '-content');
