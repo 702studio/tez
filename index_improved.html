@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>702.studio - Coming Soon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gray: #888888;
+            --light-gray: #f0f0f0;
+            --dark-bg: #1a1a1a;
+            --dark-text: #e0e0e0;
+            --border-color: var(--black);
+            --button-text-color: var(--black);
+            --link-gray: #777777;
+
+            /* Intro Colors */
+            --intro-bg-light: var(--white);
+            --intro-text-light: var(--black);
+            --intro-bg-dark: var(--dark-bg);
+            --intro-text-dark: var(--dark-text);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--black);
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        #page-wrapper {
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+        }
+        .page-content-area {
+            flex-grow: 1;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto auto;
+            grid-template-areas:
+                "header"
+                "main"
+                "sidebar";
+            width: 100%;
+        }
+
+        /* Initial animation state for page elements */
+        .page-content-area > header,
+        .page-content-area > main > .main-content-wrapper, /* Animate the wrapper first */
+        .page-content-area > .sidebar > .toggle-section,
+        .page-content-area > main .direct-mail-info-section,
+        #page-wrapper > footer {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+        /* Word/Letter animation helper for children of animated wrapper */
+        .main-content-wrapper > .word-animation-target span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+            --border-color: var(--light-gray);
+            --button-text-color: var(--dark-text);
+            --link-gray: #aaaaaa;
+        }
+
+        #intro-animation-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: var(--intro-bg-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 1;
+            overflow: hidden;
+        }
+        body.dark-mode #intro-animation-overlay {
+            background-color: var(--intro-bg-dark);
+        }
+
+        #intro-sequence-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: clamp(2.5rem, 12vw, 8rem);
+            color: var(--intro-text-light);
+            margin-bottom: 20px;
+    width: 100%; /* Ensure full width for effective text-align */
+    text-align: center; /* Center text content */
+        }
+        body.dark-mode #intro-sequence-container {
+            color: var(--intro-text-dark);
+        }
+
+        .intro-char, .intro-text-group {
+            opacity: 0;
+            display: none;
+            transform: scale(0.8) translateY(15px);
+        }
+        .intro-char.active, .intro-text-group.active {
+            display: inline-block;
+        }
+
+        #intro-coming-soon {
+            font-size: clamp(1.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--intro-text-light);
+            opacity: 0;
+            transform: translateY(15px);
+            white-space: nowrap;
+            text-align: center; /* Ensure text itself is centered */
+    width: 100%; /* Ensure full width for effective text-align */
+        }
+        body.dark-mode #intro-coming-soon {
+            color: var(--intro-text-dark);
+        }
+        #intro-coming-soon .blinking-dot {
+             animation: blink 1.2s infinite;
+             display: inline-block;
+             margin-left: -0.12em; /* NEW consistent value */
+        }
+
+        body.dark-mode .logo,
+        body.dark-mode .coming-soon,
+        body.dark-mode .message,
+        body.dark-mode .toggle-btn,
+        body.dark-mode .direct-mail-info-section .direct-mail-label,
+        body.dark-mode input,
+        body.dark-mode textarea,
+        body.dark-mode footer,
+        body.dark-mode button[type="submit"],
+        body.dark-mode .email-address-text,
+        body.dark-mode .copy-email-btn {
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .toggle-btn,
+        body.dark-mode button[type="submit"],
+        body.dark-mode input,
+        body.dark-mode textarea {
+            border-bottom: 1px solid var(--border-color);
+        }
+        body.dark-mode .direct-mail-info-section .direct-mail-label {
+             border-bottom: none;
+        }
+
+
+        body.dark-mode .toggle-btn:hover,
+        body.dark-mode button[type="submit"]:hover {
+            color: var(--gray);
+            border-bottom-color: var(--gray);
+        }
+        body.dark-mode .copy-email-btn:hover {
+            color: var(--gray);
+        }
+
+
+        body.dark-mode input:focus,
+        body.dark-mode textarea:focus {
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .direct-mail-info-section {
+            margin-top: 60px; /* Adjusted margin */
+            padding-bottom: 10px;
+            text-align: left;
+        }
+        .direct-mail-label {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--black);
+            margin-right: 5px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .direct-mail-label i {
+            font-size: 1em;
+            vertical-align: middle;
+            margin-left: 3px;
+        }
+
+        .email-container {
+            display: inline-flex;
+            align-items: center;
+            padding: 0;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        .email-address-text {
+            font-size: clamp(0.85rem, 2.2vw, 1rem);
+            color: var(--link-gray);
+            letter-spacing: 0.03em;
+            margin-right: 8px;
+        }
+        .copy-email-btn {
+            background: none;
+            border: none;
+            color: var(--link-gray);
+            cursor: pointer;
+            font-size: 1.1em;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }
+        .copy-email-btn:hover {
+            color: var(--black);
+        }
+
+
+        header {
+            grid-area: header;
+            padding-bottom: 20px; /* This padding will be ABOVE the full-width line */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative; /* For the pseudo-element */
+        }
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+    padding-bottom: 0 !important; /* Also remove padding that might be related to the border */
+    border-bottom: none !important; /* ENSURE THIS IS APPLIED */
+            display: inline-block;
+            text-decoration: none !important; /* Ensure no underline */
+    color: inherit !important; /* Ensure correct color inheritance */
+        }
+        body.dark-mode .logo {
+            border-bottom-color: var(--border-color);
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0; /* Positioned at the very bottom of the header's padding area */
+            left: -20px; /* Extend to the left edge of the viewport, counteracting .page-content-area padding */
+            width: calc(100% + 40px); /* Span full viewport width */
+            height: 1px; /* Line thickness */
+            background-color: var(--border-color); /* Uses --black in light mode */
+            opacity: 1; /* Increased opacity */
+        }
+
+        .theme-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--border-color);
+    padding: 0; /* Changed from 7px */
+    margin: 0; /* Explicitly set margin to 0 */
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: color 0.3s ease;
+    line-height: 1; /* Good for icon centering */
+    display: inline-flex; /* Ensure icon is centered */
+    align-items: center;
+    justify-content: center;
+        }
+.theme-toggle-btn i {
+    font-size: 20px !important;
+    line-height: 1 !important;
+    display: block;
+}
+        .theme-toggle-btn:hover {
+            color: var(--gray);
+        }
+        body.dark-mode .theme-toggle-btn { color: var(--border-color); }
+        body.dark-mode .theme-toggle-btn:hover { color: var(--gray); }
+
+        main {
+            grid-area: main;
+            padding: 0;
+        }
+        .main-content-wrapper {
+            /* opacity and transform handled by JS page load animation */
+        }
+
+
+        .coming-soon {
+            font-size: clamp(2rem, 7vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+            white-space: nowrap;
+            text-align: left;
+        }
+        .coming-soon .blinking-dot {
+             display: inline-block;
+             animation: blink 1.2s infinite;
+             margin-left: -0.12em; /* NEW consistent value */
+        }
+        .message {
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            font-weight: 300;
+            line-height: 1.7;
+            margin-bottom: 0;
+            text-align: left;
+        }
+
+        .sidebar { grid-area: sidebar; padding-top: 0; }
+        .toggle-section { margin-bottom: 20px; }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+
+            /* Core change for full-width border on mobile */
+            position: relative; /* Optional, if z-index or specific layering were needed, but good for context */
+            width: calc(100% + 40px); /* Expand by 20px padding on each side of .page-content-area */
+            margin-left: -20px;
+            margin-right: -20px;
+            padding: 10px 20px; /* padding-top/bottom from original, padding-left/right to compensate for negative margin */
+
+            font-size: 15px;
+            font-weight: 500;
+            text-align: left; /* Flex handles actual text alignment with justify-content */
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--black);
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+        .toggle-btn:hover { color: var(--gray); border-bottom-color: var(--gray); }
+
+        .toggle-content { max-height: 0; overflow: hidden; }
+        .toggle-content.show { /* Anime.js will set maxHeight */ }
+        .toggle-content .form-group,
+        .toggle-content input,
+        .toggle-content textarea,
+        .toggle-content button[type="submit"] {
+            opacity: 0;
+        }
+
+        .form-group { margin: 15px 0; }
+        .input-button-group { display: flex; align-items: flex-end; margin-top: 15px; }
+        .input-button-group input[type="email"],
+        .input-button-group textarea {
+            flex-grow: 1;
+            margin-right: 8px;
+            margin-bottom: 0;
+        }
+        .contact-message-group { align-items: stretch; }
+        .contact-message-group textarea { min-height: 80px; }
+
+        input, textarea {
+            width: 100%; padding: 10px 0;
+            background: none; border: none;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 15px;
+            color: var(--black); outline: none;
+            transition: border-color 0.3s ease; border-radius: 0;
+        }
+        body.dark-mode input, body.dark-mode textarea { color: var(--dark-text); }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus {
+            -webkit-text-fill-color: var(--black);
+            transition: background-color 5000s ease-in-out 0s;
+        }
+        body.dark-mode input:-webkit-autofill,
+        body.dark-mode input:-webkit-autofill:hover,
+        body.dark-mode input:-webkit-autofill:focus,
+        body.dark-mode textarea:-webkit-autofill,
+        body.dark-mode textarea:-webkit-autofill:hover,
+        body.dark-mode textarea:-webkit-autofill:focus {
+             -webkit-text-fill-color: var(--dark-text);
+        }
+        input:focus, textarea:focus { border-bottom-color: var(--gray); }
+        textarea { min-height: 80px; resize: vertical; }
+
+        button[type="submit"] {
+            background: none; border: none;
+            border-bottom: 1px solid var(--border-color);
+            padding: 8px 0;
+            font-size: 15px;
+            font-weight: 500; cursor: pointer;
+            color: var(--button-text-color);
+            transition: color 0.3s ease, border-color 0.3s ease;
+            border-radius: 0; text-align: center;
+            line-height: 1.4; display: inline-block;
+        }
+        .input-button-group button[type="submit"] {
+            margin-top: 0; flex-shrink: 0;
+            align-self: flex-end;
+            padding: 8px 12px;
+        }
+        button[type="submit"]:hover {
+            color: var(--gray);
+            border-bottom-color: var(--gray);
+            background-color: transparent;
+        }
+
+        footer {
+            /* text-align: left; */ /* Removed */
+            padding: 20px 20px 20px 20px;
+            font-size: 9px; /* REDUCED for mobile */
+            line-height: 1.4; /* Adjusted for smaller font */
+            color: var(--gray);
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+        /* Removed redundant body.dark-mode footer rule */
+        footer p {
+            margin-bottom: 5px;
+            text-align: justify; /* Added */
+        }
+
+        /* Gamified CAPTCHA Styles */
+        .captcha-grid-cell {
+            aspect-ratio: 1 / 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(1.8rem, 5vw, 2.2rem);
+            font-weight: 500;
+            color: var(--black);
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px solid var(--border-color); /* Consistent with form input styling */
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+            border-radius: 4px 4px 0 0; /* Slight radius on top if desired */
+        }
+        .captcha-grid-cell:hover {
+            background-color: var(--light-gray);
+        }
+        .captcha-grid-cell.selected {
+            background-color: var(--black);
+            color: var(--white);
+            transform: scale(0.95);
+        }
+        .captcha-grid-cell.success {
+            background-color: #4CAF50; /* Green for success */
+            color: var(--white);
+        }
+        .captcha-grid-cell.error {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+
+        /* Dark Mode Styles for Gamified CAPTCHA */
+        body.dark-mode #gameCaptchaContainer {
+            background-color: var(--dark-bg);
+            border: 1px solid var(--border-color);
+        }
+        body.dark-mode #gameCaptchaTitle,
+        body.dark-mode #gameCaptchaFeedback {
+            color: var(--dark-text);
+        }
+        body.dark-mode .captcha-grid-cell {
+            color: var(--dark-text);
+            border-bottom: 2px solid var(--border-color);
+        }
+        body.dark-mode .captcha-grid-cell:hover {
+            background-color: #2a2a2a; /* Slightly lighter than dark-bg */
+        }
+        body.dark-mode .captcha-grid-cell.selected {
+            background-color: var(--light-gray);
+            color: var(--dark-bg);
+        }
+        body.dark-mode .captcha-grid-cell.success {
+            background-color: #66BB6A; /* Darker green for success in dark mode */
+            color: var(--dark-bg);
+        }
+        body.dark-mode #closeGameCaptcha {
+            color: var(--link-gray);
+        }
+
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .icon { /* This is for .toggle-btn .icon */
+            font-size: 20px !important; /* Standardized icon size */
+            line-height: 1 !important; /* Ensures tight vertical fit */
+            display: block; /* Helps some icon fonts render consistently */
+            transition: transform 0.3s ease;
+        }
+
+        @media (min-width: 768px) {
+            .page-content-area {
+                padding: 40px 60px;
+                grid-template-columns: 1fr minmax(auto, 320px);
+                grid-template-rows: auto 1fr;
+                grid-template-areas:
+                    "header header"
+                    "main sidebar";
+                gap: 0 40px;
+            }
+            header { padding-bottom: 30px; }
+            header::after {
+                display: none; /* Remove the full-width line on desktop */
+            }
+            main {
+                padding-right: 0;
+                padding-top: 0;
+                align-self: start;
+            }
+             main > .main-content-wrapper {
+                margin: 0;
+                max-width: none;
+            }
+            .sidebar {
+                padding-top: 0;
+                margin-left: 0;
+                align-self: start;
+            }
+            /* Inside @media (min-width: 768px) */
+            .toggle-btn {
+                width: 100%; /* Reset to 100% of its container (the sidebar) */
+                margin-left: 0;
+                margin-right: 0;
+                padding: 10px 0; /* Restore original padding for desktop if content alignment needs it */
+                /* The border-bottom will now correctly be 100% of the sidebar column width */
+            }
+
+            .coming-soon {
+                font-size: clamp(2.8rem, 6vw, 4.0rem);
+                margin-bottom: 30px; /* Adjusted margin for desktop */
+            }
+            .message { font-size: clamp(1rem, 2vw, 1.1rem);  }
+            #intro-sequence-container { font-size: clamp(4rem, 15vw, 10rem); }
+            #intro-coming-soon { font-size: clamp(2rem, 7vw, 4.5rem); }
+
+            footer {
+                padding: 20px 60px; /* Align with .page-content-area horizontal padding */
+                font-size: 10px; /* Restore for desktop */
+                line-height: 1.5; /* Restore for desktop */
+            }
+        }
+        @media (min-width: 1024px) {
+            .page-content-area {
+                 gap: 0 50px;
+            }
+             .sidebar {
+                min-width: 340px;
+            }
+        }
+        .blinking-dot-intro {
+            animation: blink 1.2s infinite; /* Assuming 'blink' animation is defined */
+        }
+
+    </style>
+</head>
+<body>
+    <div id="intro-animation-overlay">
+        <div id="intro-sequence-container">
+            <span class="intro-char" id="char-7">7</span>
+            <span class="intro-char" id="char-0">0</span>
+            <span class="intro-char" id="char-2">2</span>
+            <span class="intro-text-group" id="text-702">702</span>
+            <span class="intro-text-group" id="text-702-studio">702.studio</span>
+        </div>
+        <h1 id="intro-coming-soon">COMING SOON<span class="blinking-dot">.</span></h1>
+    </div>
+
+    <div id="page-wrapper">
+        <div class="page-content-area">
+            <header>
+                <a href="#" class="logo">702.studio</a>
+                <button type="button" class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                    <i class="ri-sun-line"></i>
+                </button>
+            </header>
+
+            <main>
+                <div class="main-content-wrapper">
+                    <h1 class="coming-soon word-animation-target">COMING SOON<span class="blinking-dot">.</span></h1>
+                    <p class="message word-animation-target">Our website is currently under construction. We are working on exciting developments and will be back with a fresh look and new projects soon.</p>
+                    <div class="direct-mail-info-section">
+                        <span class="direct-mail-label">Direct mail <i class="ri-arrow-right-s-line"></i></span>
+                        <div class="email-container">
+                            <span class="email-address-text" id="emailToCopy">support@702.studio</span>
+                            <button type="button" class="copy-email-btn" onclick="copyEmailToClipboard()" aria-label="Copy email address">
+                                <i class="ri-file-copy-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!--
+        IMPORTANT: Form functionality (Newsletter and Contact) requires backend setup.
+        Emails are intended to be sent from support@702.studio and should be forwarded
+        to tolgaozisik@gmail.com. See backend_requirements.txt for details.
+    -->
+            <div class="sidebar">
+                <div class="toggle-section">
+                    <button type="button" class="toggle-btn" onclick="toggleSection('newsletter', this)" aria-expanded="false" aria-controls="newsletter-content">
+                        Newsletter
+                        <i class="icon ri-add-line"></i>
+                    </button>
+                    <div id="newsletter-content" class="toggle-content">
+                        <form onsubmit="handleFormSubmit(event, 'Your subscription has been received!')">
+                            <div class="form-group input-button-group">
+                                <input type="email" placeholder="Your email address" required autocomplete="email">
+                                <button type="submit">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="toggle-section">
+                    <button type="button" class="toggle-btn" onclick="toggleSection('contact', this)" aria-expanded="false" aria-controls="contact-content">
+                        Contact
+                        <i class="icon ri-add-line"></i>
+                    </button>
+                    <div id="contact-content" class="toggle-content">
+                        <form onsubmit="handleFormSubmit(event, 'Your message has been sent!')">
+                            <div class="form-group">
+                                <input type="text" placeholder="Your Name" required autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" placeholder="Your Email" required autocomplete="email">
+                            </div>
+                            <div class="form-group input-button-group contact-message-group">
+                                <textarea placeholder="Your Message" required></textarea>
+                                <button type="submit">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 702.studio. All rights reserved.</p>
+            <p>For works displayed on this site for promotional purposes, all related brand and intellectual property rights belong to their respective owners, while 702.studio reserves the right to showcase its own original contribution to these projects in its portfolio. Unauthorized use of 702.studio's website content is prohibited.</p>
+        </footer>
+    </div>
+
+    <div id="notification" style="display:none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: var(--black); color: var(--white); padding: 15px 25px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; font-size: 16px;">
+    </div>
+
+    <div id="gameCaptchaModal" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.75); z-index: 2000; justify-content: center; align-items: center; flex-direction: column;">
+        <div id="gameCaptchaContainer" style="background-color: var(--white); padding: 25px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); text-align: center; max-width: 320px; width: 90%; position: relative;">
+            <h3 id="gameCaptchaTitle" style="margin-top: 0; margin-bottom: 10px; font-weight: 500; font-size: 18px;">Select 7 - 0 - 2 in order</h3>
+            <p id="gameCaptchaFeedback" style="margin-bottom: 15px; font-size: 14px; min-height: 20px; color: var(--black);"></p>
+            <div id="gameCaptchaGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
+                <!-- Grid cells will be generated by JavaScript -->
+            </div>
+            <button type="button" id="closeGameCaptcha" style="background-color: transparent; color: var(--gray); border: none; cursor: pointer; position: absolute; top: 10px; right: 10px; font-size: 20px; padding: 5px; line-height: 1;">
+                <i class="ri-close-line"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+    <script>
+        // Gamified CAPTCHA variables
+        let gameCaptchaOriginalFormEvent = null;
+        let gameCaptchaOriginalSuccessMessage = '';
+        const gameCaptchaSequence = [7, 0, 2];
+        let gameCaptchaCurrentUserSequence = [];
+        let gameCaptchaNumbers = []; // Will hold the shuffled numbers for the grid
+
+        // DOM elements for Game CAPTCHA (might be better to query these in DOMContentLoaded)
+        // However, script is at the end of body, so they should exist when script runs.
+        // Let's define them here for now as per plan, and can refine if needed.
+        const gameCaptchaModal = document.getElementById('gameCaptchaModal');
+        const gameCaptchaGrid = document.getElementById('gameCaptchaGrid');
+        const gameCaptchaFeedback = document.getElementById('gameCaptchaFeedback');
+        const gameCaptchaTitle = document.getElementById('gameCaptchaTitle');
+
+
+        function wrapCharactersForIntro(element, isStudio = false) {
+            if (!element) return [];
+            const text = element.textContent;
+            element.innerHTML = ''; // Clear existing content
+            const characters = [];
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const span = document.createElement('span');
+                span.textContent = char;
+                span.style.display = 'inline-block';
+                span.style.opacity = '0'; // Initial state for animation
+                span.style.transform = 'translateY(10px)'; // Initial state for animation
+                if (isStudio && char === '.') {
+                    span.classList.add('blinking-dot-intro'); // Special class for the dot in "702.studio"
+                }
+                element.appendChild(span);
+                characters.push(span);
+            }
+            return characters;
+        }
+
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const body = document.body;
+        const themeIcon = themeToggleBtn.querySelector('i');
+
+        function applyTheme(theme, isDuringIntro = false) {
+            const oldTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+            if (theme === 'dark') {
+                body.classList.add('dark-mode');
+                if(themeIcon) {
+                    themeIcon.classList.remove('ri-sun-line');
+                    themeIcon.classList.add('ri-moon-line');
+                    themeToggleBtn.setAttribute('aria-label', 'Activate Light Theme');
+                }
+            } else {
+                body.classList.remove('dark-mode');
+                 if(themeIcon) {
+                    themeIcon.classList.remove('ri-moon-line');
+                    themeIcon.classList.add('ri-sun-line');
+                    themeToggleBtn.setAttribute('aria-label', 'Activate Dark Theme');
+                }
+            }
+
+            const introOverlay = document.getElementById('intro-animation-overlay');
+            if (introOverlay && (getComputedStyle(introOverlay).display !== 'none' || isDuringIntro)) {
+                 const introTextElements = [
+                    document.getElementById('char-7'), document.getElementById('char-0'), document.getElementById('char-2'),
+                    document.getElementById('text-702'),
+                    document.getElementById('text-702-studio'),
+                    document.getElementById('intro-coming-soon')
+                ];
+                const targetBgColor = body.classList.contains('dark-mode') ?
+                    getComputedStyle(document.documentElement).getPropertyValue('--intro-bg-dark').trim() :
+                    getComputedStyle(document.documentElement).getPropertyValue('--intro-bg-light').trim();
+                introOverlay.style.backgroundColor = targetBgColor;
+
+                const targetTextColor = body.classList.contains('dark-mode') ?
+                    getComputedStyle(document.documentElement).getPropertyValue('--intro-text-dark').trim() :
+                    getComputedStyle(document.documentElement).getPropertyValue('--intro-text-light').trim();
+                introTextElements.forEach(el => { if(el) el.style.color = targetTextColor; });
+            }
+        }
+
+        const initialUserTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        applyTheme(initialUserTheme, true);
+
+        themeToggleBtn.addEventListener('click', () => {
+            let newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        });
+
+        function wrapWords(selector) {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(el => {
+                let currentText = "";
+                const newChildren = [];
+                el.childNodes.forEach(childNode => {
+                    if (childNode.nodeType === Node.TEXT_NODE && childNode.textContent.trim().length > 0) {
+                        currentText += childNode.textContent;
+                    } else if (childNode.nodeType === Node.ELEMENT_NODE) {
+                        if (currentText.trim().length > 0) {
+                            const words = currentText.trim().split(/\s+/);
+                            words.forEach(word => {
+                                const span = document.createElement('span');
+                                span.textContent = word;
+                                newChildren.push(span);
+                                newChildren.push(document.createTextNode(' '));
+                            });
+                            currentText = "";
+                        }
+                        newChildren.push(childNode.cloneNode(true));
+                    }
+                });
+                if (currentText.trim().length > 0) {
+                     const words = currentText.trim().split(/\s+/);
+                     words.forEach(word => {
+                        const span = document.createElement('span');
+                        span.textContent = word;
+                        newChildren.push(span);
+                        newChildren.push(document.createTextNode(' '));
+                    });
+                }
+
+                el.innerHTML = '';
+                newChildren.forEach(newChild => {
+                    if (newChild.nodeName === "SPAN" && !newChild.classList.contains("blinking-dot")) {
+                        newChild.style.display = 'inline-block';
+                        newChild.style.opacity = 0;
+                        newChild.style.transform = 'translateY(10px)';
+                    }
+                    el.appendChild(newChild);
+                });
+            });
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const introOverlayEl = document.getElementById('intro-animation-overlay');
+            const pageWrapper = document.getElementById('page-wrapper');
+
+            const closeGameCaptchaButton = document.getElementById('closeGameCaptcha');
+            if (closeGameCaptchaButton) { // Check if button exists before adding listener
+                closeGameCaptchaButton.addEventListener('click', () => {
+                    if(gameCaptchaModal) gameCaptchaModal.style.display = 'none';
+                    gameCaptchaOriginalFormEvent = null;
+                    gameCaptchaOriginalSuccessMessage = '';
+                });
+            }
+
+            const char7 = document.getElementById('char-7');
+            const char0 = document.getElementById('char-0');
+            const char2 = document.getElementById('char-2');
+            const text702Element = document.getElementById('text-702');
+            const text702StudioElement = document.getElementById('text-702-studio');
+            const introComingSoon = document.getElementById('intro-coming-soon');
+
+            const text702Chars = wrapCharactersForIntro(text702Element);
+            const text702StudioChars = wrapCharactersForIntro(text702StudioElement, true);
+
+            wrapWords('.coming-soon.word-animation-target');
+            wrapWords('.message.word-animation-target');
+
+            // Durations for quick-cut feel (adjust as needed)
+            const D_CHAR_APPEAR = 150; // Duration for individual 7, 0, 2 to appear
+            const D_CHAR_STAY = 100;   // How long 7, 0, 2 stay visible
+            const D_CHAR_FADE = 100;   // Duration for 7, 0, 2 to fade
+
+            const D_GROUP_STAGGER = 30; // Stagger for characters in "702", "702.studio"
+            const D_GROUP_CHAR_ANIM = 250; // Duration for each char in a group to animate in
+            const D_GROUP_STAY = 200;    // How long the group "702" or "702.studio" stays
+            const D_GROUP_FADE_STAGGER = 20;
+            const D_GROUP_FADE_ANIM = 150;
+
+            const D_CS_ANIM = 400; // Duration for "COMING SOON"
+            const D_CS_STAY = 800; // How long "COMING SOON" stays
+
+            const introTimeline = anime.timeline({
+                easing: 'easeOutQuad', // Default easing
+                complete: () => { // THIS IS THE PRESERVED COMPLETION LOGIC FROM USER'S CODE
+                    anime({
+                        targets: introOverlayEl,
+                        opacity: [1, 0],
+                        duration: 300,
+                        easing: 'easeInOutQuad',
+                        complete: () => {
+                            introOverlayEl.style.display = 'none';
+                            const pageElementsTimeline = anime.timeline({
+                                easing: 'easeOutCubic',
+                            });
+                            pageElementsTimeline
+                                .add({
+                                    targets: '#page-wrapper',
+                                    opacity: [0, 1],
+                                    duration: 50
+                                })
+                                .add({
+                                    targets: '.page-content-area > header', // Animate the header block
+                                    opacity: [0, 1],
+                                    translateY: ['15px', '0px'],
+                                    duration: 250
+                                }, 0) // Start header animation with page-wrapper opacity
+                                .add({
+                                    targets: ['.page-content-area > header .logo', '.page-content-area > header .theme-toggle-btn'], // Animate logo and button
+                                    opacity: [0, 1],
+                                    translateY: ['10px', '0px'],
+                                    duration: 200,
+                                    delay: anime.stagger(40)
+                                }, '-=150') // Start relative to previous animation's start
+                                .add({
+                                    targets: '.page-content-area > main > .main-content-wrapper',
+                                    opacity: [0, 1], translateY: ['15px', '0px'], duration: 250,
+                                }, '-=100')
+                                .add({
+                                    targets: '.main-content-wrapper .coming-soon.word-animation-target span',
+                                    opacity: [0,1], translateY: ['15px', '0px'], duration: 200, delay: anime.stagger(25, {easing: 'easeOutSine'})
+                                }, '-=100')
+                                .add({
+                                    targets: '.main-content-wrapper .message.word-animation-target span',
+                                    opacity: [0,1], translateY: ['10px', '0px'], duration: 150, delay: anime.stagger(8, {easing: 'easeOutSine'})
+                                }, '-=100')
+                                .add({
+                                    targets: '.page-content-area > main .direct-mail-info-section',
+                                    opacity: [0,1], translateY: ['15px', '0px'], duration: 250
+                                }, '-=50')
+                                .add({
+                                    targets: '.page-content-area > .sidebar > .toggle-section',
+                                    opacity: [0,1], translateY: ['15px', '0px'], duration: 250, delay: anime.stagger(50, {easing: 'easeOutCubic'})
+                                }, '-=50')
+                                .add({
+                                    targets: '#page-wrapper > footer',
+                                    opacity: [0,1], translateY: ['15px', '0px'], duration: 250
+                                }, '-=100');
+                        }
+                    });
+                }
+            });
+
+            // Build the new timeline
+            introTimeline
+                // 7
+                .add({ targets: char7, opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1], duration: D_CHAR_APPEAR, begin: () => char7.style.display = 'inline-block' })
+                .add({ targets: char7, opacity: 0, duration: D_CHAR_FADE, delay: D_CHAR_STAY, complete: () => char7.style.display = 'none' })
+                // 0
+                .add({ targets: char0, opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1], duration: D_CHAR_APPEAR, begin: () => char0.style.display = 'inline-block' })
+                .add({ targets: char0, opacity: 0, duration: D_CHAR_FADE, delay: D_CHAR_STAY, complete: () => char0.style.display = 'none' })
+                // 2
+                .add({ targets: char2, opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1], duration: D_CHAR_APPEAR, begin: () => char2.style.display = 'inline-block' })
+                .add({ targets: char2, opacity: 0, duration: D_CHAR_FADE, delay: D_CHAR_STAY, complete: () => char2.style.display = 'none' })
+
+                // 702 (character by character)
+                .add({
+                    targets: text702Chars,
+                    opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1],
+                    duration: D_GROUP_CHAR_ANIM,
+                    delay: anime.stagger(D_GROUP_STAGGER),
+                    begin: () => {
+                        text702Element.style.display = 'inline-block';
+                        text702Element.style.opacity = '1'; // Ensure parent group is visible
+                    }
+                })
+                .add({
+                    targets: text702Chars,
+                    opacity: 0,
+                    duration: D_GROUP_FADE_ANIM,
+                    delay: anime.stagger(D_GROUP_FADE_STAGGER, {from: 'last', start: D_GROUP_STAY}),
+                    complete: () => text702Element.style.display = 'none'
+                })
+
+                // 702.studio (character by character)
+                .add({
+                    targets: text702StudioChars,
+                    opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1],
+                    duration: D_GROUP_CHAR_ANIM,
+                    delay: anime.stagger(D_GROUP_STAGGER),
+                    begin: () => {
+                        text702StudioElement.style.display = 'inline-block';
+                        text702StudioElement.style.opacity = '1'; // Ensure parent group is visible
+                        // Theme switch logic from user's original code
+                        const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                        applyTheme(currentTheme === 'dark' ? 'light' : 'dark', true);
+                    }
+                })
+                .add({
+                    targets: text702StudioChars,
+                    opacity: 0,
+                    duration: D_GROUP_FADE_ANIM,
+                    delay: anime.stagger(D_GROUP_FADE_STAGGER, {from: 'last', start: D_GROUP_STAY + 200}), // Stay a bit longer
+                    complete: () => text702StudioElement.style.display = 'none'
+                })
+
+                // COMING SOON (already an H1, animate as a block or quick word stagger)
+                // Using existing wrapWords for this one if desired, or simplify
+                // For simplicity and speed, let's animate it as one block:
+                .add({
+                    targets: introComingSoon,
+                    opacity: [0,1],
+                    translateY: ['15px', '0px'],
+                    duration: D_CS_ANIM,
+                    begin: () => {
+                         // Ensure theme is back to user's preferred for "Coming Soon" text
+                        const userTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                        applyTheme(userTheme, true);
+                        introComingSoon.style.display = 'block'; // Or inline-block
+                    }
+                })
+                .add({ duration: D_CS_STAY }); // Hold before completing timeline
+
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        });
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function generateCaptchaGrid() {
+            gameCaptchaGrid.innerHTML = ''; // Clear previous grid
+            gameCaptchaNumbers = shuffleArray([...Array(9).keys()]); // Numbers 0-8 shuffled
+            gameCaptchaNumbers.forEach(num => {
+                const cell = document.createElement('button');
+                cell.type = 'button'; // Important for forms
+                cell.classList.add('captcha-grid-cell');
+                cell.textContent = num;
+                cell.addEventListener('click', () => handleGameCaptchaCellClick(num, cell));
+                gameCaptchaGrid.appendChild(cell);
+            });
+            gameCaptchaCurrentUserSequence = [];
+            if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = ''; // Check if element exists
+            if(gameCaptchaTitle) gameCaptchaTitle.textContent = 'Select 7 - 0 - 2 in order';
+
+            document.querySelectorAll('.captcha-grid-cell.error').forEach(c => c.classList.remove('error'));
+            document.querySelectorAll('.captcha-grid-cell.success').forEach(c => c.classList.remove('success'));
+            document.querySelectorAll('.captcha-grid-cell.selected').forEach(c => c.classList.remove('selected'));
+        }
+
+        function handleGameCaptchaCellClick(numberClicked, cellElement) {
+            if (gameCaptchaCurrentUserSequence.length >= gameCaptchaSequence.length) return;
+
+            cellElement.classList.add('selected');
+            gameCaptchaCurrentUserSequence.push(numberClicked);
+
+            const expectedNumber = gameCaptchaSequence[gameCaptchaCurrentUserSequence.length - 1];
+
+            if (numberClicked === expectedNumber) {
+                if (gameCaptchaCurrentUserSequence.length === gameCaptchaSequence.length) {
+                    if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = 'Success!';
+                    if(gameCaptchaTitle) gameCaptchaTitle.textContent = 'Verified!';
+                    document.querySelectorAll('.captcha-grid-cell.selected').forEach(c => {
+                        c.classList.remove('selected');
+                        c.classList.add('success');
+                    });
+                    if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'none';
+
+                    setTimeout(() => {
+                        if(gameCaptchaModal) gameCaptchaModal.style.display = 'none';
+                        if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'auto';
+
+                        const form = gameCaptchaOriginalFormEvent.target;
+                        showNotification(gameCaptchaOriginalSuccessMessage);
+                        form.reset();
+                        gameCaptchaOriginalFormEvent = null;
+                        gameCaptchaOriginalSuccessMessage = '';
+                    }, 800);
+                } else {
+                    if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = `Next: ${gameCaptchaSequence[gameCaptchaCurrentUserSequence.length]}`;
+                }
+            } else {
+                if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = 'Incorrect. Try again.';
+                cellElement.classList.add('error');
+                if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'none';
+
+                setTimeout(() => {
+                    generateCaptchaGrid();
+                    if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'auto';
+                }, 1000);
+            }
+        }
+
+        // New handleFormSubmit
+        function handleFormSubmit(event, message) {
+            event.preventDefault();
+            gameCaptchaOriginalFormEvent = event;
+            gameCaptchaOriginalSuccessMessage = message;
+
+            generateCaptchaGrid(); // Ensure grid is ready
+            if(gameCaptchaModal) gameCaptchaModal.style.display = 'flex';
+        }
+
+        function toggleSection(idPrefix, buttonElement) {
+            const content = document.getElementById(idPrefix + '-content');
+            const icon = buttonElement.querySelector('.icon');
+            const isExpanded = content.classList.contains('show');
+
+            const formElements = content.querySelectorAll('.form-group, input, textarea, button[type="submit"]');
+
+            const DURATION_CONTENT = 300;
+            const DURATION_ELEMENTS = 250;
+            const STAGGER_ELEMENTS_OPEN = 25;
+            const STAGGER_ELEMENTS_CLOSE = 10;
+            const EASING_CONTENT = 'easeInOutSine';
+            const EASING_ELEMENTS_OPEN = 'easeOutSine';
+            const EASING_ELEMENTS_CLOSE = 'easeInSine';
+            const TRANSLATE_Y_ELEMENTS = '8px';
+
+            if (isExpanded) {
+                const tl = anime.timeline({ easing: EASING_ELEMENTS_CLOSE });
+                tl.add({
+                    targets: formElements,
+                    opacity: [1, 0],
+                    translateY: ['0px', '-' + TRANSLATE_Y_ELEMENTS],
+                    duration: DURATION_ELEMENTS,
+                    delay: anime.stagger(STAGGER_ELEMENTS_CLOSE, {direction: 'reverse'})
+                })
+                .add({
+                    targets: content,
+                    maxHeight: 0,
+                    duration: DURATION_CONTENT,
+                    easing: EASING_CONTENT,
+                    complete: () => {
+                        content.classList.remove('show');
+                        formElements.forEach(el => { el.style.opacity = 0; el.style.transform = `translateY(-${TRANSLATE_Y_ELEMENTS})`; });
+                    }
+                }, `-=${DURATION_ELEMENTS - 40}`);
+
+                if (icon) {
+                    icon.classList.remove('ri-close-line');
+                    icon.classList.add('ri-add-line');
+                }
+                buttonElement.setAttribute('aria-expanded', 'false');
+
+            } else {
+                content.classList.add('show');
+                const contentScrollHeight = content.scrollHeight;
+                formElements.forEach(el => {
+                    el.style.opacity = 0;
+                    el.style.transform = `translateY(-${TRANSLATE_Y_ELEMENTS})`;
+                });
+
+                const tl = anime.timeline({ easing: EASING_ELEMENTS_OPEN });
+                tl.add({
+                    targets: content,
+                    maxHeight: [0, contentScrollHeight + 'px'],
+                    duration: DURATION_CONTENT,
+                    easing: EASING_CONTENT,
+                })
+                .add({
+                    targets: formElements,
+                    opacity: [0, 1],
+                    translateY: ['-' + TRANSLATE_Y_ELEMENTS, '0px'],
+                    duration: DURATION_ELEMENTS,
+                    delay: anime.stagger(STAGGER_ELEMENTS_OPEN)
+                }, `-=${DURATION_CONTENT - 80}`);
+
+                if (icon) {
+                    icon.classList.remove('ri-add-line');
+                    icon.classList.add('ri-close-line');
+                }
+                buttonElement.setAttribute('aria-expanded', 'true');
+            }
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function generateCaptchaGrid() {
+            if(!gameCaptchaGrid) return; // Ensure grid element exists
+            gameCaptchaGrid.innerHTML = '';
+            gameCaptchaNumbers = shuffleArray([...Array(9).keys()]);
+            gameCaptchaNumbers.forEach(num => {
+                const cell = document.createElement('button');
+                cell.type = 'button';
+                cell.classList.add('captcha-grid-cell');
+                cell.textContent = num;
+                cell.addEventListener('click', () => handleGameCaptchaCellClick(num, cell));
+                gameCaptchaGrid.appendChild(cell);
+            });
+            gameCaptchaCurrentUserSequence = [];
+            if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = '';
+            if(gameCaptchaTitle) gameCaptchaTitle.textContent = 'Select 7 - 0 - 2 in order';
+
+            document.querySelectorAll('.captcha-grid-cell.error').forEach(c => c.classList.remove('error'));
+            document.querySelectorAll('.captcha-grid-cell.success').forEach(c => c.classList.remove('success'));
+            document.querySelectorAll('.captcha-grid-cell.selected').forEach(c => c.classList.remove('selected'));
+        }
+
+        function handleGameCaptchaCellClick(numberClicked, cellElement) {
+            if (gameCaptchaCurrentUserSequence.length >= gameCaptchaSequence.length) return;
+
+            cellElement.classList.add('selected');
+            gameCaptchaCurrentUserSequence.push(numberClicked);
+
+            const expectedNumber = gameCaptchaSequence[gameCaptchaCurrentUserSequence.length - 1];
+
+            if (numberClicked === expectedNumber) {
+                if (gameCaptchaCurrentUserSequence.length === gameCaptchaSequence.length) {
+                    if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = 'Success!';
+                    if(gameCaptchaTitle) gameCaptchaTitle.textContent = 'Verified!';
+                    document.querySelectorAll('.captcha-grid-cell.selected').forEach(c => {
+                        c.classList.remove('selected');
+                        c.classList.add('success');
+                    });
+                    if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'none';
+
+                    setTimeout(() => {
+                        if(gameCaptchaModal) gameCaptchaModal.style.display = 'none';
+                        if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'auto';
+
+                        if (gameCaptchaOriginalFormEvent && gameCaptchaOriginalFormEvent.target) {
+                            const form = gameCaptchaOriginalFormEvent.target;
+                            showNotification(gameCaptchaOriginalSuccessMessage);
+                            form.reset();
+                        }
+                        gameCaptchaOriginalFormEvent = null;
+                        gameCaptchaOriginalSuccessMessage = '';
+                    }, 800);
+                } else {
+                    if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = `Next: ${gameCaptchaSequence[gameCaptchaCurrentUserSequence.length]}`;
+                }
+            } else {
+                if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = 'Incorrect. Try again.';
+                cellElement.classList.add('error');
+                if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'none';
+
+                setTimeout(() => {
+                    generateCaptchaGrid();
+                    if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'auto';
+                }, 1000);
+            }
+        }
+
+        function handleFormSubmit(event, message) {
+            event.preventDefault();
+            gameCaptchaOriginalFormEvent = event;
+            gameCaptchaOriginalSuccessMessage = message;
+
+            generateCaptchaGrid();
+            if(gameCaptchaModal) gameCaptchaModal.style.display = 'flex';
+        }
+
+        function copyEmailToClipboard() {
+            const emailText = document.getElementById('emailToCopy').innerText;
+            const textArea = document.createElement("textarea");
+            textArea.value = emailText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showNotification('Email copied to clipboard!');
+            } catch (err) {
+                console.error('Failed to copy email: ', err);
+                showNotification('Failed to copy email.');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function showNotification(message) {
+             const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            if(document.body.classList.contains('dark-mode')){
+                notification.style.backgroundColor = 'var(--light-gray)';
+                notification.style.color = 'var(--dark-bg)';
+            } else {
+                notification.style.backgroundColor = 'var(--black)';
+                notification.style.color = 'var(--white)';
+            }
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
