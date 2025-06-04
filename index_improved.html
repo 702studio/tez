@@ -1122,7 +1122,6 @@
                 requestAnimationFrame(() => gameCaptchaModal.classList.add("show"));
             }
         }
-        }
 
         function toggleSection(idPrefix, buttonElement) {
             const content = document.getElementById(idPrefix + '-content');
@@ -1197,91 +1196,6 @@
             }
         }
 
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        function generateCaptchaGrid() {
-            if(!gameCaptchaGrid) return; // Ensure grid element exists
-            gameCaptchaGrid.innerHTML = '';
-            gameCaptchaNumbers = shuffleArray([...Array(9).keys()]);
-            gameCaptchaNumbers.forEach(num => {
-                const cell = document.createElement('button');
-                cell.type = 'button';
-                cell.classList.add('captcha-grid-cell');
-                cell.textContent = num;
-                cell.addEventListener('click', () => handleGameCaptchaCellClick(num, cell));
-                gameCaptchaGrid.appendChild(cell);
-            });
-            gameCaptchaCurrentUserSequence = [];
-            if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = '';
-            if(gameCaptchaTitle) gameCaptchaTitle.textContent = 'Tap 7 → 0 → 2 in sequence';
-
-            document.querySelectorAll('.captcha-grid-cell.error').forEach(c => c.classList.remove('error'));
-            document.querySelectorAll('.captcha-grid-cell.success').forEach(c => c.classList.remove('success'));
-            document.querySelectorAll('.captcha-grid-cell.selected').forEach(c => c.classList.remove('selected'));
-        }
-
-        function handleGameCaptchaCellClick(numberClicked, cellElement) {
-            if (gameCaptchaCurrentUserSequence.length >= gameCaptchaSequence.length) return;
-
-            cellElement.classList.add('selected');
-            gameCaptchaCurrentUserSequence.push(numberClicked);
-
-            const expectedNumber = gameCaptchaSequence[gameCaptchaCurrentUserSequence.length - 1];
-
-            if (numberClicked === expectedNumber) {
-                if (gameCaptchaCurrentUserSequence.length === gameCaptchaSequence.length) {
-                    if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = 'Success!';
-                    if(gameCaptchaTitle) gameCaptchaTitle.textContent = 'Verified!';
-                    document.querySelectorAll('.captcha-grid-cell.selected').forEach(c => {
-                        c.classList.remove('selected');
-                        c.classList.add('success');
-                    });
-                    if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'none';
-
-                    setTimeout(() => {
-                        if(gameCaptchaModal) gameCaptchaModal.classList.remove("show"); setTimeout(() => { gameCaptchaModal.style.display = "none"; }, 300);
-                        if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'auto';
-
-                        if (gameCaptchaOriginalFormEvent && gameCaptchaOriginalFormEvent.target) {
-                            const form = gameCaptchaOriginalFormEvent.target;
-                            showNotification(gameCaptchaOriginalSuccessMessage);
-                            form.reset();
-                        }
-                        gameCaptchaOriginalFormEvent = null;
-                        gameCaptchaOriginalSuccessMessage = '';
-                    }, 800);
-                } else {
-                    if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = `Next: ${gameCaptchaSequence[gameCaptchaCurrentUserSequence.length]}`;
-                }
-            } else {
-                if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = 'Incorrect. Try again.';
-                cellElement.classList.add('error');
-                if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'none';
-
-                setTimeout(() => {
-                    generateCaptchaGrid();
-                    if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'auto';
-                }, 1000);
-            }
-        }
-
-        function handleFormSubmit(event, message) {
-            event.preventDefault();
-            gameCaptchaOriginalFormEvent = event;
-            gameCaptchaOriginalSuccessMessage = message;
-            generateCaptchaGrid();
-            if(gameCaptchaModal){
-                gameCaptchaModal.style.display = "flex";
-                requestAnimationFrame(() => gameCaptchaModal.classList.add("show"));
-            }
-        }
-
         function copyEmailToClipboard() {
             const emailText = document.getElementById('emailToCopy').innerText;
             const textArea = document.createElement("textarea");
@@ -1313,6 +1227,7 @@
                 notification.style.display = 'none';
             }, 2000);
         }
+
     </script>
 </body>
 </html>
