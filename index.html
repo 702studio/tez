@@ -263,15 +263,6 @@ o the border */
             border-bottom-color: var(--border-color);
         }
 
-        @media (max-width: 767px) {
-            header {
-                align-items: flex-start;
-            }
-            header::after {
-                height: 0px;
-            }
-        }
-
         header::after {
             content: '';
             position: absolute;
@@ -284,6 +275,15 @@ ng .page-content-area padding */
             background-color: var(--border-color); /* Uses --black in light mode
  */
             opacity: 1; /* Increased opacity */
+        }
+
+        @media (max-width: 767px) {
+            header {
+                align-items: flex-start;
+            }
+            header::after {
+                height: 0px;
+            }
         }
 
         .theme-toggle-btn {
@@ -743,12 +743,16 @@ ined */
 
 /* Modal (gameCaptchaModal) Animations */
 #gameCaptchaModal { /* The overlay */
-    /* ... existing styles: position, top, left, width, height, background, z-index ... */
-    /* Change display from inline style to CSS for better control with classes */
     display: none; /* Hidden by default via CSS */
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
-    /* Ensure flex properties are here if they were removed from inline style */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.75);
+    z-index: 2000;
     justify-content: center;
     align-items: center; /* Default for web */
     flex-direction: column; /* Default for web */
@@ -910,9 +914,7 @@ r(--white); padding: 15px 25px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0
 ,0,0,0.2); z-index: 1000; font-size: 16px;">
     </div>
 
-    <div id="gameCaptchaModal" style="position: fixed; top: 0; lef
-t: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.75); z-index: 20
-00; justify-content: center; align-items: center; flex-direction: column;">
+    <div id="gameCaptchaModal">
         <div id="gameCaptchaContainer" style="background-color: var(--white); pa
 dding: 25px; border-radius: 0px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); text-al
 ign: center; max-width: 320px; width: 90%; position: relative;">
@@ -1373,17 +1375,17 @@ Each(c => {
 one';
 
                     setTimeout(() => {
-                        hideGameCaptcha(); // Use new function
-                        // if(gameCaptchaModal) gameCaptchaModal.style.display = 'n
-// one'; // Replaced by hideGameCaptcha()
+                        hideGameCaptcha();
                         if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents
 = 'auto';
 
-                        const form = gameCaptchaOriginalFormEvent.target;
-                        showNotification(gameCaptchaOriginalSuccessMessage);
-                        form.reset();
-                        gameCaptchaOriginalFormEvent = null;
-                        gameCaptchaOriginalSuccessMessage = '';
+                        // This part was already handled by hideGameCaptcha, but ensure form details are reset if they were part of original intent
+                        if (gameCaptchaOriginalFormEvent && gameCaptchaOriginalFormEvent.target) {
+                             const form = gameCaptchaOriginalFormEvent.target;
+                             showNotification(gameCaptchaOriginalSuccessMessage);
+                             form.reset();
+                        }
+                        // gameCaptchaOriginalFormEvent and gameCaptchaOriginalSuccessMessage are reset in hideGameCaptcha
                     }, 800);
                 } else {
                     if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = `N
@@ -1500,117 +1502,6 @@ yle.transform = `translateY(-${TRANSLATE_Y_ELEMENTS})`; });
                 buttonElement.setAttribute('aria-expanded', 'true');
             }
         }
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        function generateCaptchaGrid() {
-            if(!gameCaptchaGrid) return; // Ensure grid element exists
-            gameCaptchaGrid.innerHTML = '';
-            gameCaptchaNumbers = shuffleArray([...Array(9).keys()]);
-            gameCaptchaNumbers.forEach(num => {
-                const cell = document.createElement('button');
-                cell.type = 'button';
-                cell.classList.add('captcha-grid-cell');
-                cell.innerHTML = '<span>' + num + '</span>'; // Wrap number in span
-                cell.addEventListener('click', () => handleGameCaptchaCellClick(
-num, cell));
-                gameCaptchaGrid.appendChild(cell);
-            });
-            gameCaptchaCurrentUserSequence = [];
-            if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = '';
-            if(gameCaptchaTitle) gameCaptchaTitle.innerHTML = 'Please press the numbers in this order: 7 &rarr; 0 &rarr; 2'; // Updated text
-
-            document.querySelectorAll('.captcha-grid-cell.error').forEach(c => c
-.classList.remove('error'));
-            document.querySelectorAll('.captcha-grid-cell.success').forEach(c =>
- c.classList.remove('success'));
-            document.querySelectorAll('.captcha-grid-cell.selected').forEach(c =
-> c.classList.remove('selected'));
-        }
-
-        function handleGameCaptchaCellClick(numberClicked, cellElement) {
-            if (gameCaptchaCurrentUserSequence.length >= gameCaptchaSequence.len
-gth) return;
-
-            cellElement.classList.add('selected');
-            gameCaptchaCurrentUserSequence.push(numberClicked);
-
-            const expectedNumber = gameCaptchaSequence[gameCaptchaCurrentUserSeq
-uence.length - 1];
-
-            if (numberClicked === expectedNumber) {
-                if (gameCaptchaCurrentUserSequence.length === gameCaptchaSequenc
-e.length) {
-                    if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = 'S
-uccess!';
-                    if(gameCaptchaTitle) gameCaptchaTitle.textContent = 'Verifie
-d!';
-                    document.querySelectorAll('.captcha-grid-cell.selected').for
-Each(c => {
-                        c.classList.remove('selected');
-                        c.classList.add('success');
-                    });
-                    if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'n
-one';
-
-                    setTimeout(() => {
-                        if(gameCaptchaModal) gameCaptchaModal.style.display = 'n
-one';
-                        if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents
-= 'auto';
-
-                        if (gameCaptchaOriginalFormEvent && gameCaptchaOriginalF
-ormEvent.target) {
-                            const form = gameCaptchaOriginalFormEvent.target;
-                            showNotification(gameCaptchaOriginalSuccessMessage);
-                            form.reset();
-                        }
-                        // gameCaptchaOriginalFormEvent = null; // Moved to hideGameCaptcha
-                        // gameCaptchaOriginalSuccessMessage = ''; // Moved to hideGameCaptcha
-                    }, 800);
-                } else {
-                    if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = `N
-ext: ${gameCaptchaSequence[gameCaptchaCurrentUserSequence.length]}`;
-                }
-            } else {
-                if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = 'Incor
-rect. Try again.';
-                cellElement.classList.add('error');
-                if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'none'
-;
-
-                setTimeout(() => {
-                    generateCaptchaGrid();
-                    if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'a
-uto';
-                }, 1000);
-            }
-        }
-
-        function handleFormSubmit(event, message) {
-            event.preventDefault();
-            gameCaptchaOriginalFormEvent = event;
-            gameCaptchaOriginalSuccessMessage = message;
-
-            generateCaptchaGrid();
-            if(gameCaptchaModal) {
-                gameCaptchaModal.classList.add('modal-active');
-            }
-        }
-
-        //This function was defined earlier. Keep the earlier one.
-        //function hideGameCaptcha() {
-        //    if (!gameCaptchaModal) return;
-        //    gameCaptchaModal.classList.remove('modal-active');
-        //    gameCaptchaOriginalFormEvent = null;
-        //    gameCaptchaOriginalSuccessMessage = '';
-        //}
 
         function copyEmailToClipboard() {
             const emailText = document.getElementById('emailToCopy').innerText;
