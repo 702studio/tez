@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pseudo Border Example</title>
+<style>
+body { margin:0; font-family:Arial, sans-serif; }
+header {
+    padding:20px;
+    background:#f5f5f5;
+    position:relative;
+}
+header::after {
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:100%;
+    height:1px; /* acts like a full width border */
+    background:#000;
+}
+@media (max-width:600px) {
+    header { align-items:flex-start; }
+    header::after { height:0; } /* hide the border on small screens */
+}
+</style>
+</head>
+<body>
+<header>
+    Example Header
+</header>
+<p>Resize the browser window to see the border appear and disappear.</p>
+</body>
+</html>
