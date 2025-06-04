@@ -6,8 +6,10 @@
     <title>702.studio - Coming Soon</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300
+;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css
+" rel="stylesheet">
     <style>
         :root {
             --black: #000000;
@@ -67,7 +69,8 @@
 
         /* Initial animation state for page elements */
         .page-content-area > header,
-        .page-content-area > main > .main-content-wrapper, /* Animate the wrapper first */
+        .page-content-area > main > .main-content-wrapper, /* Animate the wrappe
+r first */
         .page-content-area > .sidebar > .toggle-section,
         .page-content-area > main .direct-mail-info-section,
         #page-wrapper > footer {
@@ -114,6 +117,8 @@
             font-size: clamp(2.5rem, 12vw, 8rem);
             color: var(--intro-text-light);
             margin-bottom: 20px;
+    width: 100%; /* Ensure full width for effective text-align */
+    text-align: center; /* Center text content */
         }
         body.dark-mode #intro-sequence-container {
             color: var(--intro-text-dark);
@@ -136,6 +141,8 @@
             opacity: 0;
             transform: translateY(15px);
             white-space: nowrap;
+            text-align: center; /* Ensure text itself is centered */
+    width: 100%; /* Ensure full width for effective text-align */
         }
         body.dark-mode #intro-coming-soon {
             color: var(--intro-text-dark);
@@ -143,7 +150,7 @@
         #intro-coming-soon .blinking-dot {
              animation: blink 1.2s infinite;
              display: inline-block;
-             margin-left: -0.08em;
+             margin-left: -0.12em; /* NEW consistent value */
         }
 
         body.dark-mode .logo,
@@ -187,7 +194,7 @@
         }
 
         .direct-mail-info-section {
-            margin-top: 35px;
+            margin-top: 60px; /* Adjusted margin */
             padding-bottom: 10px;
             text-align: left;
         }
@@ -234,7 +241,8 @@
 
         header {
             grid-area: header;
-            padding-bottom: 20px; /* This padding will be ABOVE the full-width line */
+            padding-bottom: 20px; /* This padding will be ABOVE the full-width l
+ine */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -244,26 +252,37 @@
             font-size: 18px;
             font-weight: 700;
             letter-spacing: 1px;
-            padding-bottom: 2px;
-            border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0 !important; /* Also remove padding that might be related t
+o the border */
+    border-bottom: none !important; /* ENSURE THIS IS APPLIED */
             display: inline-block;
+            text-decoration: none !important; /* Ensure no underline */
+    color: inherit !important; /* Ensure correct color inheritance */
         }
         body.dark-mode .logo {
             border-bottom-color: var(--border-color);
         }
 
         @media (max-width: 767px) {
-            header { align-items: flex-start; }
+            header {
+                align-items: flex-start;
+            }
+            header::after {
+                height: 0px;
+            }
         }
 
         header::after {
             content: '';
             position: absolute;
-            bottom: 0; /* Positioned at the very bottom of the header's padding area */
-            left: -20px; /* Extend to the left edge of the viewport, counteracting .page-content-area padding */
+            bottom: 0; /* Positioned at the very bottom of the header's padding
+area */
+            left: -20px; /* Extend to the left edge of the viewport, counteracti
+ng .page-content-area padding */
             width: calc(100% + 40px); /* Span full viewport width */
             height: 1px; /* Line thickness */
-            background-color: var(--border-color); /* Uses --black in light mode */
+            background-color: var(--border-color); /* Uses --black in light mode
+ */
             opacity: 1; /* Increased opacity */
         }
 
@@ -271,13 +290,22 @@
             background: none;
             border: none;
             color: var(--border-color);
-            padding: 7px;
+    padding: 0; /* Changed from 7px */
+    margin: 0; /* Explicitly set margin to 0 */
             font-size: 20px;
             cursor: pointer;
             border-radius: 5px;
             transition: color 0.3s ease;
-            line-height: 1;
+    line-height: 1; /* Good for icon centering */
+    display: inline-flex; /* Ensure icon is centered */
+    align-items: center;
+    justify-content: center;
         }
+.theme-toggle-btn i {
+    font-size: 20px !important;
+    line-height: 1 !important;
+    display: block;
+}
         .theme-toggle-btn:hover {
             color: var(--gray);
         }
@@ -304,7 +332,7 @@
         .coming-soon .blinking-dot {
              display: inline-block;
              animation: blink 1.2s infinite;
-             margin-left: -0.08em;
+             margin-left: -0.12em; /* NEW consistent value */
         }
         .message {
             font-size: clamp(0.9rem, 2.5vw, 1.1rem);
@@ -323,15 +351,19 @@
             border-bottom: 1px solid var(--border-color);
 
             /* Core change for full-width border on mobile */
-            position: relative; /* Optional, if z-index or specific layering were needed, but good for context */
-            width: calc(100% + 40px); /* Expand by 20px padding on each side of .page-content-area */
+            position: relative; /* Optional, if z-index or specific layering wer
+e needed, but good for context */
+            width: calc(100% + 40px); /* Expand by 20px padding on each side of
+.page-content-area */
             margin-left: -20px;
             margin-right: -20px;
-            padding: 10px 20px; /* padding-top/bottom from original, padding-left/right to compensate for negative margin */
+            padding: 10px 20px; /* padding-top/bottom from original, padding-lef
+t/right to compensate for negative margin */
 
             font-size: 15px;
             font-weight: 500;
-            text-align: left; /* Flex handles actual text alignment with justify-content */
+            text-align: left; /* Flex handles actual text alignment with justify
+-content */
             cursor: pointer;
             display: flex;
             justify-content: space-between;
@@ -339,7 +371,8 @@
             color: var(--black);
             transition: color 0.3s ease, border-color 0.3s ease;
         }
-        .toggle-btn:hover { color: var(--gray); border-bottom-color: var(--gray); }
+        .toggle-btn:hover { color: var(--gray); border-bottom-color: var(--gray)
+; }
 
         .toggle-content { max-height: 0; overflow: hidden; }
         .toggle-content.show { /* Anime.js will set maxHeight */ }
@@ -351,7 +384,8 @@
         }
 
         .form-group { margin: 15px 0; }
-        .input-button-group { display: flex; align-items: flex-end; margin-top: 15px; }
+        .input-button-group { display: flex; align-items: flex-end; margin-top:
+15px; }
         .input-button-group input[type="email"],
         .input-button-group textarea {
             flex-grow: 1;
@@ -369,7 +403,8 @@
             color: var(--black); outline: none;
             transition: border-color 0.3s ease; border-radius: 0;
         }
-        body.dark-mode input, body.dark-mode textarea { color: var(--dark-text); }
+        body.dark-mode input, body.dark-mode textarea { color: var(--dark-text);
+ }
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
         input:-webkit-autofill:focus,
@@ -413,10 +448,10 @@
         }
 
         footer {
-            text-align: left;
-            padding: 20px 20px 20px 20px; /* Updated padding */
-            font-size: 10px;               /* Updated font-size */
-            line-height: 1.5;              /* Updated line-height */
+            /* text-align: left; */ /* Removed */
+            padding: 20px 20px 20px 20px;
+            font-size: 9px; /* REDUCED for mobile */
+            line-height: 1.4; /* Adjusted for smaller font */
             color: var(--gray);
             text-transform: uppercase;
             flex-shrink: 0;
@@ -424,11 +459,125 @@
         /* Removed redundant body.dark-mode footer rule */
         footer p {
             margin-bottom: 5px;
+            text-align: justify; /* Added */
+        }
+
+        /* Gamified CAPTCHA Styles */
+        .captcha-grid-cell {
+            aspect-ratio: 1 / 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(1.8rem, 5vw, 2.2rem);
+            font-weight: 500;
+            color: var(--black);
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px solid var(--border-color); /* Consistent with for
+m input styling */
+            cursor: pointer;
+            /* transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease; */ /* Modified transition */
+            transition: transform 0.1s ease; /* Only transform is directly transitioned now */
+            position: relative;
+            overflow: hidden;
+        }
+        .captcha-grid-cell::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: var(--gray);
+            transition: height 0.25s ease-in-out;
+            z-index: 0;
+        }
+        .captcha-grid-cell:hover::before {
+            height: 100%;
+        }
+        .captcha-grid-cell span {
+            position: relative;
+            z-index: 1;
+            transition: color 0.25s ease-in-out;
+        }
+        /* Optional: Text color change on hover for light mode */
+        /*
+        .captcha-grid-cell:hover span {
+            color: var(--white);
+        }
+        */
+        .captcha-grid-cell.selected {
+            background-color: var(--black); /* This will be the "black" background */
+            /* color: var(--white); */ /* Color is now on the span */
+            transform: scale(0.95);
+        }
+        .captcha-grid-cell.selected::before {
+            height: 0; /* Ensure hover effect is hidden when selected */
+        }
+        .captcha-grid-cell.selected span {
+            color: var(--white); /* Text color for selected state */
+        }
+        .captcha-grid-cell.success {
+            background-color: #4CAF50; /* Green for success */
+            color: var(--white);
+        }
+        .captcha-grid-cell.error {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+
+        /* Dark Mode Styles for Gamified CAPTCHA */
+        body.dark-mode #gameCaptchaContainer {
+            background-color: var(--dark-bg);
+            border: 1px solid var(--border-color);
+        }
+        body.dark-mode #gameCaptchaTitle,
+        body.dark-mode #gameCaptchaFeedback {
+            color: var(--dark-text);
+        }
+        body.dark-mode .captcha-grid-cell {
+            color: var(--dark-text);
+            border-bottom: 2px solid var(--border-color);
+        }
+        body.dark-mode .captcha-grid-cell::before {
+            background-color: #4a4a4a; /* Darker grey for dark mode hover */
+        }
+        /* Optional: Text color change on hover for dark mode */
+        /*
+        body.dark-mode .captcha-grid-cell:hover span {
+            color: var(--dark-text);
+        }
+        */
+        body.dark-mode .captcha-grid-cell.selected {
+            background-color: var(--light-gray); /* User's 'black' equivalent for dark mode */
+            /* color: var(--dark-bg); */ /* Color is now on the span */
+        }
+        body.dark-mode .captcha-grid-cell.selected span {
+            color: var(--dark-bg); /* Text color for selected state in dark mode */
+        }
+        body.dark-mode .captcha-grid-cell.success {
+            background-color: #66BB6A; /* Darker green for success in dark mode
+*/
+            color: var(--dark-bg);
+        }
+        body.dark-mode #closeGameCaptcha {
+            color: var(--link-gray);
         }
 
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        .icon { transition: transform 0.3s ease; }
+        .icon { /* This is for .toggle-btn .icon */
+            font-size: 20px !important; /* Standardized icon size */
+            line-height: 1 !important; /* Ensures tight vertical fit */
+            display: block; /* Helps some icon fonts render consistently */
+            transition: transform 0.3s ease;
+        }
 
         @media (min-width: 768px) {
             .page-content-area {
@@ -463,14 +612,26 @@
                 width: 100%; /* Reset to 100% of its container (the sidebar) */
                 margin-left: 0;
                 margin-right: 0;
-                padding: 10px 0; /* Restore original padding for desktop if content alignment needs it */
-                /* The border-bottom will now correctly be 100% of the sidebar column width */
+                padding: 10px 0; /* Restore original padding for desktop if cont
+ent alignment needs it */
+                /* The border-bottom will now correctly be 100% of the sidebar c
+olumn width */
             }
 
-            .coming-soon { font-size: clamp(2.8rem, 6vw, 4.0rem); }
+            .coming-soon {
+                font-size: clamp(2.8rem, 6vw, 4.0rem);
+                margin-bottom: 30px; /* Adjusted margin for desktop */
+            }
             .message { font-size: clamp(1rem, 2vw, 1.1rem);  }
             #intro-sequence-container { font-size: clamp(4rem, 15vw, 10rem); }
             #intro-coming-soon { font-size: clamp(2rem, 7vw, 4.5rem); }
+
+            footer {
+                padding: 20px 60px; /* Align with .page-content-area horizontal
+padding */
+                font-size: 10px; /* Restore for desktop */
+                line-height: 1.5; /* Restore for desktop */
+            }
         }
         @media (min-width: 1024px) {
             .page-content-area {
@@ -481,240 +642,154 @@
             }
         }
         .blinking-dot-intro {
-            animation: blink 1.2s infinite; /* Assuming 'blink' animation is defined */
+            animation: blink 1.2s infinite; /* Assuming 'blink' animation is def
+ined */
         }
 
-    /* Modal Styles */
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
-        display: flex; /* Changed from none to flex for JS control */
-        align-items: center;
-        justify-content: center;
-        z-index: 2000; /* Higher than other content */
-        opacity: 0; /* For fade-in animation */
-        visibility: hidden; /* For animation */
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-    body.dark-mode .modal-overlay {
-        background-color: rgba(0, 0, 0, 0.7); /* Slightly darker for dark mode */
+/* Modal (gameCaptchaModal) Enhancements - Borders, Arrows, Layout */
+
+/* Style for the new border div */
+.modal-instruction-border {
+    height: 1px;
+    background-color: var(--border-color); /* Use existing theme variable */
+    margin-top: 15px; /* Space above the border */
+    margin-bottom: 20px; /* Space below the border, before the grid */
+    position: relative; /* For positioning the arrow */
+}
+
+/* Arrow icon - hidden by default, shown on mobile */
+.mobile-only-modal-arrow {
+    display: none; /* Hidden by default */
+    position: absolute;
+    right: 0px; /* Position to the right edge of the border */
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px; /* Or desired size */
+    color: var(--border-color);
+}
+
+/* --- Responsive Layout for gameCaptchaModal --- */
+
+/* Mobile Specific Styles for gameCaptchaModal */
+@media (max-width: 767px) {
+    #gameCaptchaModal { /* The overlay */
+        align-items: flex-end; /* Push container to the bottom */
+        /* Ensure padding is removed if it prevents full bottom alignment */
+        padding: 0;
     }
 
-    .modal-overlay.show {
+    #gameCaptchaContainer {
+        width: 100% !important; /* Override inline style 'width: 90%' for full width */
+        max-width: 100% !important; /* Override inline 'max-width: 320px' */
+        margin-bottom: 0; /* Attach to bottom */
+        /* border-radius: 0; Is already set inline */
+        /* Adjust padding for mobile if the default 25px is too much */
+        padding: 20px;
+        /* Animation will be handled by JS by adding/removing a class later */
+        /* Remove fixed height if any, allow content to define height */
+        height: auto;
+        /* Ensure no top/bottom margins that would create space from screen edge */
+        margin-top: 0;
+    }
+
+    .mobile-only-modal-arrow {
+        display: inline-block; /* Show arrow on mobile */
+    }
+
+    /* Ensure the close button is not displayed on mobile, if that's the desired behavior for this modal */
+    /* The existing #closeGameCaptcha button might be intended for web only. */
+    /* If it needs to be hidden on mobile: */
+    /*
+    #closeGameCaptcha {
+        display: none;
+    }
+    */
+    /* User request: "Açıklayıcı metnin yanında da çarpı sembolü olur" (web) */
+    /* "sağ yanında da aşağı yöne olan oktan olmalı çünkü bu panel artık mobil kısımda ekranın altındaki kımı tam kaplayacak" (mobile) */
+    /* This implies the X is web-only for this modal. */
+     #gameCaptchaModal #closeGameCaptcha { /* Be specific to this modal's close button */
+        display: none; /* Hide X on mobile */
+    }
+}
+
+/* Web Specific Styles for gameCaptchaModal */
+@media (min-width: 768px) {
+    #gameCaptchaModal { /* The overlay */
+        /* Default is justify-content: center; align-items: center; flex-direction: column; */
+        /* These defaults from inline style on #gameCaptchaModal are fine for web centering. */
+    }
+
+    #gameCaptchaContainer {
+        /* Inline styles already set max-width: 320px; width: 90%; which works well for centering. */
+        /* Ensure it's not stuck to bottom on web */
+        margin-bottom: auto; /* Or a specific margin if preferred */
+    }
+
+    .mobile-only-modal-arrow {
+        display: none; /* Ensure arrow is hidden on web */
+    }
+
+    #gameCaptchaModal #closeGameCaptcha { /* Be specific to this modal's close button */
+        display: block; /* Or inline-flex, depending on its original style if overridden */
+        /* Position it appropriately, e.g. top-right of #gameCaptchaContainer */
+        /* The existing inline style for #closeGameCaptcha is:
+           style="background-color: transparent; color: var(--gray); border: none; cursor: pointer; position: absolute; top: 10px; right: 10px; font-size: 20px; padding: 5px; line-height: 1;"
+           This should work fine for web.
+        */
+    }
+
+    /* The modal-instruction-border should be visible on web as well, below the instruction & X button */
+}
+
+/* Modal (gameCaptchaModal) Animations */
+#gameCaptchaModal { /* The overlay */
+    /* ... existing styles: position, top, left, width, height, background, z-index ... */
+    /* Change display from inline style to CSS for better control with classes */
+    display: none; /* Hidden by default via CSS */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    /* Ensure flex properties are here if they were removed from inline style */
+    justify-content: center;
+    align-items: center; /* Default for web */
+    flex-direction: column; /* Default for web */
+}
+
+#gameCaptchaModal.modal-active { /* Class to show the overlay */
+    display: flex;
+    opacity: 1;
+}
+
+#gameCaptchaContainer {
+    /* ... existing styles: background, padding, border-radius, box-shadow, text-align, etc. ... */
+    opacity: 0; /* Default state for web fade */
+    transform: scale(0.95); /* Default state for web scale */
+    transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+}
+
+#gameCaptchaModal.modal-active #gameCaptchaContainer {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Mobile Animation Overrides */
+@media (max-width: 767px) {
+    #gameCaptchaModal.modal-active { /* Overlay active on mobile */
+            align-items: flex-end; /* Already set, but confirm */
+    }
+
+    #gameCaptchaContainer { /* Base mobile state (when overlay is hidden or about to show) */
+        transform: translateY(100%); /* Start off-screen at the bottom */
+        /* Opacity can be 1 for mobile as it's sliding, not fading primarily */
         opacity: 1;
-        visibility: visible;
+        /* Ensure transition covers transform for slide */
+        transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* opacity for consistency if ever needed */
     }
 
-    .modal-content {
-        background-color: var(--white);
-        color: var(--black);
-        padding: 25px;
-        min-width: 300px; /* Minimum width */
-        max-width: 90%;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        border-radius: 0; /* No rounded corners */
-        transform: scale(0.95); /* For pop animation */
-        transition: transform 0.3s ease;
-        position: relative; /* For absolute positioning of internal elements if needed */
+    #gameCaptchaModal.modal-active #gameCaptchaContainer { /* When modal is shown on mobile */
+        transform: translateY(0); /* Slide into view */
+        opacity: 1;
     }
-    body.dark-mode .modal-content {
-        background-color: var(--dark-bg);
-        color: var(--dark-text);
-        border: 1px solid var(--border-color); /* Optional: subtle border in dark mode */
-    }
-    .modal-overlay.show .modal-content {
-        transform: scale(1);
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-        padding-bottom: 15px;
-        /* The border will be handled by modal-footer-indicator for full width */
-        position: relative;
-    }
-
-    .modal-instruction {
-        font-size: 1.1rem;
-        font-weight: 500;
-        margin-right: 15px; /* Space for close button */
-        line-height: 1.4;
-    }
-
-    .modal-close-btn {
-        background: none;
-        border: none;
-        font-size: 24px;
-        color: var(--black);
-        cursor: pointer;
-        padding: 5px;
-        line-height: 1;
-    }
-    body.dark-mode .modal-close-btn {
-        color: var(--dark-text);
-    }
-    .modal-close-btn:hover {
-        color: var(--gray);
-    }
-
-    .modal-body {
-        margin-bottom: 20px;
-    }
-
-    .modal-buttons {
-        display: flex;
-        justify-content: space-around; /* Distribute buttons evenly */
-        gap: 15px;
-    }
-
-    .modal-num-btn {
-        background-color: var(--light-gray);
-        color: var(--black);
-        border: none;
-        font-size: 1.5rem;
-        font-weight: 700;
-        padding: 15px 20px;
-        flex-grow: 1; /* Make buttons take equal space */
-        text-align: center;
-        cursor: pointer;
-        border-radius: 0; /* No rounded corners */
-        transition: background-color 0.2s ease, color 0.2s ease;
-        position: relative; /* For hover effect */
-        overflow: hidden; /* For hover effect */
-    }
-    body.dark-mode .modal-num-btn {
-        background-color: #333; /* Darker gray for dark mode */
-        color: var(--dark-text);
-    }
-
-    .modal-num-btn::before { /* For hover effect */
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 0;
-        background-color: var(--gray);
-        transition: height 0.2s ease-in-out;
-        z-index: 0;
-    }
-    body.dark-mode .modal-num-btn::before {
-        background-color: #555;
-    }
-    .modal-num-btn:hover::before {
-        height: 100%;
-    }
-    .modal-num-btn:hover span { /* Ensure text stays above hover effect */
-        position: relative;
-        z-index: 1;
-    }
-
-    .modal-num-btn:active, .modal-num-btn.active { /* Active state */
-        background-color: var(--black);
-        color: var(--white);
-    }
-    body.dark-mode .modal-num-btn:active, body.dark-mode .modal-num-btn.active {
-        background-color: var(--light-gray);
-        color: var(--dark-bg);
-    }
-    .modal-num-btn:active::before, .modal-num-btn.active::before { /* Hide hover effect when active */
-        height: 0;
-    }
-
-
-    .modal-footer-indicator {
-        height: 1px;
-        background-color: var(--border-color);
-        width: calc(100% + 50px); /* Extend outside padding: 25px each side */
-        margin-left: -25px; /* Counteract padding */
-        margin-right: -25px; /* Counteract padding */
-        position: relative; /* For the arrow */
-    }
-    .modal-footer-indicator .mobile-only { /* Downward arrow for mobile */
-        position: absolute;
-        right: 20px; /* Position from the edge of the modal content, not the extended line */
-        top: 50%;
-        transform: translateY(-50%) translateX(25px); /* Adjust for indicator's negative margin */
-        font-size: 24px;
-        color: var(--border-color);
-    }
-
-
-    /* Mobile Specific Styles */
-    @media (max-width: 767px) {
-        .modal-overlay {
-            align-items: flex-end; /* Modal at bottom */
-        }
-        .modal-content {
-            width: 100%;
-            max-width: 100%;
-            margin-bottom: 0; /* Attach to bottom */
-            padding: 20px;
-            /* Animation will be handled by JS by adding/removing a class */
-            transform: translateY(100%); /* Start off-screen */
-            transition: transform 0.3s ease-out; /* For slide up/down */
-        }
-        .modal-overlay.show .modal-content.slide-up { /* Class to be added by JS */
-            transform: translateY(0);
-        }
-
-        .web-only {
-            display: none !important;
-        }
-        .mobile-only {
-            display: inline-block !important; /* Or block, depending on element */
-        }
-
-        .modal-header {
-            padding-bottom: 12px;
-            margin-bottom: 12px;
-        }
-        .modal-instruction {
-            font-size: 1rem;
-        }
-         .modal-footer-indicator {
-            width: calc(100% + 40px); /* 20px padding each side */
-            margin-left: -20px;
-            margin-right: -20px;
-        }
-        .modal-footer-indicator .mobile-only {
-             right: 15px; /* Adjust for mobile padding */
-             transform: translateY(-50%) translateX(20px); /* Adjust for indicator's negative margin */
-        }
-        .modal-num-btn {
-            padding: 12px 15px;
-            font-size: 1.3rem;
-        }
-    }
-
-    /* Web Specific Styles */
-    @media (min-width: 768px) {
-        .modal-content {
-            max-width: 450px; /* Or other desired max-width for web */
-            /* transform: scale(0.95) is default, .show .modal-content has scale(1) */
-        }
-        .mobile-only {
-            display: none !important;
-        }
-        .web-only {
-            display: inline-block !important; /* Or block, depending on element */
-        }
-        .modal-footer-indicator .mobile-only { /* Ensure arrow is hidden on web */
-            display: none !important;
-        }
-    }
-
-    /* Helper to ensure button text is on top of hover effect */
-    .modal-num-btn span {
-        position: relative;
-        z-index: 1;
-    }
+}
     </style>
 </head>
 <body>
@@ -724,29 +799,38 @@
             <span class="intro-char" id="char-0">0</span>
             <span class="intro-char" id="char-2">2</span>
             <span class="intro-text-group" id="text-702">702</span>
-            <span class="intro-text-group" id="text-702-studio">702.studio</span>
+            <span class="intro-text-group" id="text-702-studio">702.studio</span
+>
         </div>
-        <h1 id="intro-coming-soon">COMING SOON<span class="blinking-dot">.</span></h1>
+        <h1 id="intro-coming-soon">COMING SOON<span class="blinking-dot">.</span
+></h1>
     </div>
 
     <div id="page-wrapper">
         <div class="page-content-area">
             <header>
-                <div class="logo">702.studio</div>
-                <button type="button" class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <a href="#" class="logo">702.studio</a>
+                <button type="button" class="theme-toggle-btn" id="themeToggle"
+aria-label="Toggle Theme">
                     <i class="ri-sun-line"></i>
                 </button>
             </header>
 
             <main>
                 <div class="main-content-wrapper">
-                    <h1 class="coming-soon word-animation-target">COMING SOON<span class="blinking-dot">.</span></h1>
-                    <p class="message word-animation-target">Our website is currently under construction. We are working on exciting developments and will be back with a fresh look and new projects soon.</p>
+                    <h1 class="coming-soon word-animation-target">COMING SOON<sp
+an class="blinking-dot">.</span></h1>
+                    <p class="message word-animation-target">Our website is curr
+ently under construction. We are working on exciting developments and will be ba
+ck with a fresh look and new projects soon.</p>
                     <div class="direct-mail-info-section">
-                        <span class="direct-mail-label">Direct mail <i class="ri-arrow-right-s-line"></i></span>
+                        <span class="direct-mail-label">Direct mail <i class="ri
+-arrow-right-s-line"></i></span>
                         <div class="email-container">
-                            <span class="email-address-text" id="emailToCopy">support@702.studio</span>
-                            <button type="button" class="copy-email-btn" onclick="copyEmailToClipboard()" aria-label="Copy email address">
+                            <span class="email-address-text" id="emailToCopy">su
+pport@702.studio</span>
+                            <button type="button" class="copy-email-btn" onclick
+="copyEmailToClipboard()" aria-label="Copy email address">
                                 <i class="ri-file-copy-line"></i>
                             </button>
                         </div>
@@ -754,16 +838,27 @@
                 </div>
             </main>
 
+            <!--
+        IMPORTANT: Form functionality (Newsletter and Contact) requires backend
+setup.
+        Emails are intended to be sent from support@702.studio and should be for
+warded
+        to tolgaozisik@gmail.com. See backend_requirements.txt for details.
+    -->
             <div class="sidebar">
                 <div class="toggle-section">
-                    <button type="button" class="toggle-btn" onclick="toggleSection('newsletter', this)" aria-expanded="false" aria-controls="newsletter-content">
+                    <button type="button" class="toggle-btn" onclick="toggleSect
+ion('newsletter', this)" aria-expanded="false" aria-controls="newsletter-content
+">
                         Newsletter
                         <i class="icon ri-add-line"></i>
                     </button>
                     <div id="newsletter-content" class="toggle-content">
-                        <form onsubmit="handleFormSubmit(event, 'Your subscription has been received!')">
+                        <form onsubmit="handleFormSubmit(event, 'Your subscripti
+on has been received!')">
                             <div class="form-group input-button-group">
-                                <input type="email" placeholder="Your email address" required autocomplete="email">
+                                <input type="email" placeholder="Your email addr
+ess" required autocomplete="email">
                                 <button type="submit">Subscribe</button>
                             </div>
                         </form>
@@ -771,20 +866,26 @@
                 </div>
 
                 <div class="toggle-section">
-                    <button type="button" class="toggle-btn" onclick="toggleSection('contact', this)" aria-expanded="false" aria-controls="contact-content">
+                    <button type="button" class="toggle-btn" onclick="toggleSect
+ion('contact', this)" aria-expanded="false" aria-controls="contact-content">
                         Contact
                         <i class="icon ri-add-line"></i>
                     </button>
                     <div id="contact-content" class="toggle-content">
-                        <form onsubmit="handleFormSubmit(event, 'Your message has been sent!')">
+                        <form onsubmit="handleFormSubmit(event, 'Your message ha
+s been sent!')">
                             <div class="form-group">
-                                <input type="text" placeholder="Your Name" required autocomplete="name">
+                                <input type="text" placeholder="Your Name" requi
+red autocomplete="name">
                             </div>
                             <div class="form-group">
-                                <input type="email" placeholder="Your Email" required autocomplete="email">
+                                <input type="email" placeholder="Your Email" req
+uired autocomplete="email">
                             </div>
-                            <div class="form-group input-button-group contact-message-group">
-                                <textarea placeholder="Your Message" required></textarea>
+                            <div class="form-group input-button-group contact-me
+ssage-group">
+                                <textarea placeholder="Your Message" required></
+textarea>
                                 <button type="submit">Send</button>
                             </div>
                         </form>
@@ -794,40 +895,72 @@
         </div>
 
         <footer>
-            <p>&copy; <span id="currentYear"></span> 702.studio. All rights reserved.</p>
-            <p>All content, design, and concepts presented on this website are the exclusive property of 702.studio and are protected under applicable copyright and intellectual property laws. Unauthorized use, reproduction, or distribution of any material from this site is strictly prohibited.</p>
+            <p>© 2025 702.studio. All rights reserved.</p>
+            <p>For works displayed on this site for promotional purposes, all re
+lated brand and intellectual property rights belong to their respective owners,
+while 702.studio reserves the right to showcase its own original contribution to
+ these projects in its portfolio. Unauthorized use of 702.studio's website conte
+nt is prohibited.</p>
         </footer>
     </div>
 
-    <button type="button" id="tempOpenModalBtn" style="position: fixed; bottom: 80px; right: 20px; z-index: 1500; padding: 10px; background: #f00; color: white;">Open Modal</button>
-
-    <div id="notification" style="display:none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: var(--black); color: var(--white); padding: 15px 25px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; font-size: 16px;">
+    <div id="notification" style="display:none; position: fixed; bottom: 20px; l
+eft: 50%; transform: translateX(-50%); background-color: var(--black); color: va
+r(--white); padding: 15px 25px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0
+,0,0,0.2); z-index: 1000; font-size: 16px;">
     </div>
 
-    <!-- Page Modal -->
-    <div id="page-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <p class="modal-instruction">Press 7 → 0 → 2 in order</p>
-                <button type="button" class="modal-close-btn web-only" aria-label="Close modal">
-                    <i class="ri-close-line"></i>
-                </button>
+    <div id="gameCaptchaModal" style="position: fixed; top: 0; lef
+t: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.75); z-index: 20
+00; justify-content: center; align-items: center; flex-direction: column;">
+        <div id="gameCaptchaContainer" style="background-color: var(--white); pa
+dding: 25px; border-radius: 0px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); text-al
+ign: center; max-width: 320px; width: 90%; position: relative;">
+            <h3 id="gameCaptchaTitle" style="margin-top: 0; margin-bottom: 10px;
+ font-weight: 500; font-size: 18px;">Please press the numbers in this order: 7 &rarr; 0 &rarr; 2</h3>
+            <p id="gameCaptchaFeedback" style="margin-bottom: 15px; font-size: 1
+4px; min-height: 20px; color: var(--black);"></p>
+
+        <!-- NEW BORDER AND ARROW ELEMENT -->
+        <div class="modal-instruction-border">
+            <i class="ri-arrow-down-s-line mobile-only-modal-arrow"></i>
+        </div>
+
+            <div id="gameCaptchaGrid" style="display: grid; grid-template-column
+s: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
+                <!-- Grid cells will be generated by JavaScript -->
             </div>
-            <div class="modal-body">
-                <div class="modal-buttons">
-                    <button type="button" class="modal-num-btn" data-value="7"><span>7</span></button>
-                    <button type="button" class="modal-num-btn" data-value="0"><span>0</span></button>
-                    <button type="button" class="modal-num-btn" data-value="2"><span>2</span></button>
-                </div>
-            </div>
-            <div class="modal-footer-indicator">
-                <i class="ri-arrow-down-s-line mobile-only"></i>
-            </div>
+            <button type="button" id="closeGameCaptcha" style="background-color:
+ transparent; color: var(--gray); border: none; cursor: pointer; position: absol
+ute; top: 10px; right: 10px; font-size: 20px; padding: 5px; line-height: 1;">
+                <i class="ri-close-line"></i>
+            </button>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.
+js"></script>
     <script>
+        // Gamified CAPTCHA variables
+        let gameCaptchaOriginalFormEvent = null;
+        let gameCaptchaOriginalSuccessMessage = '';
+        const gameCaptchaSequence = [7, 0, 2];
+        let gameCaptchaCurrentUserSequence = [];
+        let gameCaptchaNumbers = []; // Will hold the shuffled numbers for the g
+rid
+
+        // DOM elements for Game CAPTCHA (might be better to query these in DOMC
+ontentLoaded)
+        // However, script is at the end of body, so they should exist when scri
+pt runs.
+        // Let's define them here for now as per plan, and can refine if needed.
+        const gameCaptchaModal = document.getElementById('gameCaptchaModal');
+        const gameCaptchaGrid = document.getElementById('gameCaptchaGrid');
+        const gameCaptchaFeedback = document.getElementById('gameCaptchaFeedback
+');
+        const gameCaptchaTitle = document.getElementById('gameCaptchaTitle');
+
+
         function wrapCharactersForIntro(element, isStudio = false) {
             if (!element) return [];
             const text = element.textContent;
@@ -839,9 +972,11 @@
                 span.textContent = char;
                 span.style.display = 'inline-block';
                 span.style.opacity = '0'; // Initial state for animation
-                span.style.transform = 'translateY(10px)'; // Initial state for animation
+                span.style.transform = 'translateY(10px)'; // Initial state for
+animation
                 if (isStudio && char === '.') {
-                    span.classList.add('blinking-dot-intro'); // Special class for the dot in "702.studio"
+                    span.classList.add('blinking-dot-intro'); // Special class f
+or the dot in "702.studio"
                 }
                 element.appendChild(span);
                 characters.push(span);
@@ -854,48 +989,61 @@
         const themeIcon = themeToggleBtn.querySelector('i');
 
         function applyTheme(theme, isDuringIntro = false) {
-            const oldTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+            const oldTheme = body.classList.contains('dark-mode') ? 'dark' : 'li
+ght';
             if (theme === 'dark') {
                 body.classList.add('dark-mode');
                 if(themeIcon) {
                     themeIcon.classList.remove('ri-sun-line');
                     themeIcon.classList.add('ri-moon-line');
-                    themeToggleBtn.setAttribute('aria-label', 'Activate Light Theme');
+                    themeToggleBtn.setAttribute('aria-label', 'Activate Light Th
+eme');
                 }
             } else {
                 body.classList.remove('dark-mode');
                  if(themeIcon) {
                     themeIcon.classList.remove('ri-moon-line');
                     themeIcon.classList.add('ri-sun-line');
-                    themeToggleBtn.setAttribute('aria-label', 'Activate Dark Theme');
+                    themeToggleBtn.setAttribute('aria-label', 'Activate Dark The
+me');
                 }
             }
 
-            const introOverlay = document.getElementById('intro-animation-overlay');
-            if (introOverlay && (getComputedStyle(introOverlay).display !== 'none' || isDuringIntro)) {
+            const introOverlay = document.getElementById('intro-animation-overla
+y');
+            if (introOverlay && (getComputedStyle(introOverlay).display !== 'non
+e' || isDuringIntro)) {
                  const introTextElements = [
-                    document.getElementById('char-7'), document.getElementById('char-0'), document.getElementById('char-2'),
+                    document.getElementById('char-7'), document.getElementById('
+char-0'), document.getElementById('char-2'),
                     document.getElementById('text-702'),
                     document.getElementById('text-702-studio'),
                     document.getElementById('intro-coming-soon')
                 ];
                 const targetBgColor = body.classList.contains('dark-mode') ?
-                    getComputedStyle(document.documentElement).getPropertyValue('--intro-bg-dark').trim() :
-                    getComputedStyle(document.documentElement).getPropertyValue('--intro-bg-light').trim();
+                    getComputedStyle(document.documentElement).getPropertyValue(
+'--intro-bg-dark').trim() :
+                    getComputedStyle(document.documentElement).getPropertyValue(
+'--intro-bg-light').trim();
                 introOverlay.style.backgroundColor = targetBgColor;
 
                 const targetTextColor = body.classList.contains('dark-mode') ?
-                    getComputedStyle(document.documentElement).getPropertyValue('--intro-text-dark').trim() :
-                    getComputedStyle(document.documentElement).getPropertyValue('--intro-text-light').trim();
-                introTextElements.forEach(el => { if(el) el.style.color = targetTextColor; });
+                    getComputedStyle(document.documentElement).getPropertyValue(
+'--intro-text-dark').trim() :
+                    getComputedStyle(document.documentElement).getPropertyValue(
+'--intro-text-light').trim();
+                introTextElements.forEach(el => { if(el) el.style.color = target
+TextColor; });
             }
         }
 
-        const initialUserTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const initialUserTheme = localStorage.getItem('theme') || (window.matchM
+edia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         applyTheme(initialUserTheme, true);
 
         themeToggleBtn.addEventListener('click', () => {
-            let newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+            let newTheme = body.classList.contains('dark-mode') ? 'light' : 'dar
+k';
             localStorage.setItem('theme', newTheme);
             applyTheme(newTheme);
         });
@@ -906,7 +1054,8 @@
                 let currentText = "";
                 const newChildren = [];
                 el.childNodes.forEach(childNode => {
-                    if (childNode.nodeType === Node.TEXT_NODE && childNode.textContent.trim().length > 0) {
+                    if (childNode.nodeType === Node.TEXT_NODE && childNode.textC
+ontent.trim().length > 0) {
                         currentText += childNode.textContent;
                     } else if (childNode.nodeType === Node.ELEMENT_NODE) {
                         if (currentText.trim().length > 0) {
@@ -934,7 +1083,8 @@
 
                 el.innerHTML = '';
                 newChildren.forEach(newChild => {
-                    if (newChild.nodeName === "SPAN" && !newChild.classList.contains("blinking-dot")) {
+                    if (newChild.nodeName === "SPAN" && !newChild.classList.cont
+ains("blinking-dot")) {
                         newChild.style.display = 'inline-block';
                         newChild.style.opacity = 0;
                         newChild.style.transform = 'translateY(10px)';
@@ -946,30 +1096,44 @@
 
 
         document.addEventListener('DOMContentLoaded', () => {
-            const introOverlayEl = document.getElementById('intro-animation-overlay');
+            const introOverlayEl = document.getElementById('intro-animation-over
+lay');
             const pageWrapper = document.getElementById('page-wrapper');
+
+            const closeGameCaptchaButton = document.getElementById('closeGameCap
+tcha');
+            if (closeGameCaptchaButton) {
+                closeGameCaptchaButton.addEventListener('click', hideGameCaptcha);
+            }
 
             const char7 = document.getElementById('char-7');
             const char0 = document.getElementById('char-0');
             const char2 = document.getElementById('char-2');
             const text702Element = document.getElementById('text-702');
-            const text702StudioElement = document.getElementById('text-702-studio');
-            const introComingSoon = document.getElementById('intro-coming-soon');
+            const text702StudioElement = document.getElementById('text-702-studi
+o');
+            const introComingSoon = document.getElementById('intro-coming-soon')
+;
 
             const text702Chars = wrapCharactersForIntro(text702Element);
-            const text702StudioChars = wrapCharactersForIntro(text702StudioElement, true);
+            const text702StudioChars = wrapCharactersForIntro(text702StudioEleme
+nt, true);
 
             wrapWords('.coming-soon.word-animation-target');
             wrapWords('.message.word-animation-target');
 
             // Durations for quick-cut feel (adjust as needed)
-            const D_CHAR_APPEAR = 150; // Duration for individual 7, 0, 2 to appear
+            const D_CHAR_APPEAR = 150; // Duration for individual 7, 0, 2 to app
+ear
             const D_CHAR_STAY = 100;   // How long 7, 0, 2 stay visible
             const D_CHAR_FADE = 100;   // Duration for 7, 0, 2 to fade
 
-            const D_GROUP_STAGGER = 30; // Stagger for characters in "702", "702.studio"
-            const D_GROUP_CHAR_ANIM = 250; // Duration for each char in a group to animate in
-            const D_GROUP_STAY = 200;    // How long the group "702" or "702.studio" stays
+            const D_GROUP_STAGGER = 30; // Stagger for characters in "702", "702
+.studio"
+            const D_GROUP_CHAR_ANIM = 250; // Duration for each char in a group
+to animate in
+            const D_GROUP_STAY = 200;    // How long the group "702" or "702.stu
+dio" stays
             const D_GROUP_FADE_STAGGER = 20;
             const D_GROUP_FADE_ANIM = 150;
 
@@ -978,7 +1142,8 @@
 
             const introTimeline = anime.timeline({
                 easing: 'easeOutQuad', // Default easing
-                complete: () => { // THIS IS THE PRESERVED COMPLETION LOGIC FROM USER'S CODE
+                complete: () => { // THIS IS THE PRESERVED COMPLETION LOGIC FROM
+ USER'S CODE
                     anime({
                         targets: introOverlayEl,
                         opacity: [1, 0],
@@ -986,38 +1151,67 @@
                         easing: 'easeInOutQuad',
                         complete: () => {
                             introOverlayEl.style.display = 'none';
-                            const pageElementsTimeline = anime.timeline({ easing: 'easeOutCubic' });
+                            const pageElementsTimeline = anime.timeline({
+                                easing: 'easeOutCubic',
+                            });
                             pageElementsTimeline
-                                .add({ targets: '#page-wrapper', opacity: [0, 1], duration: 50 })
-                                // ... (rest of their page reveal animation - PRESERVE THIS)
                                 .add({
-                                    targets: ['.page-content-area > header .logo', '.page-content-area > header .theme-toggle-btn'],
-                                    opacity: [0, 1], translateY: ['15px', '0px'], duration: 250, delay: anime.stagger(35)
-                                }, 0)
+                                    targets: '#page-wrapper',
+                                    opacity: [0, 1],
+                                    duration: 50
+                                })
                                 .add({
-                                    targets: '.page-content-area > main > .main-content-wrapper',
-                                    opacity: [0, 1], translateY: ['15px', '0px'], duration: 250,
-                                }, '-=180')
+                                    targets: '.page-content-area > header', // A
+nimate the header block
+                                    opacity: [0, 1],
+                                    translateY: ['15px', '0px'],
+                                    duration: 250
+                                }, 0) // Start header animation with page-wrappe
+r opacity
                                 .add({
-                                    targets: '.main-content-wrapper .coming-soon.word-animation-target span',
-                                    opacity: [0,1], translateY: ['10px', '0px'], duration: 180, delay: anime.stagger(20, {easing: 'easeOutSine'})
-                                }, '-=70')
+                                    targets: ['.page-content-area > header .logo
+', '.page-content-area > header .theme-toggle-btn'], // Animate logo and button
+                                    opacity: [0, 1],
+                                    translateY: ['10px', '0px'],
+                                    duration: 200,
+                                    delay: anime.stagger(40)
+                                }, '-=150') // Start relative to previous animat
+ion's start
                                 .add({
-                                    targets: '.main-content-wrapper .message.word-animation-target span',
-                                    opacity: [0,1], translateY: ['10px', '0px'], duration: 150, delay: anime.stagger(8, {easing: 'easeOutSine'})
-                                }, '-=70')
+                                    targets: '.page-content-area > main > .main-
+content-wrapper',
+                                    opacity: [0, 1], translateY: ['15px', '0px']
+, duration: 250,
+                                }, '-=100')
                                 .add({
-                                    targets: '.page-content-area > main .direct-mail-info-section',
-                                    opacity: [0,1], translateY: ['15px', '0px'], duration: 250
-                                }, '-=60')
+                                    targets: '.main-content-wrapper .coming-soon
+.word-animation-target span',
+                                    opacity: [0,1], translateY: ['15px', '0px'],
+ duration: 200, delay: anime.stagger(25, {easing: 'easeOutSine'})
+                                }, '-=100')
                                 .add({
-                                    targets: '.page-content-area > .sidebar > .toggle-section',
-                                    opacity: [0,1], translateY: ['15px', '0px'], duration: 250, delay: anime.stagger(50, {easing: 'easeOutCubic'})
-                                }, '-=60')
+                                    targets: '.main-content-wrapper .message.wor
+d-animation-target span',
+                                    opacity: [0,1], translateY: ['10px', '0px'],
+ duration: 150, delay: anime.stagger(8, {easing: 'easeOutSine'})
+                                }, '-=100')
+                                .add({
+                                    targets: '.page-content-area > main .direct-
+mail-info-section',
+                                    opacity: [0,1], translateY: ['15px', '0px'],
+ duration: 250
+                                }, '-=50')
+                                .add({
+                                    targets: '.page-content-area > .sidebar > .t
+oggle-section',
+                                    opacity: [0,1], translateY: ['15px', '0px'],
+ duration: 250, delay: anime.stagger(50, {easing: 'easeOutCubic'})
+                                }, '-=50')
                                 .add({
                                     targets: '#page-wrapper > footer',
-                                    opacity: [0,1], translateY: ['15px', '0px'], duration: 250
-                                }, '-=80');
+                                    opacity: [0,1], translateY: ['15px', '0px'],
+ duration: 250
+                                }, '-=100');
                         }
                     });
                 }
@@ -1026,57 +1220,75 @@
             // Build the new timeline
             introTimeline
                 // 7
-                .add({ targets: char7, opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1], duration: D_CHAR_APPEAR, begin: () => char7.style.display = 'inline-block' })
-                .add({ targets: char7, opacity: 0, duration: D_CHAR_FADE, delay: D_CHAR_STAY, complete: () => char7.style.display = 'none' })
+                .add({ targets: char7, opacity: [0,1], translateY: ['10px', '0px
+'], scale: [0.8, 1], duration: D_CHAR_APPEAR, begin: () => char7.style.display =
+ 'inline-block' })
+                .add({ targets: char7, opacity: 0, duration: D_CHAR_FADE, delay:
+ D_CHAR_STAY, complete: () => char7.style.display = 'none' })
                 // 0
-                .add({ targets: char0, opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1], duration: D_CHAR_APPEAR, begin: () => char0.style.display = 'inline-block' })
-                .add({ targets: char0, opacity: 0, duration: D_CHAR_FADE, delay: D_CHAR_STAY, complete: () => char0.style.display = 'none' })
+                .add({ targets: char0, opacity: [0,1], translateY: ['10px', '0px
+'], scale: [0.8, 1], duration: D_CHAR_APPEAR, begin: () => char0.style.display =
+ 'inline-block' })
+                .add({ targets: char0, opacity: 0, duration: D_CHAR_FADE, delay:
+ D_CHAR_STAY, complete: () => char0.style.display = 'none' })
                 // 2
-                .add({ targets: char2, opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1], duration: D_CHAR_APPEAR, begin: () => char2.style.display = 'inline-block' })
-                .add({ targets: char2, opacity: 0, duration: D_CHAR_FADE, delay: D_CHAR_STAY, complete: () => char2.style.display = 'none' })
+                .add({ targets: char2, opacity: [0,1], translateY: ['10px', '0px
+'], scale: [0.8, 1], duration: D_CHAR_APPEAR, begin: () => char2.style.display =
+ 'inline-block' })
+                .add({ targets: char2, opacity: 0, duration: D_CHAR_FADE, delay:
+ D_CHAR_STAY, complete: () => char2.style.display = 'none' })
 
                 // 702 (character by character)
                 .add({
                     targets: text702Chars,
-                    opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1],
+                    opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1]
+,
                     duration: D_GROUP_CHAR_ANIM,
                     delay: anime.stagger(D_GROUP_STAGGER),
                     begin: () => {
                         text702Element.style.display = 'inline-block';
-                        text702Element.style.opacity = '1'; // Ensure parent group is visible
+                        text702Element.style.opacity = '1'; // Ensure parent gro
+up is visible
                     }
                 })
                 .add({
                     targets: text702Chars,
                     opacity: 0,
                     duration: D_GROUP_FADE_ANIM,
-                    delay: anime.stagger(D_GROUP_FADE_STAGGER, {from: 'last', start: D_GROUP_STAY}),
+                    delay: anime.stagger(D_GROUP_FADE_STAGGER, {from: 'last', st
+art: D_GROUP_STAY}),
                     complete: () => text702Element.style.display = 'none'
                 })
 
                 // 702.studio (character by character)
                 .add({
                     targets: text702StudioChars,
-                    opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1],
+                    opacity: [0,1], translateY: ['10px', '0px'], scale: [0.8, 1]
+,
                     duration: D_GROUP_CHAR_ANIM,
                     delay: anime.stagger(D_GROUP_STAGGER),
                     begin: () => {
                         text702StudioElement.style.display = 'inline-block';
-                        text702StudioElement.style.opacity = '1'; // Ensure parent group is visible
+                        text702StudioElement.style.opacity = '1'; // Ensure pare
+nt group is visible
                         // Theme switch logic from user's original code
-                        const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-                        applyTheme(currentTheme === 'dark' ? 'light' : 'dark', true);
+                        const currentTheme = document.body.classList.contains('d
+ark-mode') ? 'dark' : 'light';
+                        applyTheme(currentTheme === 'dark' ? 'light' : 'dark', t
+rue);
                     }
                 })
                 .add({
                     targets: text702StudioChars,
                     opacity: 0,
                     duration: D_GROUP_FADE_ANIM,
-                    delay: anime.stagger(D_GROUP_FADE_STAGGER, {from: 'last', start: D_GROUP_STAY + 200}), // Stay a bit longer
+                    delay: anime.stagger(D_GROUP_FADE_STAGGER, {from: 'last', st
+art: D_GROUP_STAY + 200}), // Stay a bit longer
                     complete: () => text702StudioElement.style.display = 'none'
                 })
 
-                // COMING SOON (already an H1, animate as a block or quick word stagger)
+                // COMING SOON (already an H1, animate as a block or quick word
+stagger)
                 // Using existing wrapWords for this one if desired, or simplify
                 // For simplicity and speed, let's animate it as one block:
                 .add({
@@ -1085,147 +1297,141 @@
                     translateY: ['15px', '0px'],
                     duration: D_CS_ANIM,
                     begin: () => {
-                         // Ensure theme is back to user's preferred for "Coming Soon" text
-                        const userTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                         // Ensure theme is back to user's preferred for "Coming
+ Soon" text
+                        const userTheme = localStorage.getItem('theme') || (wind
+ow.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
                         applyTheme(userTheme, true);
-                        introComingSoon.style.display = 'block'; // Or inline-block
+                        introComingSoon.style.display = 'block'; // Or inline-bl
+ock
                     }
                 })
-                .add({ duration: D_CS_STAY }); // Hold before completing timeline
+                .add({ duration: D_CS_STAY }); // Hold before completing timelin
+e
 
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            document.getElementById('currentYear').textContent = new Date().getF
+ullYear();
         });
 
-        // --- Modal Logic ---
-        const pageModal = document.getElementById('page-modal');
-        const modalContent = pageModal.querySelector('.modal-content');
-        const closeModalBtn = pageModal.querySelector('.modal-close-btn');
-        const numButtons = pageModal.querySelectorAll('.modal-num-btn');
-        const tempOpenModalBtn = document.getElementById('tempOpenModalBtn'); // Temporary trigger
-
-        let enteredSequence = [];
-        const correctSequence = ['7', '0', '2'];
-
-        function showModal() {
-            if (!pageModal) return;
-            enteredSequence = []; // Reset sequence
-            numButtons.forEach(btn => btn.classList.remove('active')); // Reset button visual state
-
-            pageModal.style.display = 'flex'; // Make overlay visible for flex alignment
-            // Timeout to allow display property to take effect before transition
-            setTimeout(() => {
-                pageModal.classList.add('show');
-                if (window.innerWidth < 768) {
-                    modalContent.classList.add('slide-up');
-                }
-            }, 20);
-        }
-
-        function hideModal(callback) {
-            if (!pageModal) return;
-
-            if (window.innerWidth < 768) {
-                modalContent.classList.remove('slide-up');
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
             }
-            pageModal.classList.remove('show');
+            return array;
+        }
 
-            // Wait for opacity/transform transition to finish before setting display to none
-            const transitionDuration = 300; // Must match CSS transition duration
-            setTimeout(() => {
-                pageModal.style.display = 'none';
-                if (typeof callback === 'function') {
-                    callback();
+        function generateCaptchaGrid() {
+            gameCaptchaGrid.innerHTML = ''; // Clear previous grid
+            gameCaptchaNumbers = shuffleArray([...Array(9).keys()]); // Numbers
+0-8 shuffled
+            gameCaptchaNumbers.forEach(num => {
+                const cell = document.createElement('button');
+                cell.type = 'button'; // Important for forms
+                cell.classList.add('captcha-grid-cell');
+                cell.innerHTML = '<span>' + num + '</span>'; // Wrap number in span
+                cell.addEventListener('click', () => handleGameCaptchaCellClick(
+num, cell));
+                gameCaptchaGrid.appendChild(cell);
+            });
+            gameCaptchaCurrentUserSequence = [];
+            if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = ''; // Che
+ck if element exists
+            if(gameCaptchaTitle) gameCaptchaTitle.innerHTML = 'Please press the numbers in this order: 7 &rarr; 0 &rarr; 2'; // Updated text
+
+            document.querySelectorAll('.captcha-grid-cell.error').forEach(c => c
+.classList.remove('error'));
+            document.querySelectorAll('.captcha-grid-cell.success').forEach(c =>
+ c.classList.remove('success'));
+            document.querySelectorAll('.captcha-grid-cell.selected').forEach(c =
+> c.classList.remove('selected'));
+        }
+
+        function handleGameCaptchaCellClick(numberClicked, cellElement) {
+            if (gameCaptchaCurrentUserSequence.length >= gameCaptchaSequence.len
+gth) return;
+
+            cellElement.classList.add('selected');
+            gameCaptchaCurrentUserSequence.push(numberClicked);
+
+            const expectedNumber = gameCaptchaSequence[gameCaptchaCurrentUserSeq
+uence.length - 1];
+
+            if (numberClicked === expectedNumber) {
+                if (gameCaptchaCurrentUserSequence.length === gameCaptchaSequenc
+e.length) {
+                    if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = 'S
+uccess!';
+                    if(gameCaptchaTitle) gameCaptchaTitle.textContent = 'Verifie
+d!';
+                    document.querySelectorAll('.captcha-grid-cell.selected').for
+Each(c => {
+                        c.classList.remove('selected');
+                        c.classList.add('success');
+                    });
+                    if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'n
+one';
+
+                    setTimeout(() => {
+                        hideGameCaptcha(); // Use new function
+                        // if(gameCaptchaModal) gameCaptchaModal.style.display = 'n
+// one'; // Replaced by hideGameCaptcha()
+                        if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents
+= 'auto';
+
+                        const form = gameCaptchaOriginalFormEvent.target;
+                        showNotification(gameCaptchaOriginalSuccessMessage);
+                        form.reset();
+                        gameCaptchaOriginalFormEvent = null;
+                        gameCaptchaOriginalSuccessMessage = '';
+                    }, 800);
+                } else {
+                    if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = `N
+ext: ${gameCaptchaSequence[gameCaptchaCurrentUserSequence.length]}`;
                 }
-            }, transitionDuration);
-        }
-
-        function handleNumberPress(event) {
-            const value = event.currentTarget.dataset.value;
-            event.currentTarget.classList.add('active'); // Show active state
-            enteredSequence.push(value);
-
-            // Optional: Remove 'active' after a short delay if not verifying immediately
-            // setTimeout(() => event.currentTarget.classList.remove('active'), 200);
-
-            if (enteredSequence.length === correctSequence.length) {
-                verifySequence();
-            } else if (enteredSequence.length > correctSequence.length) {
-                // Should not happen if verification is immediate, but as a fallback
-                resetInputSequence("Incorrect sequence. Try again.");
-            }
-        }
-
-        function verifySequence() {
-            const isCorrect = enteredSequence.every((val, index) => val === correctSequence[index]);
-            if (isCorrect) {
-                // Show some kind of success message/animation
-                pageModal.querySelector('.modal-instruction').textContent = "Verified!";
-                // Optionally disable buttons
-                numButtons.forEach(btn => btn.disabled = true);
+            } else {
+                if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = 'Incor
+rect. Try again.';
+                cellElement.classList.add('error');
+                if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'none'
+;
 
                 setTimeout(() => {
-                    hideModal(() => {
-                        // Reset for next time
-                        pageModal.querySelector('.modal-instruction').textContent = "Press 7 → 0 → 2 in order";
-                        numButtons.forEach(btn => {
-                            btn.classList.remove('active');
-                            btn.disabled = false;
-                        });
-                    });
-                }, 1500); // Hide after 1.5 seconds
-            } else {
-                resetInputSequence("Incorrect. Please try again.");
-                // Refined shake animation for feedback
-                modalContent.animate([
-                    { transform: 'translateX(-10px)' },
-                    { transform: 'translateX(10px)' },
-                    { transform: 'translateX(-10px)' },
-                    { transform: 'translateX(0px)' }
-                ], {
-                    duration: 300,
-                    easing: 'ease-in-out'
-                });
+                    generateCaptchaGrid();
+                    if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'a
+uto';
+                }, 1000);
             }
         }
 
-        function resetInputSequence(message) {
-            enteredSequence = [];
-            numButtons.forEach(btn => btn.classList.remove('active'));
-            if (message) {
-                const instructionEl = pageModal.querySelector('.modal-instruction');
-                const originalText = "Press 7 → 0 → 2 in order";
-                instructionEl.textContent = message;
-                setTimeout(() => instructionEl.textContent = originalText, 2000); // Revert after 2s
+        // New handleFormSubmit
+        function handleFormSubmit(event, message) {
+            event.preventDefault();
+            gameCaptchaOriginalFormEvent = event;
+            gameCaptchaOriginalSuccessMessage = message;
+
+            generateCaptchaGrid(); // Ensure grid is ready
+            if(gameCaptchaModal) {
+                gameCaptchaModal.classList.add('modal-active');
             }
         }
 
-        // Event Listeners
-        if (tempOpenModalBtn) { // Temporary trigger
-            tempOpenModalBtn.addEventListener('click', showModal);
-        }
-        if (closeModalBtn) {
-            closeModalBtn.addEventListener('click', () => hideModal());
-        }
-        numButtons.forEach(button => {
-            button.addEventListener('click', handleNumberPress);
-        });
+        function hideGameCaptcha() {
+            if (!gameCaptchaModal) return;
+            gameCaptchaModal.classList.remove('modal-active');
+            // No timeout needed if base #gameCaptchaModal style is display:none
 
-        // Close modal if overlay is clicked (optional)
-        if (pageModal) {
-            pageModal.addEventListener('click', (event) => {
-                if (event.target === pageModal) { // Clicked on overlay itself
-                    hideModal();
-                }
-            });
+            gameCaptchaOriginalFormEvent = null;
+            gameCaptchaOriginalSuccessMessage = '';
         }
-        // --- End of Modal Logic ---
 
         function toggleSection(idPrefix, buttonElement) {
             const content = document.getElementById(idPrefix + '-content');
             const icon = buttonElement.querySelector('.icon');
             const isExpanded = content.classList.contains('show');
 
-            const formElements = content.querySelectorAll('.form-group, input, textarea, button[type="submit"]');
+            const formElements = content.querySelectorAll('.form-group, input, t
+extarea, button[type="submit"]');
 
             const DURATION_CONTENT = 300;
             const DURATION_ELEMENTS = 250;
@@ -1243,7 +1449,8 @@
                     opacity: [1, 0],
                     translateY: ['0px', '-' + TRANSLATE_Y_ELEMENTS],
                     duration: DURATION_ELEMENTS,
-                    delay: anime.stagger(STAGGER_ELEMENTS_CLOSE, {direction: 'reverse'})
+                    delay: anime.stagger(STAGGER_ELEMENTS_CLOSE, {direction: 're
+verse'})
                 })
                 .add({
                     targets: content,
@@ -1252,7 +1459,8 @@
                     easing: EASING_CONTENT,
                     complete: () => {
                         content.classList.remove('show');
-                        formElements.forEach(el => { el.style.opacity = 0; el.style.transform = `translateY(-${TRANSLATE_Y_ELEMENTS})`; });
+                        formElements.forEach(el => { el.style.opacity = 0; el.st
+yle.transform = `translateY(-${TRANSLATE_Y_ELEMENTS})`; });
                     }
                 }, `-=${DURATION_ELEMENTS - 40}`);
 
@@ -1293,24 +1501,116 @@
             }
         }
 
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function generateCaptchaGrid() {
+            if(!gameCaptchaGrid) return; // Ensure grid element exists
+            gameCaptchaGrid.innerHTML = '';
+            gameCaptchaNumbers = shuffleArray([...Array(9).keys()]);
+            gameCaptchaNumbers.forEach(num => {
+                const cell = document.createElement('button');
+                cell.type = 'button';
+                cell.classList.add('captcha-grid-cell');
+                cell.innerHTML = '<span>' + num + '</span>'; // Wrap number in span
+                cell.addEventListener('click', () => handleGameCaptchaCellClick(
+num, cell));
+                gameCaptchaGrid.appendChild(cell);
+            });
+            gameCaptchaCurrentUserSequence = [];
+            if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = '';
+            if(gameCaptchaTitle) gameCaptchaTitle.innerHTML = 'Please press the numbers in this order: 7 &rarr; 0 &rarr; 2'; // Updated text
+
+            document.querySelectorAll('.captcha-grid-cell.error').forEach(c => c
+.classList.remove('error'));
+            document.querySelectorAll('.captcha-grid-cell.success').forEach(c =>
+ c.classList.remove('success'));
+            document.querySelectorAll('.captcha-grid-cell.selected').forEach(c =
+> c.classList.remove('selected'));
+        }
+
+        function handleGameCaptchaCellClick(numberClicked, cellElement) {
+            if (gameCaptchaCurrentUserSequence.length >= gameCaptchaSequence.len
+gth) return;
+
+            cellElement.classList.add('selected');
+            gameCaptchaCurrentUserSequence.push(numberClicked);
+
+            const expectedNumber = gameCaptchaSequence[gameCaptchaCurrentUserSeq
+uence.length - 1];
+
+            if (numberClicked === expectedNumber) {
+                if (gameCaptchaCurrentUserSequence.length === gameCaptchaSequenc
+e.length) {
+                    if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = 'S
+uccess!';
+                    if(gameCaptchaTitle) gameCaptchaTitle.textContent = 'Verifie
+d!';
+                    document.querySelectorAll('.captcha-grid-cell.selected').for
+Each(c => {
+                        c.classList.remove('selected');
+                        c.classList.add('success');
+                    });
+                    if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'n
+one';
+
+                    setTimeout(() => {
+                        if(gameCaptchaModal) gameCaptchaModal.style.display = 'n
+one';
+                        if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents
+= 'auto';
+
+                        if (gameCaptchaOriginalFormEvent && gameCaptchaOriginalF
+ormEvent.target) {
+                            const form = gameCaptchaOriginalFormEvent.target;
+                            showNotification(gameCaptchaOriginalSuccessMessage);
+                            form.reset();
+                        }
+                        // gameCaptchaOriginalFormEvent = null; // Moved to hideGameCaptcha
+                        // gameCaptchaOriginalSuccessMessage = ''; // Moved to hideGameCaptcha
+                    }, 800);
+                } else {
+                    if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = `N
+ext: ${gameCaptchaSequence[gameCaptchaCurrentUserSequence.length]}`;
+                }
+            } else {
+                if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = 'Incor
+rect. Try again.';
+                cellElement.classList.add('error');
+                if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'none'
+;
+
+                setTimeout(() => {
+                    generateCaptchaGrid();
+                    if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'a
+uto';
+                }, 1000);
+            }
+        }
+
         function handleFormSubmit(event, message) {
             event.preventDefault();
-            const form = event.target;
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.style.display = 'block';
-            if(document.body.classList.contains('dark-mode')){
-                notification.style.backgroundColor = 'var(--light-gray)';
-                notification.style.color = 'var(--dark-bg)';
-            } else {
-                notification.style.backgroundColor = 'var(--black)';
-                notification.style.color = 'var(--white)';
+            gameCaptchaOriginalFormEvent = event;
+            gameCaptchaOriginalSuccessMessage = message;
+
+            generateCaptchaGrid();
+            if(gameCaptchaModal) {
+                gameCaptchaModal.classList.add('modal-active');
             }
-            form.reset();
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
         }
+
+        //This function was defined earlier. Keep the earlier one.
+        //function hideGameCaptcha() {
+        //    if (!gameCaptchaModal) return;
+        //    gameCaptchaModal.classList.remove('modal-active');
+        //    gameCaptchaOriginalFormEvent = null;
+        //    gameCaptchaOriginalSuccessMessage = '';
+        //}
 
         function copyEmailToClipboard() {
             const emailText = document.getElementById('emailToCopy').innerText;

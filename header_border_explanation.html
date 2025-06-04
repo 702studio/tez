@@ -6,254 +6,96 @@
     <title>Header Border Explanation</title>
     <style>
         body {
-            font-family: sans-serif;
-            margin: 20px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
         }
-        .explanation-section {
-            margin-bottom: 30px;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #1a1a1a;
+        }
+        code {
+            background-color: #e9e9e9;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .example-box {
             padding: 15px;
-            border: 1px solid #eee;
+            margin: 15px 0;
             border-radius: 5px;
+            background-color: #f0f8ff; /* AliceBlue */
+            border: 1px solid #d1e0ff;
         }
-        .explanation-section h2 {
-            margin-top: 0;
+        .example-box.with-border-prop {
+            border-bottom: 3px solid blue;
         }
-        .demo-box {
-            width: 300px;
-            height: 50px;
-            background-color: #f0f0f0;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            position: relative; /* Needed for ::after positioning */
-        }
-
-        /* 1. Standard Border */
-        .standard-border {
-            border-bottom: 2px solid blue;
-            padding-bottom: 10px; /* Padding where border is drawn visually */
-        }
-
-        /* 2. ::after technique to cover border */
-        .border-covered-by-after {
-            border-bottom: 2px solid red; /* Original border that will be hidden */
-            padding-bottom: 10px;
-        }
-        .border-covered-by-after::after {
+        .example-box.with-after-border::after {
             content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
+            display: block;
             width: 100%;
-            background-color: #f0f0f0; /* Matches parent's background */
-            height: 12px; /* Covers the 10px padding-bottom and 2px border */
-        }
-
-        /* 3. ::after technique with height: 0px */
-        .border-with-zero-height-after {
-            /* This element might have its border created by its ::after pseudo-element */
-            position: relative;
-        }
-        .border-with-zero-height-after.pseudo-border::after {
-            content: '';
-            position: absolute;
-            bottom: -2px; /* Position it to look like a border */
-            left: 0;
-            width: 100%;
-            height: 2px; /* This is the border */
+            height: 3px;
             background-color: green;
+            margin-top: 10px; /* Space it out a bit from the text */
         }
-
-        .border-with-zero-height-after.pseudo-border-removed::after {
+        .example-box.with-after-border-hidden::after {
             content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
+            display: block;
             width: 100%;
-            height: 0px; /* Effectively removes the pseudo-element border */
-            background-color: green; /* Color doesn't matter if height is 0 */
+            height: 0px; /* Key change: height is 0 */
+            background-color: green; /* Color won't matter if height is 0 */
+            margin-top: 10px;
         }
-
-        .complex-border-scenario {
-            /* Imagine a more complex setup where ::after is part of the border */
-            border-top: 1px solid transparent; /* Placeholder, maybe part of a larger design */
+        p {
+            margin-bottom: 1em;
         }
-        .complex-border-scenario::after {
-            content: '';
-            position: absolute;
-            bottom: -10px; /* Adjusted to be below the element */
-            left: 0;
-            width: 100%;
-            height: 10px; /* Default height */
-            border-top: 2px solid orange; /* The visible "border" part */
-            background-color: lightyellow; /* A contrasting background for clarity */
-        }
-        .complex-border-scenario.height-zero-effect::after {
-            height: 0px; /* This would make the orange border-top and lightyellow background disappear */
-            /* If border-top was also set to none, or if the height was the only thing giving it presence */
-        }
-
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Understanding How Borders Can Be "Removed" with CSS</h1>
 
-    <h1>Understanding Header Borders and <code>::after</code></h1>
-
-    <div class="explanation-section">
-        <h2>Standard Bottom Border</h2>
-        <p>This is a standard div with a <code>border-bottom</code> and some <code>padding-bottom</code>.</p>
-        <div class="demo-box standard-border">
-            Standard Border
+        <h2>Method 1: Standard <code>border</code> Property</h2>
+        <div class="example-box with-border-prop">
+            This box has a standard <code>border-bottom</code> property.
         </div>
-        <pre><code>.standard-border {
-    border-bottom: 2px solid blue;
-    padding-bottom: 10px;
-}</code></pre>
+        <p>This is the most straightforward way to add a border. It can be removed by setting <code>border-bottom: none;</code> or <code>border: none;</code>.</p>
+
+        <h2>Method 2: Using an <code>::after</code> Pseudo-element</h2>
+        <p>Sometimes, a visual "border" or line is created using a pseudo-element like <code>::after</code>. This pseudo-element is then styled to look like a border.</p>
+
+        <div class="example-box with-after-border">
+            This box's 'border' is created by an <code>::after</code> pseudo-element with a height (e.g., <code>height: 3px;</code>).
+        </div>
+
+        <div class="example-box with-after-border-hidden">
+            This box also uses an <code>::after</code> pseudo-element for its 'border', but its <code>height</code> is set to <code>0px</code>, making the 'border' disappear.
+        </div>
+
+        <h3>Explanation for <code>header::after { height: 0px; }</code> in the Site's CSS</h3>
+        <p>In the main site's CSS (<code>index.html</code>), the header on mobile screens previously had a visual line at the bottom. This line was not created by the standard <code>border</code> CSS property directly on the <code>header</code> element. Instead, it was created by an <code>::after</code> pseudo-element associated with the <code>header</code>.</p>
+        <p>This <code>header::after</code> pseudo-element is styled with properties such as:</p>
+        <ul>
+            <li><code>content: '';</code> (necessary for any pseudo-element to render)</li>
+            <li><code>position: absolute;</code> (to place it relative to the header)</li>
+            <li><code>bottom: 0;</code> (to position it at the bottom edge of the header)</li>
+            <li><code>left: -20px;</code> and <code>width: calc(100% + 40px);</code> (to make it span the full viewport width, accounting for padding)</li>
+            <li><code>background-color: var(--border-color);</code> (to give it color)</li>
+            <li>And crucially, <code>height: 1px;</code> (this gave the line its thickness)</li>
+        </ul>
+        <p>The <code>height</code> property of the pseudo-element is what gave the line its visible thickness. When the CSS rule <code>header::after { height: 0px; }</code> is applied (specifically for mobile views in this case), it instructs the browser to render that pseudo-element with no height.</p>
+        <p>An element (or pseudo-element) that has no height, and no other properties that would create visible dimensions (like its own <code>padding</code> or <code>border</code> properties), becomes invisible. Since the <code>background-color</code> can only fill the area defined by its dimensions, a height of <code>0px</code> means there's no area for the background color to be visible.</p>
+        <p>Therefore, if the <code>::after</code> pseudo-element <em>is itself acting as</em> the border (as it does in the site's header), setting its <code>height</code> to <code>0px</code> effectively makes that visual border disappear. This is the technique used to hide the header's bottom line on mobile screens in the updated CSS.</p>
+        <p>This method is different from directly setting <code>border: none;</code> on an element if that element's border had been applied using the standard <code>border</code> property. In this scenario, we are manipulating the dimensions of the pseudo-element that constitutes the border, effectively removing it from view.</p>
     </div>
-
-    <div class="explanation-section">
-        <h2>Hiding Border with <code>::after</code></h2>
-        <p>
-            The <code>::after</code> pseudo-element can be used to draw over an element's border area.
-            If this pseudo-element is given a background color matching the parent and a height
-            that covers the original border's area (including any padding where the border line is drawn),
-            it can obscure the original border.
-        </p>
-        <div class="demo-box border-covered-by-after">
-            Covered Border
-        </div>
-        <pre><code>.border-covered-by-after {
-    border-bottom: 2px solid red; /* Original border */
-    padding-bottom: 10px;
-}
-.border-covered-by-after::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #f0f0f0; /* Parent's background */
-    height: 12px; /* Covers 10px padding + 2px border */
-}</code></pre>
-    </div>
-
-    <div class="explanation-section">
-        <h2><code>::after</code> with <code>height: 0px</code></h2>
-        <p>
-            In the user's specific case, if <code>header::after</code> was styled with <code>height: 0px;</code> and it still
-            affected a border, it implies a few scenarios:
-        </p>
-        <ol>
-            <li>
-                <strong>The <code>::after</code> element *was* the border:</strong>
-                The pseudo-element itself might have been styled to create the visual border line
-                (e.g., using its own <code>background-color</code> and a small <code>height</code>, or a <code>border-top</code> property).
-                Setting its <code>height</code> to <code>0px</code> would effectively remove this pseudo-element-based border if its own border properties were also removed or relied on its height.
-            </li>
-            <li>
-                <strong>The <code>::after</code> element covered a border and <code>height: 0px</code> removed that covering aspect:</strong>
-                While less direct, if the <code>::after</code> element had other properties (like a thick <code>border-top</code> of its own that was meant to look like the header's border) and <code>height: 0px</code> was part of a set of changes (e.g. also setting <code>border-top: none</code> on the pseudo-element), then it would contribute to removing the visible border effect.
-            </li>
-        </ol>
-
-        <h3>Example 1: Pseudo-element as the border</h3>
-        <p>Here, the <code>::after</code> element creates a green line that acts as a border.</p>
-        <div class="demo-box border-with-zero-height-after pseudo-border">
-            Pseudo Border
-        </div>
-        <pre><code>.pseudo-border::after {
-    content: '';
-    position: absolute;
-    bottom: -2px; /* Positioned like a border */
-    left: 0;
-    width: 100%;
-    height: 2px; /* This IS the border */
-    background-color: green;
-}</code></pre>
-
-        <p>If <code>height: 0px;</code> is applied to this <code>::after</code>, the green "border" disappears:</p>
-        <div class="demo-box border-with-zero-height-after pseudo-border-removed">
-            Pseudo Border (height: 0px)
-        </div>
-        <pre><code>.pseudo-border-removed::after {
-    /* ... same positioning ... */
-    height: 0px; /* Removes the pseudo-element "border" */
-    background-color: green;
-}</code></pre>
-
-        <h3>Example 2: Complex scenario (<code>::after</code> contributes to border effect)</h3>
-        <p>
-            Imagine the <code>::after</code> had its own <code>border-top</code> and a <code>background-color</code>, contributing to a layered border effect.
-            Setting its <code>height</code> to <code>0px</code> could remove its background and, if its <code>border-top</code> was also removed or relied on the height, make the entire effect disappear.
-            In the user's case, the <code>header::after</code> originally had <code>height: 1px</code> and a <code>background-color</code>, acting as a full-width line. Setting <code>height: 0px</code> directly removed this line.
-        </p>
-        <div class="demo-box complex-border-scenario">
-            Complex (height: 10px)
-        </div>
-        <p>If its height is set to 0px (and assuming its border-top might also be removed or is ineffective at 0 height):</p>
-        <div class="demo-box complex-border-scenario height-zero-effect">
-            Complex (height: 0px)
-        </div>
-        <pre><code>.complex-border-scenario::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    width: 100%;
-    height: 10px; /* Default height */
-    border-top: 2px solid orange;
-    background-color: lightyellow;
-}
-.complex-border-scenario.height-zero-effect::after {
-    height: 0px; /* Removes background & potentially border-top's visibility */
-    border-top: 2px solid orange; /* This border might become invisible or be removed by other styles */
-}</code></pre>
-        <p>
-            <strong>User's specific case:</strong> The original <code>header::after</code> had <code>height: 1px; background-color: var(--border-color);</code>.
-            This created a 1px line. Setting <code>height: 0px;</code> on this pseudo-element would directly remove that visible line because a background color cannot render in a 0px height area, and there was no separate <code>border</code> property on the pseudo-element itself.
-        </p>
-    </div>
-
-    <!-- Explanation of the technique from prompt -->
-    <div class="explanation-section">
-        <h2>General Explanation from Prompt</h2>
-        <!-- Explanation of the technique:
-        The ::after pseudo-element can be used to draw over or modify the appearance of an element's border area.
-        In the example below, the first box has a standard bottom border.
-        The second box has an ::after pseudo-element. If this pseudo-element is given a background color
-        and a height that covers the original border's area (including any padding where the border line is drawn),
-        it can obscure the original border.
-
-        If header::after was styled with `height: 0px;` and it still removed a border, it implies
-        that the border was not a simple `border` property on the header itself, but perhaps
-        the ::after pseudo-element *was* the border (e.g. `header::after { height: 1px; background-color: black; ... }`).
-        Setting its height to 0px would then effectively remove this pseudo-element-based border.
-        Or, the `header::after` might have had `border-top: 1px solid red;` and setting `height: 0px;` along with `border-top: none;`
-        would remove it. The key is that `height:0px` on a pseudo-element that *constitutes* the border, or is styled to cover it,
-        can make it disappear.
-        -->
-        <p>
-            The <code>::after</code> pseudo-element can be used to draw over or modify the appearance of an element's border area.
-            In the "Hiding Border with <code>::after</code>" example above, the first box has a standard bottom border.
-            The second box has an <code>::after</code> pseudo-element. This pseudo-element is given a background color
-            and a height that covers the original border's area (including any padding where the border line is drawn),
-            so it obscures the original border.
-        </p>
-        <p>
-            If <code>header::after</code> was styled with <code>height: 0px;</code> and it still removed a border, it implies
-            that the border was not a simple <code>border</code> property on the header itself, but perhaps
-            the <code>::after</code> pseudo-element *was* the border (e.g. <code>header::after { height: 1px; background-color: black; width: 100%; position: absolute; bottom: 0; left: 0; }</code>).
-            Setting its height to <code>0px</code> would then effectively remove this pseudo-element-based border because an element with no height and no explicit border of its own won't be visible.
-        </p>
-        <p>
-            Alternatively, if the <code>::after</code> pseudo-element had, for instance, a <code>border-top: 1px solid red;</code> and this was the intended "border" of the header,
-            then setting <code>height: 0px;</code> on the pseudo-element *along with* changing its <code>border-top</code> to <code>none</code> (or a transparent color)
-            would remove that border. The key is that <code>height: 0px</code> on a pseudo-element that either *constitutes* the border or is styled to cover an underlying border (and is then made transparent or its covering properties removed) can make a border effect disappear. In the user's original CSS, the <code>header::after</code> was a simple line created by its <code>height</code> and <code>background-color</code>, so setting <code>height:0px</code> was sufficient to remove it.
-        </p>
-    </div>
-
 </body>
 </html>
