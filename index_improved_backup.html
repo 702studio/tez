@@ -241,7 +241,7 @@
             padding-bottom: 20px; /* This padding will be ABOVE the full-width line */
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             position: relative; /* For the pseudo-element */
         }
         .logo {
@@ -264,7 +264,7 @@
             bottom: 0; /* Positioned at the very bottom of the header's padding area */
             left: -20px; /* Extend to the left edge of the viewport, counteracting .page-content-area padding */
             width: calc(100% + 40px); /* Span full viewport width */
-            height: 0px; /* Line thickness */
+            height: 1px; /* Line thickness */
             background-color: var(--border-color); /* Uses --black in light mode */
             opacity: 1; /* Increased opacity */
         }
@@ -425,9 +425,9 @@
 
         footer {
             /* text-align: left; */ /* Removed */
-            padding: 20px;
-            font-size: 10px; /* Slightly larger for readability */
-            line-height: 1.4;
+            padding: 20px 20px 20px 20px;
+            font-size: 9px; /* REDUCED for mobile */
+            line-height: 1.4; /* Adjusted for smaller font */
             color: var(--gray);
             text-transform: uppercase;
             flex-shrink: 0;
@@ -435,77 +435,8 @@
         /* Removed redundant body.dark-mode footer rule */
         footer p {
             margin-bottom: 5px;
-            text-align: justify;
-            overflow-wrap: anywhere;
+            text-align: justify; /* Added */
         }
-        #gameCaptchaModal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.75);
-            z-index: 2000;
-            justify-content: flex-end;
-            align-items: center;
-            flex-direction: column;
-        }
-        #gameCaptchaModal.show #gameCaptchaContainer {
-            transform: translateY(0);
-        }
-        #gameCaptchaContainer {
-            background-color: var(--white);
-            padding: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            text-align: center;
-            max-width: 320px;
-            width: 100%;
-            position: relative;
-            transform: translateY(calc(100% + 1px));
-            transition: transform 0.3s ease;
-            border-radius: 0;
-        }
-        #gameCaptchaHeader {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 10px;
-        }
-        #gameCaptchaTitle {
-            margin: 0;
-            font-weight: 500;
-            font-size: 18px;
-            padding-bottom: 8px;
-        }
-        #gameCaptchaFeedback {
-            margin-bottom: 15px;
-            font-size: 14px;
-            min-height: 24px;
-        }
-        #gameCaptchaGrid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        #closeGameCaptcha {
-            background-color: transparent;
-            color: var(--gray);
-            border: none;
-            cursor: pointer;
-            font-size: 20px;
-            line-height: 1;
-            padding: 0;
-            margin-bottom: 8px;
-        }
-        @media (min-width: 768px) {
-            #gameCaptchaModal {
-                justify-content: center;
-            }
-            #gameCaptchaContainer {
-                width: 90%;
-            }
-        }
-
 
         /* Gamified CAPTCHA Styles */
         .captcha-grid-cell {
@@ -593,7 +524,7 @@
                     "main sidebar";
                 gap: 0 40px;
             }
-            header { padding-bottom: 30px; align-items: center; }
+            header { padding-bottom: 30px; }
             header::after {
                 display: none; /* Remove the full-width line on desktop */
             }
@@ -738,16 +669,16 @@
     <div id="notification" style="display:none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: var(--black); color: var(--white); padding: 15px 25px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; font-size: 16px;">
     </div>
 
-    <div id="gameCaptchaModal">
-        <div id="gameCaptchaContainer">
-            <div id="gameCaptchaHeader">
-                <h3 id="gameCaptchaTitle">Tap 7 → 0 → 2 in order</h3>
-                <button type="button" id="closeGameCaptcha">&#x2193;</button>
-            </div>
-            <p id="gameCaptchaFeedback"></p>
-            <div id="gameCaptchaGrid">
+    <div id="gameCaptchaModal" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.75); z-index: 2000; justify-content: center; align-items: center; flex-direction: column;">
+        <div id="gameCaptchaContainer" style="background-color: var(--white); padding: 25px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); text-align: center; max-width: 320px; width: 90%; position: relative;">
+            <h3 id="gameCaptchaTitle" style="margin-top: 0; margin-bottom: 10px; font-weight: 500; font-size: 18px;">Select 7 - 0 - 2 in order</h3>
+            <p id="gameCaptchaFeedback" style="margin-bottom: 15px; font-size: 14px; min-height: 20px; color: var(--black);"></p>
+            <div id="gameCaptchaGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
                 <!-- Grid cells will be generated by JavaScript -->
             </div>
+            <button type="button" id="closeGameCaptcha" style="background-color: transparent; color: var(--gray); border: none; cursor: pointer; position: absolute; top: 10px; right: 10px; font-size: 20px; padding: 5px; line-height: 1;">
+                <i class="ri-close-line"></i>
+            </button>
         </div>
     </div>
 
@@ -889,20 +820,19 @@
         document.addEventListener('DOMContentLoaded', () => {
             const introOverlayEl = document.getElementById('intro-animation-overlay');
             const pageWrapper = document.getElementById('page-wrapper');
-            const closeGameCaptchaButton = document.getElementById("closeGameCaptcha");
-            if (closeGameCaptchaButton) {
-                closeGameCaptchaButton.addEventListener("click", () => {
-                    if(gameCaptchaModal){
-                        gameCaptchaModal.classList.remove("show");
-                        setTimeout(() => { gameCaptchaModal.style.display = "none"; }, 300);
-                    }
+
+            const closeGameCaptchaButton = document.getElementById('closeGameCaptcha');
+            if (closeGameCaptchaButton) { // Check if button exists before adding listener
+                closeGameCaptchaButton.addEventListener('click', () => {
+                    if(gameCaptchaModal) gameCaptchaModal.style.display = 'none';
                     gameCaptchaOriginalFormEvent = null;
-                    gameCaptchaOriginalSuccessMessage = "";
+                    gameCaptchaOriginalSuccessMessage = '';
                 });
             }
-            const char7 = document.getElementById("char-7");
-            const char0 = document.getElementById("char-0");
-            const char2 = document.getElementById("char-2");
+
+            const char7 = document.getElementById('char-7');
+            const char0 = document.getElementById('char-0');
+            const char2 = document.getElementById('char-2');
             const text702Element = document.getElementById('text-702');
             const text702StudioElement = document.getElementById('text-702-studio');
             const introComingSoon = document.getElementById('intro-coming-soon');
@@ -1082,7 +1012,7 @@
             });
             gameCaptchaCurrentUserSequence = [];
             if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = ''; // Check if element exists
-            if(gameCaptchaTitle) gameCaptchaTitle.textContent = 'Tap 7 → 0 → 2 in order';
+            if(gameCaptchaTitle) gameCaptchaTitle.textContent = 'Select 7 - 0 - 2 in order';
 
             document.querySelectorAll('.captcha-grid-cell.error').forEach(c => c.classList.remove('error'));
             document.querySelectorAll('.captcha-grid-cell.success').forEach(c => c.classList.remove('success'));
@@ -1108,7 +1038,7 @@
                     if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'none';
 
                     setTimeout(() => {
-                        if(gameCaptchaModal) gameCaptchaModal.classList.remove("show"); setTimeout(() => { gameCaptchaModal.style.display = "none"; }, 300);
+                        if(gameCaptchaModal) gameCaptchaModal.style.display = 'none';
                         if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'auto';
 
                         const form = gameCaptchaOriginalFormEvent.target;
@@ -1132,15 +1062,14 @@
             }
         }
 
+        // New handleFormSubmit
         function handleFormSubmit(event, message) {
             event.preventDefault();
             gameCaptchaOriginalFormEvent = event;
             gameCaptchaOriginalSuccessMessage = message;
-            generateCaptchaGrid();
-            if(gameCaptchaModal){
-                gameCaptchaModal.style.display = "flex";
-                requestAnimationFrame(() => gameCaptchaModal.classList.add("show"));
-            }
+
+            generateCaptchaGrid(); // Ensure grid is ready
+            if(gameCaptchaModal) gameCaptchaModal.style.display = 'flex';
         }
 
         function toggleSection(idPrefix, buttonElement) {
@@ -1175,7 +1104,6 @@
                     easing: EASING_CONTENT,
                     complete: () => {
                         content.classList.remove('show');
-                        content.style.maxHeight = '';
                         formElements.forEach(el => { el.style.opacity = 0; el.style.transform = `translateY(-${TRANSLATE_Y_ELEMENTS})`; });
                     }
                 }, `-=${DURATION_ELEMENTS - 40}`);
@@ -1200,7 +1128,6 @@
                     maxHeight: [0, contentScrollHeight + 'px'],
                     duration: DURATION_CONTENT,
                     easing: EASING_CONTENT,
-                    complete: () => { content.style.maxHeight = 'none'; }
                 })
                 .add({
                     targets: formElements,
@@ -1216,6 +1143,89 @@
                 }
                 buttonElement.setAttribute('aria-expanded', 'true');
             }
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function generateCaptchaGrid() {
+            if(!gameCaptchaGrid) return; // Ensure grid element exists
+            gameCaptchaGrid.innerHTML = '';
+            gameCaptchaNumbers = shuffleArray([...Array(9).keys()]);
+            gameCaptchaNumbers.forEach(num => {
+                const cell = document.createElement('button');
+                cell.type = 'button';
+                cell.classList.add('captcha-grid-cell');
+                cell.textContent = num;
+                cell.addEventListener('click', () => handleGameCaptchaCellClick(num, cell));
+                gameCaptchaGrid.appendChild(cell);
+            });
+            gameCaptchaCurrentUserSequence = [];
+            if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = '';
+            if(gameCaptchaTitle) gameCaptchaTitle.textContent = 'Select 7 - 0 - 2 in order';
+
+            document.querySelectorAll('.captcha-grid-cell.error').forEach(c => c.classList.remove('error'));
+            document.querySelectorAll('.captcha-grid-cell.success').forEach(c => c.classList.remove('success'));
+            document.querySelectorAll('.captcha-grid-cell.selected').forEach(c => c.classList.remove('selected'));
+        }
+
+        function handleGameCaptchaCellClick(numberClicked, cellElement) {
+            if (gameCaptchaCurrentUserSequence.length >= gameCaptchaSequence.length) return;
+
+            cellElement.classList.add('selected');
+            gameCaptchaCurrentUserSequence.push(numberClicked);
+
+            const expectedNumber = gameCaptchaSequence[gameCaptchaCurrentUserSequence.length - 1];
+
+            if (numberClicked === expectedNumber) {
+                if (gameCaptchaCurrentUserSequence.length === gameCaptchaSequence.length) {
+                    if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = 'Success!';
+                    if(gameCaptchaTitle) gameCaptchaTitle.textContent = 'Verified!';
+                    document.querySelectorAll('.captcha-grid-cell.selected').forEach(c => {
+                        c.classList.remove('selected');
+                        c.classList.add('success');
+                    });
+                    if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'none';
+
+                    setTimeout(() => {
+                        if(gameCaptchaModal) gameCaptchaModal.style.display = 'none';
+                        if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'auto';
+
+                        if (gameCaptchaOriginalFormEvent && gameCaptchaOriginalFormEvent.target) {
+                            const form = gameCaptchaOriginalFormEvent.target;
+                            showNotification(gameCaptchaOriginalSuccessMessage);
+                            form.reset();
+                        }
+                        gameCaptchaOriginalFormEvent = null;
+                        gameCaptchaOriginalSuccessMessage = '';
+                    }, 800);
+                } else {
+                    if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = `Next: ${gameCaptchaSequence[gameCaptchaCurrentUserSequence.length]}`;
+                }
+            } else {
+                if(gameCaptchaFeedback) gameCaptchaFeedback.textContent = 'Incorrect. Try again.';
+                cellElement.classList.add('error');
+                if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'none';
+
+                setTimeout(() => {
+                    generateCaptchaGrid();
+                    if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'auto';
+                }, 1000);
+            }
+        }
+
+        function handleFormSubmit(event, message) {
+            event.preventDefault();
+            gameCaptchaOriginalFormEvent = event;
+            gameCaptchaOriginalSuccessMessage = message;
+
+            generateCaptchaGrid();
+            if(gameCaptchaModal) gameCaptchaModal.style.display = 'flex';
         }
 
         function copyEmailToClipboard() {
@@ -1249,7 +1259,6 @@
                 notification.style.display = 'none';
             }, 2000);
         }
-
     </script>
 </body>
 </html>
