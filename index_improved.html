@@ -1058,7 +1058,6 @@
                 })
                 .add({ duration: D_CS_STAY }); // Hold before completing timeline
 
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
         });
 
         function shuffleArray(array) {
@@ -1189,9 +1188,13 @@
                     easing: EASING_CONTENT,
                     complete: () => {
                         content.classList.remove('show');
+                        content.style.maxHeight = '';
                         formElements.forEach(el => { el.style.opacity = 0; el.style.transform = `translateY(-${TRANSLATE_Y_ELEMENTS})`; });
                     }
                 }, `-=${DURATION_ELEMENTS - 40}`);
+                tl.finished.then(() => {
+                    content.style.maxHeight = '';
+                });
 
                 if (icon) {
                     icon.classList.remove('ri-close-line');
@@ -1221,6 +1224,10 @@
                     duration: DURATION_ELEMENTS,
                     delay: anime.stagger(STAGGER_ELEMENTS_OPEN)
                 }, `-=${DURATION_CONTENT - 80}`);
+
+                tl.finished.then(() => {
+                    content.style.maxHeight = '';
+                });
 
                 if (icon) {
                     icon.classList.remove('ri-add-line');
