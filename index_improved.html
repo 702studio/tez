@@ -685,9 +685,9 @@
             </main>
 
             <!--
-        IMPORTANT: Form functionality (Newsletter and Contact) requires backend setup.
-        Emails are intended to be sent from support@702.studio and should be forwarded
-        to tolgaozisik@gmail.com. See backend_requirements.txt for details.
+        IMPORTANT: Form functionality (Newsletter and Contact) requires the Node.js
+        server (see backend_requirements.txt). Emails are sent from support@702.studio
+        and delivered to tolgaozisik@gmail.com using SMTP credentials defined in .env.
     -->
             <div class="sidebar">
                 <div class="toggle-section">
@@ -696,9 +696,9 @@
                         <i class="icon ri-add-line"></i>
                     </button>
                     <div id="newsletter-content" class="toggle-content">
-                        <form onsubmit="handleFormSubmit(event, 'Your subscription has been received!')">
+                        <form data-form-type="newsletter" onsubmit="handleFormSubmit(event, 'Your subscription has been received!')">
                             <div class="form-group input-button-group">
-                                <input type="email" placeholder="Your email address" required autocomplete="email">
+                                <input type="email" name="email" placeholder="Your email address" required autocomplete="email">
                                 <button type="submit">Subscribe</button>
                             </div>
                         </form>
@@ -711,15 +711,15 @@
                         <i class="icon ri-add-line"></i>
                     </button>
                     <div id="contact-content" class="toggle-content">
-                        <form onsubmit="handleFormSubmit(event, 'Your message has been sent!')">
+                        <form data-form-type="contact" onsubmit="handleFormSubmit(event, 'Your message has been sent!')">
                             <div class="form-group">
-                                <input type="text" placeholder="Your Name" required autocomplete="name">
+                                <input type="text" name="name" placeholder="Your Name" required autocomplete="name">
                             </div>
                             <div class="form-group">
-                                <input type="email" placeholder="Your Email" required autocomplete="email">
+                                <input type="email" name="email" placeholder="Your Email" required autocomplete="email">
                             </div>
                             <div class="form-group input-button-group contact-message-group">
-                                <textarea placeholder="Your Message" required></textarea>
+                                <textarea name="message" placeholder="Your Message" required></textarea>
                                 <button type="submit">Send</button>
                             </div>
                         </form>
@@ -755,6 +755,7 @@
         // Gamified CAPTCHA variables
         let gameCaptchaOriginalFormEvent = null;
         let gameCaptchaOriginalSuccessMessage = '';
+        let gameCaptchaFormType = '';
         const gameCaptchaSequence = [7, 0, 2];
         let gameCaptchaCurrentUserSequence = [];
         let gameCaptchaNumbers = []; // Will hold the shuffled numbers for the grid
@@ -1111,7 +1112,9 @@
                         if(gameCaptchaGrid) gameCaptchaGrid.style.pointerEvents = 'auto';
 
                         const form = gameCaptchaOriginalFormEvent.target;
-                        showNotification(gameCaptchaOriginalSuccessMessage);
+                        sendFormData(form)
+                            .then(() => showNotification(gameCaptchaOriginalSuccessMessage))
+                            .catch(() => showNotification('Failed to send form.'));
                         form.reset();
                         gameCaptchaOriginalFormEvent = null;
                         gameCaptchaOriginalSuccessMessage = '';
@@ -1135,11 +1138,23 @@
             event.preventDefault();
             gameCaptchaOriginalFormEvent = event;
             gameCaptchaOriginalSuccessMessage = message;
+            gameCaptchaFormType = event.target.dataset.formType || '';
             generateCaptchaGrid();
             if(gameCaptchaModal){
                 gameCaptchaModal.style.display = "flex";
                 requestAnimationFrame(() => gameCaptchaModal.classList.add("show"));
             }
+        }
+
+        function sendFormData(form) {
+            const data = { type: form.dataset.formType };
+            const formData = new FormData(form);
+            formData.forEach((value, key) => { data[key] = value; });
+            return fetch('/send-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
         }
 
         function toggleSection(idPrefix, buttonElement) {
