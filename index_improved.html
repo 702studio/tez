@@ -131,6 +131,7 @@
         }
 
         #intro-coming-soon {
+            margin: 0;
             font-size: clamp(1.5rem, 5vw, 3.5rem);
             font-weight: 700;
             letter-spacing: -0.5px;
@@ -171,7 +172,12 @@
             border-bottom: 1px solid var(--border-color);
         }
         body.dark-mode .direct-mail-info-section .direct-mail-label {
-             border-bottom: none;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--black);
+            margin-right: 5px;
+            display: inline-block;
+            vertical-align: middle;
         }
 
 
@@ -203,12 +209,6 @@
             display: inline-block;
             vertical-align: middle;
         }
-        .direct-mail-label i {
-            font-size: 1em;
-            vertical-align: middle;
-            margin-left: 3px;
-        }
-
         .email-container {
             display: inline-flex;
             align-items: center;
@@ -456,7 +456,6 @@
             padding: 25px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
             text-align: center;
-            max-width: 320px;
             width: 100%;
             position: relative;
             transform: translateY(calc(100% + 1px));
@@ -503,6 +502,7 @@
             }
             #gameCaptchaContainer {
                 width: 90%;
+                max-width: 320px;
             }
         }
 
@@ -549,7 +549,6 @@
         /* Dark Mode Styles for Gamified CAPTCHA */
         body.dark-mode #gameCaptchaContainer {
             background-color: var(--dark-bg);
-            border: 1px solid var(--border-color);
         }
         body.dark-mode #gameCaptchaTitle,
         body.dark-mode #gameCaptchaFeedback {
@@ -674,7 +673,7 @@
                     <h1 class="coming-soon word-animation-target">COMING SOON<span class="blinking-dot">.</span></h1>
                     <p class="message word-animation-target">Our website is currently under construction. We are working on exciting developments and will be back with a fresh look and new projects soon.</p>
                     <div class="direct-mail-info-section">
-                        <span class="direct-mail-label">Direct mail <i class="ri-arrow-right-s-line"></i></span>
+                        <span class="direct-mail-label">Direct mail →</span>
                         <div class="email-container">
                             <span class="email-address-text" id="emailToCopy">support@702.studio</span>
                             <button type="button" class="copy-email-btn" onclick="copyEmailToClipboard()" aria-label="Copy email address">
@@ -1175,7 +1174,6 @@
                     easing: EASING_CONTENT,
                     complete: () => {
                         content.classList.remove('show');
-                        content.style.maxHeight = '';
                         formElements.forEach(el => { el.style.opacity = 0; el.style.transform = `translateY(-${TRANSLATE_Y_ELEMENTS})`; });
                     }
                 }, `-=${DURATION_ELEMENTS - 40}`);
@@ -1200,7 +1198,6 @@
                     maxHeight: [0, contentScrollHeight + 'px'],
                     duration: DURATION_CONTENT,
                     easing: EASING_CONTENT,
-                    complete: () => { content.style.maxHeight = 'none'; }
                 })
                 .add({
                     targets: formElements,
